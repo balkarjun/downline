@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downline</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/solid.css" integrity="sha384-rdyFrfAIC05c5ph7BKz3l5NG5yEottvO/DQ0dCrwD8gzeQDjYBHNr1ucUpQuljos"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/fontawesome.css" integrity="sha384-u5J7JghGz0qUrmEsWzBQkfvc8nK3fUT7DCaQzNQ+q4oEXhGSx+P2OqjWsfIRB8QT"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="../static/css/app.css">
+  <link rel="stylesheet" href="../static/css/titlebar.css">
+  <link rel="stylesheet" href="../static/css/main-page.css">
+  <link rel="stylesheet" href="../static/css/downloadable.css">
+  <link rel="stylesheet" href="../static/css/settings.css">
+</head>
+
+<body>
+  <div id="app">
+    <section id="titlebar">
+      <span class="fas fa-cog" @click="isSettingsOpen=!isSettingsOpen"></span>
+      <h1>Downline <em>{{ appVersion }}</em></h1>
+      <div>
+        <span id="minimize-btn" @click="minimize">&minus;</span>
+        <span id="close-btn" @click="close">&times;</span>
+      </div>
+    </section>
+
+    <section id="main-page" v-show="!isSettingsOpen">
+      <section id="top">
+        <div id="inputbar">
+          <input v-model="newURL" @keyup.enter="fetchInfo" type="text" spellcheck="false" placeholder="Enter URL">
+          <span @click="fetchInfo">&plus;</span>
+        </div>
+
+        <div id="global-options" v-if="existsItems">
+          <div>
+            <span class="fas fa-chevron-circle-left" @click="decrement(global)"></span>
+            <span id="global-quality">{{ chosenQuality(global) }}</span>
+            <span class="fas fa-chevron-circle-right" @click="increment(global)"></span>
+          </div>
+
+          <span class="fas fa-closed-captioning" @click="updateChosenSubs" :class="{selected: global.isSubsChosen}"></span>
+          <span class="fas fa-music" @click="updateChosenAudio" :class="{selected: global.isAudioChosen}"></span>
+
+          <button @click="downloadOrPauseMany"> {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}</button>
+        </div>
+      </section>
+
+      <section id="center">
+        <div class="downloadable" :class="{chosen: item.isChosen}" v-for="(item, index) in downloadables">
+          <section class="left" @dblclick="select(item)" @click="toggle(item)">
+            <img :src="item.thumbnail">
+            <span>{{ item.duration }}</span>
+          </section>
+
+          <section class="middle">
+            <h1>{{ item.title }}</h1>
+
+            <div class="options" v-if="item.progress.value == 0 && item.state === 'stopped'">
+              <div>
+                <span class="fas fa-chevron-circle-left" @click="decrement(item)"></span>
+                <span class="quality">{{ chosenQuality(item) }}</span>
+                <span class="fas fa-chevron-circle-right" @click="increment(item)"></span>
+              </div>
+
+              <span class="option-icon fas" :class="{'fa-closed-captioning': item.subtitles.length !== 0, selected: item.isSubsChosen}"  @click="item.isSubsChosen = !item.isSubsChosen"></span>
+              <span class="option-icon fas fa-music" @click="item.isAudioChosen = !item.isAudioChosen" :class="{selected: item.isAudioChosen}"></span>
+            </div>
+
+            <div class="progress" v-else>
+              <span class="info">
+                <span v-if="item.progress.value == 0 && item.state !== 'queued'">Starting Download</span>
+                <span v-if="item.state === 'queued'">Queued</span>
+                <span v-if="item.state !== 'completed' && item.progress.value != 0">
+                  {{ item.progress.value }}% of {{ item.progress.size }}
+                  <span v-if="item.state === 'downloading'">&centerdot; {{ item.progress.speed }}</span>
+                </span>
+                <span v-if="item.state === 'downloading' && item.progress.value != 0">{{ item.progress.eta }}</span>
+                <span v-if="item.state === 'completed'">Download Complete</span>
+              </span>
+
+              <span class="bar">
+                <span class="value" :style="progressValue(item.url)"></span>
+              </span>
+            </div>
+          </section>
+
+          <section class="right">
+            <span class="close" @click="clear(item.url)">&times;</span>
+
+            <span class="fas fa-play" v-if="item.state === 'stopped'" @click="download(item.url)"></span>
+            <span class="fas fa-pause" v-if="item.state === 'downloading' || item.state === 'queued'" @click="pause(item.url)"></span>
+            <span class="fas fa-check" v-if="item.state === 'completed'"></span>
+          </section>
+        </div>
+      </section>
+
+      <section id="bottom">
+        <span id="message" v-if="loadingItems !== 0">
+          <span class="spinner"></span> Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}
+        </span>
+        <span v-else></span>
+        <div v-if="existsItems">
+          <button id="clear-many-btn" @click="clearMany">Clear {{ anyChosen?'Selected':'All' }}</button>
+          <button id="clear-completed-btn" @click="clearCompleted">Clear Completed</button>
+        </div>
+      </section>
+    </section>
+
+    <section id="settings-page" v-show="isSettingsOpen">
+      <div id="download-location">
+        <label>Download Location</label>
+        <div>
+          <span id="location-text">{{ downloadLocation }}</span>
+          <button id="choose-location" @click="selectDirectory">Browse</button>
+        </div>
+      </div>
+
+      <div id="max-simultaneous">
+        <label>Simultaneous Downloads (max. 5)</label>
+        <input type="number" min="1" max="5" v-model="maxSimultaneous">
+      </div>
+    </section>
+  </div>
+
+  <script src="../static/js/vue.min.js"></script>
+  <script src="./renderer.js"></script>
+</body>
+</html>

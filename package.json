@@ -1,0 +1,44 @@
+{
+  "name": "downline",
+  "productName": "Downline",
+  "version": "1.0.0-beta.1",
+  "description": "A cross-platform video and audio downloader for YouTube, Vimeo, Dailymotion, SoundCloud and many other sites",
+  "homepage": "https://github.com/jarbun/downline",
+  "main": "./src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "build --win",
+    "build:linux": "build --linux"
+  },
+  "author": "Arjun B <https://github.com/jarbun>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "electron-builder": "^20.36.2"
+  },
+  "build": {
+    "appId": "com.jarbun.downline",
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "**/*",
+      "./static/**",
+      "./src/**"
+    ],
+    "extraFiles": [
+      "./resources/ffmpeg/**",
+      "./resources/youtube-dl/**"
+    ]
+  }
+}

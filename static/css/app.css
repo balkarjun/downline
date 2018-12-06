@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,500');
+
+:root{
+  --black16: #1E1E26;
+  --black2F: #27272F;
+  --black3D: #33333D;
+  --black30: #373740;
+  --black4F: #44444F;
+  --black5F: #54545F;
+
+  --white8A: #84848A;
+  --whiteA1: #ADADB1;
+  --whiteFF: #FFFFFF;
+
+  --redF6: #FF5546;
+  --redFD: #FF5D4D;
+
+  --blue12: #1976D2;
+  --blue15: #1E88E5;
+}
+
+body{
+  font-family: 'Work Sans', sans-serif;
+  margin: 0;
+}
+
+button{
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ----- Scrollbar ----- */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--white8A); 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--whiteA1); 
+}
+
+/* ----- Icons ----- */
+
+.fas{
+  cursor: pointer;
+}
+
+.fa-music{
+  font-size: 17px;
+}
+
+.fa-closed-captioning{
+  font-size: 21px;
+}

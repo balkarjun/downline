@@ -1,0 +1,68 @@
+#settings-page{
+  background-color: var(--black2F);
+  height: calc(100vh - 50px);
+  padding: 10px;
+  color: white;
+}
+
+#settings-page label{
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  user-select: none;
+}
+
+/* ----- Download Location  ----- */
+#download-location{
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+
+#download-location div{
+  display: flex;
+}
+
+#location-text{
+  color: var(--whiteA1);
+  flex-grow: 1;
+  margin-left: 5px;
+  align-self: center;
+}
+
+#choose-location{
+  width: 80px;
+  height: 30px;
+  border-radius: 4px;
+  color: white;
+  background-color: var(--blue12);
+}
+
+#choose-location:hover{
+  background-color: var(--blue15);
+}
+
+#choose-location:active{
+  background-color: var(--blue12);
+}
+
+/* ----- Simultaneous Downloads ----- */
+#max-simultaneous{
+  display: flex;
+  flex-direction: column;
+}
+
+#max-simultaneous input{
+  padding: 2px 0 2px 8px;
+  margin: 5px;
+  font-family: inherit;
+  font-size: 17px;
+  width: 40px;
+  color: white;
+  background-color: var(--black16);
+  outline: none;
+  border: none;
+  border-radius: 4px;
+}
+#max-simultaneous input::selection{
+  color: white;
+}
