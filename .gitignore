@@ -2,3 +2,4 @@ node_modules/
 resources/
 package-lock.json
 TODO.md
+ytdl.test.js

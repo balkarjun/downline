@@ -26,20 +26,36 @@ class YTDL{
 
   /* Returns metadata for a url when given JSON dump */
   _getMetadata(data){
-    const { webpage_url, title, thumbnail, formats, duration, requested_subtitles } = JSON.parse(data);
-
+    let webpage_url, title, thumbnail, duration, formats, requested_subtitles;
     let video = [], audio = [];
-    formats.forEach(format => {
-      if(format.vcodec !== 'none' && video.indexOf(format.height) === -1){
-        video.push(format.height);
-      } else if(format.acodec !== 'none' && audio.indexOf(format.abr) === -1){
-        audio.push(format.abr);
-      }
-    });
 
-    // Sort in descending order
-    video.sort((a, b) => b - a);
-    audio.sort((a, b) => b - a);
+    try{
+      ({ webpage_url, title, thumbnail, duration, formats, requested_subtitles } = JSON.parse(data));
+
+      formats.forEach(format => {
+        if (format.vcodec !== 'none' && video.indexOf(format.height) === -1) {
+          video.push(format.height);
+        } else if (format.acodec !== 'none' && audio.indexOf(format.abr) === -1) {
+          audio.push(format.abr);
+        }
+      });
+
+      // Sort in descending order
+      video.sort((a, b) => b - a);
+      audio.sort((a, b) => b - a);
+    } catch (err) {
+      // If there was an error parsing JSON, use these as fallback
+
+      webpage_url = /"webpage_url":\s?\"(.*?)\"/.exec(data)[1];
+      title = /"title":\s?"(.*?)\"/.exec(data)[1];
+      thumbnail = /"thumbnail":\s?"(.*?)\"/.exec(data)[1];
+      duration = /"duration":\s?(\d*)/.exec(data)[1];
+
+      video = ['1080', '720', '480', '360', '240', '144'];
+      audio = ['160', '128', '50'];
+
+      requested_subtitles = null;
+    }
 
     // Get list of available subtitles
     const subtitles = requested_subtitles==null?[]:Object.keys(requested_subtitles);
