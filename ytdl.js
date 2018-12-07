@@ -45,11 +45,15 @@ class YTDL{
       audio.sort((a, b) => b - a);
     } catch (err) {
       // If there was an error parsing JSON, use these as fallback
+      const urlRegex = /"webpage_url":\s?\"(.*?)\"/;
+      const titleRegex = /"title":\s?\"(.*?)\"/;
+      const thumbnailRegex = /"thumbnail":\s?\"(.*?)\"/;
+      const durationRegex = /"duration":\s?(\d*)/;
 
-      webpage_url = /"webpage_url":\s?\"(.*?)\"/.exec(data)[1];
-      title = /"title":\s?"(.*?)\"/.exec(data)[1];
-      thumbnail = /"thumbnail":\s?"(.*?)\"/.exec(data)[1];
-      duration = /"duration":\s?(\d*)/.exec(data)[1];
+      webpage_url = urlRegex.exec(data)[1];
+      title = titleRegex.exec(data)[1];
+      thumbnail = thumbnailRegex.exec(data)[1];
+      duration = durationRegex.exec(data)[1];
 
       video = ['1080', '720', '480', '360', '240', '144'];
       audio = ['160', '128', '50'];
@@ -105,10 +109,7 @@ class YTDL{
     const child = spawn(this.ytdlPath, args);
     callbacks.onStart();
 
-    this.ongoing.push({
-      url: url,
-      pid: child.pid
-    });
+    this.ongoing.push({ url: url, pid: child.pid });
 
     // Send download progress info
     child.stdout.on('data', data => callbacks.onDownload(url, this._extractProgress(data.toString())));
