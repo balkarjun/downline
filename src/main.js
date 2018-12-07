@@ -9,7 +9,8 @@ app.on('ready', () => {
     width: 490,
     height: 625,
     frame: false,
-    show: false
+    show: false,
+    icon: path.join(__dirname, '../build/256x256.png')
   });
   // win.loadURL('http://127.0.0.1:5500/');
   win.loadURL(path.join('file:', __dirname, 'index.html'));

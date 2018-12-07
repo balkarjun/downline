@@ -21,11 +21,12 @@
     "linux": {
       "target": [
         "AppImage"
-      ]
+      ],
+      "icon": "build/256x256.png"
     },
     "win": {
       "target": "nsis",
-      "icon": "build/icon.ico"
+      "icon": "build/256x256.ico"
     },
     "nsis": {
       "oneClick": false,
@@ -34,11 +35,11 @@
     "files": [
       "**/*",
       "./static/**",
-      "./src/**"
+      "./src/**",
+      "./build/**"
     ],
     "extraFiles": [
-      "./resources/ffmpeg/**",
-      "./resources/youtube-dl/**"
+      "./resources/**"
     ]
   }
 }
