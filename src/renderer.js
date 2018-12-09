@@ -1,8 +1,8 @@
+const { clipboard, remote } = require('electron');
 const YTDL = require('../ytdl.js');
-const ytdl = new YTDL();
 const Store = require('../store.js');
 
-const { clipboard, remote } = require('electron');
+const ytdl = new YTDL();
 const { dialog, app } = remote;
 
 const store = new Store('downline', {
@@ -25,11 +25,17 @@ new Vue({
     appVersion: app.getVersion()
   },
   computed: {
+    anySubbed(){
+      // Returns true if atleast 1 selected item has subtitles
+      return this.downloadables
+        .filter(x => x.isChosen || !this.anyChosen)
+        .some(x => x.subtitles.length !== 0);
+    },
     areChosenDownloading(){
       // True if chosen (or all items if none chosen) are downloading
       return this.downloadables
         .filter(x => x.isChosen || !this.anyChosen)
-        .every(x => x.state === 'downloading');
+        .every(x => x.state === 'downloading' || x.state === 'queued');
     },
     anyChosen() {
       return this.downloadables.filter(x => x.isChosen).length !== 0;
@@ -38,8 +44,9 @@ new Vue({
       return this.downloadables.length !== 0;
     },
     global() {
-      // Selected items if any, else all items
-      const selected = this.downloadables.filter(x => x.isChosen || !this.anyChosen);
+      // Selected items if any, else all items that are yet to be downloaded
+      const selected = this.downloadables
+        .filter(x => (x.isChosen || !this.anyChosen) && x.progress.value == 0 && x.state === 'stopped');
 
       let global = {
         isGlobal: true,
@@ -51,16 +58,23 @@ new Vue({
         }
       }
 
-      // Find largest video option among selected items
-      global.formats.video = selected
-        .map(x => x.formats.video)
-        .reduce((max, curr) => curr.length > max.length ? curr : max, []);
+      // Set audio and video to union of all audio and video formats
+      selected.map(x => x.formats)
+      .forEach(x => {
+        global.formats.video.push(...x.video);
+        global.formats.audio.push(...x.audio);
+      });
 
-      // Find largest audio option among selected items
-      global.formats.audio = selected
-        .map(x => x.formats.audio)
-        .reduce((max, curr) => curr.length > max.length ? curr : max, []);
+      global.formats.video = Array.from(new Set(global.formats.video));
+      global.formats.audio = Array.from(new Set(global.formats.audio));
+
+      // Sort in ascending order
+      global.formats.video.sort((a, b) => a - b);
+      global.formats.audio.sort((a, b) => a - b);
       
+      global.formats.videoIndex = global.formats.video.length - 1;
+      global.formats.audioIndex = global.formats.audio.length - 1;
+
       return global;
     }
   },
@@ -80,64 +94,49 @@ new Vue({
     increment(item) {
       if (item.isAudioChosen && item.formats.audioIndex < item.formats.audio.length - 1) {
         item.formats.audioIndex++;
-        this.updateAudio(item);
       } else if (!item.isAudioChosen && item.formats.videoIndex < item.formats.video.length - 1) {
         item.formats.videoIndex++;
-        this.updateVideo(item);
       }
+
+      this.updateChosenQuality(item);
     },
     decrement(item) {
       if (item.isAudioChosen && item.formats.audioIndex > 0) {
         item.formats.audioIndex--;
-        this.updateAudio(item);
       } else if (!item.isAudioChosen && item.formats.videoIndex > 0) {
         item.formats.videoIndex--;
-        this.updateVideo(item);
       }
-    },
-    updateAudio({ isGlobal }){
-      // If global audio was modified, update audio of selected items
-      if(isGlobal){
-        const newValue = this.chosenQuality(this.global);
 
-        this.downloadables.forEach(item => {
-          if(item.isChosen || !this.anyChosen){
-            const index = item.formats.audio.indexOf(newValue);
+      this.updateChosenQuality(item);
+    },
+    updateChosenQuality(item){
+      // If global audio/video were modified, update audio/video of selected items
+      if(item.isGlobal){
+        const newQuality = this.chosenQuality(this.global);
+
+        this.downloadables.forEach(x => {
+          if(x.isChosen || !this.anyChosen){
+            const index = item.isAudioChosen
+              ? x.formats.audio.indexOf(newQuality)
+              : x.formats.video.indexOf(newQuality)
+            
             if(index !== -1){
-              item.formats.audioIndex = index;
+              if (item.isAudioChosen) x.formats.audioIndex = index;
+              else x.formats.videoIndex = index;
             }
           }
         });
       }
+      this.$forceUpdate();
     },
-    updateVideo({ isGlobal }){
-      // If global video was modified, update video of selected items
-      if (isGlobal) {
-        const newValue = this.chosenQuality(this.global);
+    updateChosenProp(prop){
+      if (prop === 'audio') this.global.isAudioChosen = !this.global.isAudioChosen;
+      else this.global.isSubsChosen = !this.global.isSubsChosen;
 
-        this.downloadables.forEach(item => {
-          if (item.isChosen || !this.anyChosen) {
-            const index = item.formats.video.indexOf(newValue);
-            if (index !== -1) {
-              item.formats.videoIndex = index;
-            }
-          }
-        });
-      }
-    },
-    updateChosenAudio(){
-      this.global.isAudioChosen = !this.global.isAudioChosen;
-      this.downloadables.forEach(item => {
-        if(item.isChosen || !this.anyChosen){
-          item.isAudioChosen = this.global.isAudioChosen;
-        }
-      });
-    },
-    updateChosenSubs(){
-      this.global.isSubsChosen = !this.global.isSubsChosen;
-      this.downloadables.forEach(item => {
-        if(item.isSelected || !this.anyChosen){
-          item.isSubsChosen = this.global.isSubsChosen;
+      this.downloadables.forEach(x => {
+        if(x.isChosen || !this.anyChosen){
+          if (prop === 'audio') x.isAudioChosen = this.global.isAudioChosen;
+          else x.isSubsChosen = this.global.isSubsChosen;
         }
       });
     },
@@ -262,29 +261,18 @@ new Vue({
       }
     },
     downloadOrPauseMany(){
-      // Downloads or pauses multiple downloadables
-      if(this.areChosenDownloading){
-        // Pause
-        this.downloadables.forEach(x => {
-          if(x.isChosen || !this.anyChosen){
-            this.pause(x.url);
-          }
-        });
-      } else {
-        // Download
-        this.downloadables.forEach(x => {
-          if( (x.isChosen || !this.anyChosen) && x.state === 'stopped' ){
-            this.download(x.url);
-          }
-        });
-      }
+      // Downloads or pauses mutliple items
+      this.downloadables.forEach(x => {
+        if( (x.isChosen || !this.anyChosen) && x.state !== 'completed'){
+          if (x.state === 'stopped') this.download(x.url);
+          else this.pause(x.url);
+        }
+      });
     },
     selectDirectory() {
       dialog.showOpenDialog(remote.getCurrentWindow(), {
         properties: ['openDirectory']
-      }, filePaths => {
-        this.downloadLocation = filePaths[0];
-      });
+      }, filePaths => this.downloadLocation = filePaths[0]);
     },
     minimize() {
       remote.getCurrentWindow().minimize();

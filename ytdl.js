@@ -1,5 +1,4 @@
 /* NodeJS API for youtube-dl */
-
 const { spawn } = require('child_process');
 
 class YTDL{
@@ -40,9 +39,9 @@ class YTDL{
         }
       });
 
-      // Sort in descending order
-      video.sort((a, b) => b - a);
-      audio.sort((a, b) => b - a);
+      // Sort in ascending order
+      video.sort((a, b) => a - b);
+      audio.sort((a, b) => a - b);
     } catch (err) {
       // If there was an error parsing JSON, use these as fallback
       const urlRegex = /"webpage_url":\s?\"(.*?)\"/;
@@ -55,8 +54,8 @@ class YTDL{
       thumbnail = thumbnailRegex.exec(data)[1];
       duration = durationRegex.exec(data)[1];
 
-      video = ['1080', '720', '480', '360', '240', '144'];
-      audio = ['160', '128', '50'];
+      video = ['144', '240', '360', '480', '720', '1080'];
+      audio = ['50', '128', '160'];
 
       requested_subtitles = null;
     }
@@ -76,8 +75,8 @@ class YTDL{
       formats: {
         video: video,
         audio: audio,
-        videoIndex: 0,
-        audioIndex: 0
+        videoIndex: video.length - 1,
+        audioIndex: audio.length - 1
       },
       subtitles: subtitles,
       progress: {

@@ -31,7 +31,7 @@
 
 #choose-location{
   width: 80px;
-  height: 30px;
+  height: 25px;
   border-radius: 4px;
   color: white;
   background-color: var(--blue12);
@@ -51,18 +51,28 @@
   flex-direction: column;
 }
 
-#max-simultaneous input{
-  padding: 2px 0 2px 8px;
-  margin: 5px;
-  font-family: inherit;
-  font-size: 17px;
-  width: 40px;
-  color: white;
-  background-color: var(--black16);
-  outline: none;
-  border: none;
-  border-radius: 4px;
+#max-simultaneous div{
+  user-select: none; 
+  display: flex; 
+  width: 55px; 
+  margin-top: 5px;
 }
-#max-simultaneous input::selection{
-  color: white;
+
+#max-simultaneous .fas{
+  color: var(--black30);
+  align-self: center;
+}
+#max-simultaneous .fas:hover{
+  color: var(--white8A);
+}
+#max-simultaneous .fas:active{
+  color: var(--black30);
+}
+
+#max-simultaneous-text{
+  width: 35px; 
+  text-align: center; 
+  line-height: 100%;
+  font-size: 17px;
+  font-weight: 500;
 }

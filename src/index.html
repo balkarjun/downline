@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Downline</title>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/solid.css" integrity="sha384-rdyFrfAIC05c5ph7BKz3l5NG5yEottvO/DQ0dCrwD8gzeQDjYBHNr1ucUpQuljos"
-    crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/fontawesome.css" integrity="sha384-u5J7JghGz0qUrmEsWzBQkfvc8nK3fUT7DCaQzNQ+q4oEXhGSx+P2OqjWsfIRB8QT"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="../static/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../static/css/solid.min.css">
   <link rel="stylesheet" href="../static/css/app.css">
   <link rel="stylesheet" href="../static/css/titlebar.css">
   <link rel="stylesheet" href="../static/css/main-page.css">
@@ -18,7 +16,8 @@
 <body>
   <div id="app">
     <section id="titlebar">
-      <span class="fas fa-cog" @click="isSettingsOpen=!isSettingsOpen"></span>
+      <span v-if="!isSettingsOpen" class="fas fa-cog" @click="isSettingsOpen=true"></span>
+      <span v-else class="fas fa-arrow-left" @click="isSettingsOpen=false"></span>
       <h1>Downline <em>{{ appVersion }}</em></h1>
       <div>
         <span id="minimize-btn" @click="minimize">&minus;</span>
@@ -40,8 +39,8 @@
             <span class="fas fa-chevron-circle-right" @click="increment(global)"></span>
           </div>
 
-          <span class="fas fa-closed-captioning" @click="updateChosenSubs" :class="{selected: global.isSubsChosen}"></span>
-          <span class="fas fa-music" @click="updateChosenAudio" :class="{selected: global.isAudioChosen}"></span>
+          <span class="fas" @click="updateChosenProp('subs')" :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}"></span>
+          <span class="fas fa-music" @click="updateChosenProp('audio')" :class="{selected: global.isAudioChosen}"></span>
 
           <button @click="downloadOrPauseMany"> {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}</button>
         </div>
@@ -56,7 +55,6 @@
 
           <section class="middle">
             <h1>{{ item.title }}</h1>
-
             <div class="options" v-if="item.progress.value == 0 && item.state === 'stopped'">
               <div>
                 <span class="fas fa-chevron-circle-left" @click="decrement(item)"></span>
@@ -65,7 +63,7 @@
               </div>
 
               <span class="option-icon fas" :class="{'fa-closed-captioning': item.subtitles.length !== 0, selected: item.isSubsChosen}"  @click="item.isSubsChosen = !item.isSubsChosen"></span>
-              <span class="option-icon fas fa-music" @click="item.isAudioChosen = !item.isAudioChosen" :class="{selected: item.isAudioChosen}"></span>
+              <span class="option-icon fas fa-music" :class="{selected: item.isAudioChosen}" @click="item.isAudioChosen = !item.isAudioChosen"></span>
             </div>
 
             <div class="progress" v-else>
@@ -119,7 +117,11 @@
 
       <div id="max-simultaneous">
         <label>Simultaneous Downloads (max. 5)</label>
-        <input type="number" min="1" max="5" v-model="maxSimultaneous">
+        <div>
+          <span class="fas fa-chevron-circle-left" @click="maxSimultaneous = maxSimultaneous>1?--maxSimultaneous:maxSimultaneous"></span>
+          <span id="max-simultaneous-text">{{ maxSimultaneous }}</span>
+          <span class="fas fa-chevron-circle-right" @click="maxSimultaneous = maxSimultaneous<5?++maxSimultaneous:maxSimultaneous"></span>
+        </div>
       </div>
     </section>
   </div>

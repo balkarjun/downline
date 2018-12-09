@@ -1,13 +1,14 @@
 /* Main Electron Process */
-
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-let win = null;
 
+let win = null;
 app.on('ready', () => {
   win = new BrowserWindow({
     width: 490,
     height: 625,
+    minWidth: 420,
+    minHeight: 500,
     frame: false,
     show: false,
     icon: path.join(__dirname, '../build/256x256.png')
