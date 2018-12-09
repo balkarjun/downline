@@ -1,0 +1,149 @@
+#extras{
+  height: calc(100vh - 30px);
+  background-color: var(--black2F);
+  color: white;
+}
+
+#tabs{
+  display: flex;
+  list-style: none;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+#tabs li{
+  background-color: var(--black16);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  width: calc(100%/2);
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+#tabs li:hover{
+  background-color: var(--black2B);
+}
+
+#tabs li.active{
+  background-color: var(--black2F);
+}
+
+#extras div{
+  background-color: var(--black2F);
+}
+
+/* ----- Settings Page ----- */
+#settings{
+  padding: 10px;
+}
+
+#settings label{
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  user-select: none;
+}
+
+/* Download Location */
+#download-location{
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+
+#download-location div{
+  display: flex;
+}
+
+#location-text{
+  color: var(--whiteA1);
+  flex-grow: 1;
+  margin-left: 5px;
+  align-self: center;
+}
+
+#choose-location{
+  width: 80px;
+  height: 25px;
+  border-radius: 4px;
+  color: white;
+  background-color: var(--blue12);
+}
+
+#choose-location:hover{
+  background-color: var(--blue15);
+}
+
+#choose-location:active{
+  background-color: var(--blue12);
+}
+
+/* Simultaneous Downloads */
+#max-simultaneous{
+  display: flex;
+  flex-direction: column;
+}
+
+#max-simultaneous div{
+  user-select: none; 
+  display: flex; 
+  width: 55px; 
+  margin-top: 5px;
+}
+
+#max-simultaneous .fas{
+  color: var(--black30);
+  align-self: center;
+}
+#max-simultaneous .fas:hover{
+  color: var(--white8A);
+}
+#max-simultaneous .fas:active{
+  color: var(--black30);
+}
+
+#max-simultaneous-text{
+  width: 35px; 
+  text-align: center; 
+  line-height: 100%;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+/* ----- About Page ----- */
+#about{
+  padding: 10px;
+}
+
+#about img{
+  margin: 0 calc(50% - 40px);
+  width: 80px;
+  user-select: none;
+}
+
+#app-name{
+  text-align: center;
+  font-weight: 500;
+}
+
+#about p{
+  padding: 0;
+  margin: 10px 0;
+}
+
+#about button{
+  width: 140px;
+  height: 25px;
+  border-radius: 4px;
+  color: white;
+  background-color: var(--blue12);
+}
+#about button:hover{
+  background-color: var(--blue15);
+}
+#about button:active{
+  background-color: var(--blue12);
+}

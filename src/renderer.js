@@ -1,4 +1,4 @@
-const { clipboard, remote } = require('electron');
+const { clipboard, remote, shell } = require('electron');
 const YTDL = require('../ytdl.js');
 const Store = require('../store.js');
 
@@ -15,14 +15,15 @@ new Vue({
   el: '#app',
   data: {
     newURL: '',
-    isSettingsOpen: false,
+    isExtrasOpen: false,
     loadingItems: 0,
     downloadables: store.get('downloadables'),
     downloadLocation: store.get('downloadLocation'),
     maxSimultaneous: store.get('maxSimultaneous'),
     ongoingDownloads: 0,
     downloadQueue: [],
-    appVersion: app.getVersion()
+    appVersion: app.getVersion(),
+    activeTab: 'settings'
   },
   computed: {
     anySubbed(){
@@ -268,6 +269,9 @@ new Vue({
           else this.pause(x.url);
         }
       });
+    },
+    openLink(link){
+      shell.openExternal(link);
     },
     selectDirectory() {
       dialog.showOpenDialog(remote.getCurrentWindow(), {

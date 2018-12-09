@@ -10,22 +10,22 @@
   <link rel="stylesheet" href="../static/css/titlebar.css">
   <link rel="stylesheet" href="../static/css/main-page.css">
   <link rel="stylesheet" href="../static/css/downloadable.css">
-  <link rel="stylesheet" href="../static/css/settings.css">
+  <link rel="stylesheet" href="../static/css/extras.css">
 </head>
 
 <body>
   <div id="app">
     <section id="titlebar">
-      <span v-if="!isSettingsOpen" class="fas fa-cog" @click="isSettingsOpen=true"></span>
-      <span v-else class="fas fa-arrow-left" @click="isSettingsOpen=false"></span>
-      <h1>Downline <em>{{ appVersion }}</em></h1>
+      <span v-if="!isExtrasOpen" class="fas fa-cog" @click="isExtrasOpen=true"></span>
+      <span v-else class="fas fa-arrow-left" @click="isExtrasOpen=false"></span>
+      <h1>Downline</h1>
       <div>
         <span id="minimize-btn" @click="minimize">&minus;</span>
         <span id="close-btn" @click="close">&times;</span>
       </div>
     </section>
 
-    <section id="main-page" v-show="!isSettingsOpen">
+    <section id="main-page" v-show="!isExtrasOpen">
       <section id="top">
         <div id="inputbar">
           <input v-model="newURL" @keyup.enter="fetchInfo" type="text" spellcheck="false" placeholder="Enter URL">
@@ -106,24 +106,43 @@
       </section>
     </section>
 
-    <section id="settings-page" v-show="isSettingsOpen">
-      <div id="download-location">
-        <label>Download Location</label>
-        <div>
-          <span id="location-text">{{ downloadLocation }}</span>
-          <button id="choose-location" @click="selectDirectory">Browse</button>
+    <section id="extras" v-show="isExtrasOpen">
+      <ul id="tabs">
+        <li @click="activeTab = 'settings'" :class="{active: activeTab === 'settings'}">Settings</li>
+        <li @click="activeTab = 'about'" :class="{active: activeTab === 'about'}">About</li>
+      </ul>
+      <div id="settings" v-if="activeTab === 'settings'">
+        <div id="download-location">
+          <label>Download Location</label>
+          <div>
+            <span id="location-text">{{ downloadLocation }}</span>
+            <button id="choose-location" @click="selectDirectory">Browse</button>
+          </div>
         </div>
-      </div>
 
-      <div id="max-simultaneous">
-        <label>Simultaneous Downloads (max. 5)</label>
-        <div>
-          <span class="fas fa-chevron-circle-left" @click="maxSimultaneous = maxSimultaneous>1?--maxSimultaneous:maxSimultaneous"></span>
-          <span id="max-simultaneous-text">{{ maxSimultaneous }}</span>
-          <span class="fas fa-chevron-circle-right" @click="maxSimultaneous = maxSimultaneous<5?++maxSimultaneous:maxSimultaneous"></span>
+        <div id="max-simultaneous">
+          <label>Simultaneous Downloads (max. 5)</label>
+          <div>
+            <span class="fas fa-chevron-circle-left" @click="maxSimultaneous = maxSimultaneous>1?--maxSimultaneous:maxSimultaneous"></span>
+            <span id="max-simultaneous-text">{{ maxSimultaneous }}</span>
+            <span class="fas fa-chevron-circle-right" @click="maxSimultaneous = maxSimultaneous<5?++maxSimultaneous:maxSimultaneous"></span>
+          </div>
         </div>
       </div>
-    </section>
+      <div id="about" v-else-if="activeTab === 'about'">
+        <img src="../static/images/icon.png">
+        <p id="app-name">
+          Downline 
+          <em>{{ appVersion }}</em>
+        </p>
+        
+        <p>
+          Downline is a free and open-source video and audio downloader for
+          YouTube, Vimeo, Dailymotion, SoundCloud and many other sites
+        </p>
+        <button @click="openLink('https://github.com/jarbun/downline/releases')">Visit Website</button>
+      </div>
+    </section>     
   </div>
 
   <script src="../static/js/vue.min.js"></script>

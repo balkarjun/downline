@@ -2,6 +2,7 @@
 
 :root{
   --black16: #1E1E26;
+  --black2B: #22222B;
   --black2F: #27272F;
   --black3D: #33333D;
   --black30: #373740;
@@ -31,6 +32,7 @@ button{
   letter-spacing: 0.6px;
   outline: none;
   cursor: pointer;
+  user-select: none;
 }
 
 /* ----- Scrollbar ----- */
