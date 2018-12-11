@@ -33,16 +33,16 @@
         </div>
 
         <div id="global-options" v-if="existsItems">
-          <div>
+          <div v-if="anyToBeDownloaded">
             <span class="fas fa-chevron-circle-left" @click="decrement(global)"></span>
             <span id="global-quality">{{ chosenQuality(global) }}</span>
             <span class="fas fa-chevron-circle-right" @click="increment(global)"></span>
           </div>
 
-          <span class="fas" @click="updateChosenProp('subs')" :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}"></span>
-          <span class="fas fa-music" @click="updateChosenProp('audio')" :class="{selected: global.isAudioChosen}"></span>
+          <span v-if="anyToBeDownloaded" class="fas" @click="updateChosenProp('subs')" :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}"></span>
+          <span v-if="anyToBeDownloaded" class="fas fa-music" @click="updateChosenProp('audio')" :class="{selected: global.isAudioChosen}"></span>
 
-          <button @click="downloadOrPauseMany"> {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}</button>
+          <button v-if="anyToBeDownloaded" @click="downloadOrPauseMany"> {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}</button>
         </div>
       </section>
 

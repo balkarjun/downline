@@ -33,6 +33,12 @@ new Vue({
     activeTab: 'settings'
   },
   computed: {
+    anyToBeDownloaded(){
+      // Returns true if any items chosen are to be downloaded
+      return this.downloadables
+        .filter(x => x.isChosen || !this.anyChosen)
+        .some(x => x.state === 'stopped' && x.progress.value == 0);
+    },
     anySubbed(){
       // Returns true if atleast 1 selected item has subtitles
       return this.downloadables
@@ -54,7 +60,7 @@ new Vue({
     global() {
       // Selected items if any, else all items that are yet to be downloaded
       const selected = this.downloadables
-        .filter(x => (x.isChosen || !this.anyChosen) && x.progress.value == 0 && x.state === 'stopped');
+        .filter(x => (x.isChosen || !this.anyChosen) && x.state === 'stopped' && x.progress.value == 0);
 
       let global = {
         isGlobal: true,
