@@ -7,6 +7,7 @@
   "main": "./src/main.js",
   "scripts": {
     "start": "electron .",
+    "dev": "NODE_ENV=DEV electron .",
     "build:win": "build --win",
     "build:linux": "build --linux"
   },
@@ -35,8 +36,7 @@
     "files": [
       "**/*",
       "./static/**",
-      "./src/**",
-      "./build/**"
+      "./src/**"
     ],
     "extraFiles": [
       "./resources/**"

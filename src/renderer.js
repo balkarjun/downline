@@ -1,6 +1,13 @@
 const { clipboard, remote, shell } = require('electron');
-const YTDL = require('../ytdl.js');
-const Store = require('../store.js');
+
+let YTDL, Store;
+if(process.env.NODE_ENV === 'DEV'){
+  YTDL = require('/home/arjunb/Desktop/Downline/ytdl.js');
+  Store = require('/home/arjunb/Desktop/Downline/store.js');
+} else {
+  YTDL = require('../ytdl.js');
+  Store = require('../store.js');
+}
 
 const ytdl = new YTDL();
 const { dialog, app } = remote;

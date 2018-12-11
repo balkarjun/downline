@@ -1,3 +1,4 @@
+build/
 node_modules/
 resources/
 package-lock.json

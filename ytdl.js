@@ -3,8 +3,10 @@ const { spawn } = require('child_process');
 
 class YTDL{
   constructor(){
+    // Path to youtube-dl binary
     this.ytdlPath = './resources/youtube-dl/youtube-dl';
-    this.ffmpegPath = './resources/ffmpeg/ffmpeg';
+    // Path to directory containing ffmpeg
+    this.ffmpegPath = './resources/ffmpeg/';
     // Regex to extract download progress info from ytdl output
     this.progressRegex = /\[download\]\D+(\d+\.\d+)\D+(\d+\.\d+\w+)\D+(\d+\.\d+\w+\/s)\D+((?:\d+:?)+)/;
     // Stores data of ongoing downloads
