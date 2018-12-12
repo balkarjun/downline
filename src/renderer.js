@@ -39,8 +39,14 @@ new Vue({
         .filter(x => x.isChosen || !this.anyChosen)
         .some(x => x.state === 'stopped' && x.progress.value == 0);
     },
+    anyCompleted(){
+      // Returns true if any items chosen are completed
+      return this.downloadables
+        .filter(x => x.ischosen || !this.anyChosen)
+        .some(x => x.state === 'completed');
+    },
     anySubbed(){
-      // Returns true if atleast 1 selected item has subtitles
+      // Returns true if any selected item has subtitles
       return this.downloadables
         .filter(x => x.isChosen || !this.anyChosen)
         .some(x => x.subtitles.length !== 0);
@@ -52,7 +58,8 @@ new Vue({
         .every(x => x.state === 'downloading' || x.state === 'queued');
     },
     anyChosen() {
-      return this.downloadables.filter(x => x.isChosen).length !== 0;
+      // Returns true if any item is chosen
+      return this.downloadables.some(x => x.isChosen);
     },
     existsItems() {
       return this.downloadables.length !== 0;
@@ -93,17 +100,20 @@ new Vue({
     }
   },
   methods: {
+    isStarting(item) { return item.progress.value == 0 && item.state !== 'queued' },
+    isQueued(item) { return item.state === 'queued' },
+    isPaused(item) { return item.progress.value != 0 && item.state === 'stopped' },
+    isDownloading(item) { return item.progress.value != 0 && item.state === 'downloading' },
     toggle(item) {
       item.isChosen = this.anyChosen ? !item.isChosen : false;
     },
-    select(item) {
+    choose(item) {
       item.isChosen = !item.isChosen;
     },
     chosenQuality(item) {
-      if(item.isAudioChosen) {
-        return item.formats.audio[item.formats.audioIndex];
-      }
-      return item.formats.video[item.formats.videoIndex];
+      return item.isAudioChosen
+        ? item.formats.audio[item.formats.audioIndex]
+        : item.formats.video[item.formats.videoIndex]
     },
     increment(item) {
       if (item.isAudioChosen && item.formats.audioIndex < item.formats.audio.length - 1) {

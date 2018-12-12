@@ -19,10 +19,8 @@
       <span v-if="!isExtrasOpen" class="fas fa-cog" @click="isExtrasOpen=true"></span>
       <span v-else class="fas fa-arrow-left" @click="isExtrasOpen=false"></span>
       <h1>Downline</h1>
-      <div>
-        <span id="minimize-btn" @click="minimize">&minus;</span>
-        <span id="close-btn" @click="close">&times;</span>
-      </div>
+      <span id="minimize-btn" @click="minimize">&minus;</span>
+      <span id="close-btn" @click="close">&times;</span>
     </section>
 
     <section id="main-page" v-show="!isExtrasOpen">
@@ -41,14 +39,14 @@
 
           <span v-if="anyToBeDownloaded" class="fas" @click="updateChosenProp('subs')" :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}"></span>
           <span v-if="anyToBeDownloaded" class="fas fa-music" @click="updateChosenProp('audio')" :class="{selected: global.isAudioChosen}"></span>
-
-          <button v-if="anyToBeDownloaded" @click="downloadOrPauseMany"> {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}</button>
+          <span v-else></span>
+          <button @click="downloadOrPauseMany"> {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}</button>
         </div>
       </section>
 
       <section id="center">
         <div class="downloadable" :class="{chosen: item.isChosen}" v-for="(item, index) in downloadables">
-          <section class="left" @dblclick="select(item)" @click="toggle(item)">
+          <section class="left" @dblclick="choose(item)" @click="toggle(item)">
             <img :src="item.thumbnail">
             <span>{{ item.duration }}</span>
           </section>
@@ -68,14 +66,15 @@
 
             <div class="progress" v-else>
               <span class="info">
-                <span v-if="item.progress.value == 0 && item.state !== 'queued'">Starting Download</span>
-                <span v-if="item.state === 'queued'">Queued</span>
-                <span v-if="item.state !== 'completed' && item.progress.value != 0">
+                <span v-if="isStarting(item)">Starting Download</span>
+                <span v-else-if="isQueued(item)">Queued</span>
+                <span v-else-if="isPaused(item) || isDownloading(item)">
                   {{ item.progress.value }}% of {{ item.progress.size }}
-                  <span v-if="item.state === 'downloading'">&centerdot; {{ item.progress.speed }}</span>
+                  <span v-if="isDownloading(item)"> 
+                    &centerdot; {{ item.progress.speed }} | {{ item.progress.eta }}
+                  </span>
                 </span>
-                <span v-if="item.state === 'downloading' && item.progress.value != 0">{{ item.progress.eta }}</span>
-                <span v-if="item.state === 'completed'">Download Complete</span>
+                <span v-else>Download Complete</span>
               </span>
 
               <span class="bar">
@@ -95,14 +94,12 @@
       </section>
 
       <section id="bottom">
-        <span id="message" v-if="loadingItems !== 0">
-          <span class="spinner"></span> Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}
+        <span id="message">
+          <span v-if="loadingItems !== 0" class="spinner"></span> 
+          <span v-if="loadingItems !== 0">Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}</span>
         </span>
-        <span v-else></span>
-        <div v-if="existsItems">
-          <button id="clear-many-btn" @click="clearMany">Clear {{ anyChosen?'Selected':'All' }}</button>
-          <button id="clear-completed-btn" @click="clearCompleted">Clear Completed</button>
-        </div>
+        <button v-if="anyCompleted" id="clear-completed-btn" @click="clearCompleted">Clear Completed</button>
+        <button v-if="existsItems" id="clear-many-btn" @click="clearMany">Clear {{ anyChosen?'Selected':'All' }}</button>
       </section>
     </section>
 
@@ -111,6 +108,7 @@
         <li @click="activeTab = 'settings'" :class="{active: activeTab === 'settings'}">Settings</li>
         <li @click="activeTab = 'about'" :class="{active: activeTab === 'about'}">About</li>
       </ul>
+      
       <div id="settings" v-if="activeTab === 'settings'">
         <div id="download-location">
           <label>Download Location</label>

@@ -4,7 +4,6 @@
   --black16: #1E1E26;
   --black2B: #22222B;
   --black2F: #27272F;
-  --black3D: #33333D;
   --black30: #373740;
   --black4F: #44444F;
 
@@ -24,7 +23,7 @@ body{
 }
 
 button{
-  font: inherit;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 500;
   border: none;

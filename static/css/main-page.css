@@ -105,17 +105,17 @@
 /* ----- Bottom -----*/
 #bottom{
   height: 25px;
-  padding-left: 5px;
   background-color: var(--black16);
   display: flex;
-  justify-content: space-between;
 }
 
 #message{
   color: var(--whiteA1);
-  align-self: center;
   font-size: 15px;
   user-select: none;
+  padding-left: 5px;
+  flex-grow: 1;
+  line-height: 25px;
 }
 
 /* Spinner */
@@ -143,10 +143,6 @@
   100% { transform: rotate(360deg); }
 }
 
-#bottom div{
-  display: flex;
-}
-
 #bottom button{
   height: 25px;
   padding: 0 8px;
@@ -156,6 +152,7 @@
 
 #clear-many-btn{
   background-color: var(--redF6);
+  min-width: 100px;
 }
 #clear-many-btn:hover{
   background-color: var(--redFD);
@@ -165,11 +162,12 @@
 }
 
 #clear-completed-btn{
-  background-color: var(--black3D);
+  background-color: var(--black30);
+  width: 170px;
 }
 #clear-completed-btn:hover{
   background-color: var(--black4F);
 }
 #clear-completed-btn:active{
-  background-color: var(--black3D);
+  background-color: var(--black30);
 }

@@ -1,23 +1,18 @@
 #titlebar{
   height: 30px;
-  width: 100%;
   background-color: var(--black16);
   display: flex;
-  justify-content: space-between;
   user-select: none;
   text-align: center;
-  -webkit-app-region: drag;
   overflow: hidden;
+  -webkit-app-region: drag;
 }
 
 #titlebar .fas{
   color: var(--whiteA1);
   font-size: 17px;
-  width: 20px;
-  height: 100%;
+  width: 40px;
   line-height: 30px;
-  padding: 0 5px;
-  align-self: center;
   -webkit-app-region: no-drag;
 }
 #titlebar .fas:hover{
@@ -26,29 +21,23 @@
 
 #titlebar h1{
   color: white;
-  padding: 0;
-  margin: 0;
+  width: 100%;
+  padding-left: 40px;
   font-size: 17px;
+  line-height: 30px;
   font-weight: 500;
   align-self: center;
-  padding-left: 50px;
-}
-
-#titlebar div{
-  width: 70px;
-  display: flex;
-  justify-content: right;
-  -webkit-app-region: no-drag;
 }
 
 #minimize-btn, #close-btn{
   color: var(--white8A);
   font-size: 26px;
-  padding: 0 5px;
+  width: 40px;
   line-height: 30px;
-  flex-grow: 1;
   cursor: pointer;
+  -webkit-app-region: no-drag;
 }
+
 #minimize-btn:hover{
   color: white;
   background-color: var(--black30);
