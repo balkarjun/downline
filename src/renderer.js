@@ -42,7 +42,7 @@ new Vue({
     anyCompleted(){
       // Returns true if any items chosen are completed
       return this.downloadables
-        .filter(x => x.ischosen || !this.anyChosen)
+        .filter(x => x.isChosen || !this.anyChosen)
         .some(x => x.state === 'completed');
     },
     anySubbed(){
@@ -52,9 +52,9 @@ new Vue({
         .some(x => x.subtitles.length !== 0);
     },
     areChosenDownloading(){
-      // True if chosen (or all items if none chosen) are downloading
+      // True if all chosen items are downloading
       return this.downloadables
-        .filter(x => x.isChosen || !this.anyChosen)
+        .filter(x => (x.isChosen || !this.anyChosen) && x.state !== 'completed')
         .every(x => x.state === 'downloading' || x.state === 'queued');
     },
     anyChosen() {
@@ -286,12 +286,19 @@ new Vue({
     },
     downloadOrPauseMany(){
       // Downloads or pauses mutliple items
-      this.downloadables.forEach(x => {
-        if( (x.isChosen || !this.anyChosen) && x.state !== 'completed'){
-          if (x.state === 'stopped') this.download(x.url);
-          else this.pause(x.url);
-        }
-      });
+      if(this.areChosenDownloading){
+        // Pause all chosen
+        this.downloadables.forEach(x => {
+          if ((x.isChosen || !this.anyChosen) && x.state !== 'completed')
+            this.pause(x.url)
+        });
+      } else {
+        // Download all chosen
+        this.downloadables.forEach(x => {
+          if ((x.isChosen || !this.anyChosen) && x.state === 'stopped')
+            this.download(x.url);
+        });
+      }
     },
     openLink(link){
       shell.openExternal(link);

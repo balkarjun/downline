@@ -65,7 +65,7 @@
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
-  border-bottom: 1px solid var(--black30);
+  border-bottom: 1px solid #333;
 }
 
 .middle h1{
@@ -131,7 +131,8 @@
   padding-left: 5px;
   user-select: none;
 }
-.progress .info{
+
+.progress .info span{
   font-size: 12px;
   color: var(--whiteA1);
   display: flex;
@@ -140,11 +141,12 @@
 
 .progress .bar{
   display: block;
-  width: calc(100% - 10px);
+  width: 100%;
   height: 5px;
   background-color: var(--black30);
   border-radius: 4px;
 }
+
 .progress .bar .value{
   display: block;
   height: 100%;
@@ -156,7 +158,7 @@
 .right{
   display: flex;
   width: 16px;
-  border-bottom: 1px solid var(--black30);
+  border-bottom: 1px solid #333;
 }
 .close{
   font-size: 22px;

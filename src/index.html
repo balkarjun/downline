@@ -71,11 +71,10 @@
               <span class="info">
                 <span v-if="isStarting(item)">Starting Download</span>
                 <span v-else-if="isQueued(item)">Queued</span>
-                <span v-else-if="isPaused(item) || isDownloading(item)">
-                  {{ item.progress.value }}% of {{ item.progress.size }}
-                  <span v-if="isDownloading(item)"> 
-                    &centerdot; {{ item.progress.speed }} | {{ item.progress.eta }}
-                  </span>
+                <span v-else-if="isPaused(item)">{{ item.progress.value }}% of {{ item.progress.size }}</span>
+                <span v-else-if="isDownloading(item)">
+                  <span>{{ item.progress.value }}% of {{ item.progress.size }} &centerdot; {{ item.progress.speed }}</span>
+                  <span>{{ item.progress.eta }}</span>
                 </span>
                 <span v-else>Download Complete</span>
               </span>
