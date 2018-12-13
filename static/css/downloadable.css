@@ -11,12 +11,12 @@
 /* ----- Left ----- */
 .left img{
   height: 100%;
-  width: 120px;
+  width: 130px;
   object-fit: cover;
-  filter: grayscale(0.3);
+  user-select: none;
 }
 
-.left span{
+.left .duration{
   color: white;
   background-color: var(--black2F);
   position: absolute;
@@ -25,6 +25,38 @@
   padding: 0 3px;
   border-bottom-right-radius: 4px;
   user-select: none;
+  z-index: 1;
+}
+.left .fas{
+  position: absolute;
+  color: rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0.1);
+  font-size: 38px;
+  top: 0;
+  height: 80px;
+  width: 130px;
+  text-align: center;
+  line-height: 80px;
+}
+
+.downloadable:hover .left .fas{
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.left .fa-pause-circle{
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.left .fa-check{
+  cursor: default;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.downloadable:hover .left .fa-check{
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* ----- Middle ----- */
@@ -35,6 +67,7 @@
   justify-content: space-between;
   border-bottom: 1px solid var(--black30);
 }
+
 .middle h1{
   margin: 0;
   color: white;
@@ -43,6 +76,7 @@
   font-size: 15.5px;
   max-height: 70%;
   overflow-y: scroll;
+  user-select: none;
 }
 .middle h1::-webkit-scrollbar{
   display: none;
@@ -106,7 +140,7 @@
 
 .progress .bar{
   display: block;
-  width: 100%;
+  width: calc(100% - 10px);
   height: 5px;
   background-color: var(--black30);
   border-radius: 4px;
@@ -114,7 +148,6 @@
 .progress .bar .value{
   display: block;
   height: 100%;
-  width: 60%;
   border-radius: 4px;
   background-color: var(--blue15);
 }
@@ -122,8 +155,7 @@
 /* ----- Right ----- */
 .right{
   display: flex;
-  flex-direction: column;
-  width: 70px;
+  width: 16px;
   border-bottom: 1px solid var(--black30);
 }
 .close{
@@ -131,9 +163,8 @@
   font-weight: 500;
   color: var(--white8A);
   opacity: 0;
-  width: 20px;
+  width: 16px;
   height: 20px;
-  margin-left: calc(70px - 20px);
   text-align: center;
   line-height: 100%;
   user-select: none;
@@ -144,26 +175,4 @@
 }
 .close:hover{
   color: white;
-}
-
-.right .fas{
-  font-size: 24px;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  padding-top: 5px;
-  color: var(--whiteA1);
-}
-.right .fas:hover{
-  color: white;
-}
-.right .fas:active{
-  color: var(--whiteA1);
-}
-
-.right .fa-check{
-  cursor: default;
-}
-.right .fa-check:hover{
-  color: var(--whiteA1);
 }
