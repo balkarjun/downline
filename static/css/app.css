@@ -4,6 +4,7 @@
   --titlebar: #1d1d1d;
   --background: #2f2f2f;
   --highlight: rgba(120, 120, 120, 0.5);
+  --scrollbar: #666666;  
 
   --black-dark: #222222;
   --black-hover: #2a2a2a;
@@ -42,15 +43,10 @@ button{
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-dark); 
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gray-light); 
+  background: var(--scrollbar); 
 }
 
 /* ----- Icons ----- */
-
 .fas{
   cursor: pointer;
 }

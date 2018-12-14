@@ -109,7 +109,10 @@
               <span class="info">
                 <span v-if="isStarting(item)">Starting Download</span>
                 <span v-else-if="isQueued(item)">Queued</span>
-                <span v-else-if="isPaused(item)">{{ item.progress.value }}% of {{ item.progress.size }}</span>
+                <span v-else-if="isPaused(item)">
+                  <span>{{ item.progress.value }}% of {{ item.progress.size }}</span>
+                  <span>Paused</span>
+                </span>
                 <span v-else-if="isDownloading(item)">
                   <span>{{ item.progress.value }}% of {{ item.progress.size }} &centerdot; {{ item.progress.speed }}</span>
                   <span>{{ item.progress.eta }}</span>
@@ -126,6 +129,9 @@
           <section class="right">
             <span class="close" @click="clear(item.url)">&times;</span>
           </section>
+        </div>
+        <div id="empty-message" v-if="!existsItems">
+          Type or paste a link above or press the <span>&plus;</span> button to grab link from clipboard
         </div>
       </section>
 

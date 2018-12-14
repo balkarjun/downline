@@ -24,6 +24,7 @@
 }
 #inputbar input::placeholder{
   color: var(--gray-light);
+  user-select: none;
 }
 
 #inputbar span{
@@ -104,6 +105,17 @@
   height: calc(100vh - 115px);
   background-color: var(--background);
   overflow-y: scroll;
+}
+
+#empty-message{
+  margin: 0 20px;
+  color: var(--gray-dark);
+  user-select: none;
+}
+#empty-message span{
+  position: relative;
+  font-size: 24px;
+  top: 2px;
 }
 
 /* ----- Bottom -----*/
