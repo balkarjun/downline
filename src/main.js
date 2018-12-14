@@ -14,8 +14,8 @@ if(process.env.NODE_ENV === 'DEV'){
 
 app.on('ready', () => {
   win = new BrowserWindow({
-    width: 480,
-    height: 625,
+    width: 470,
+    height: 620,
     minWidth: 420,
     minHeight: 500,
     frame: false,

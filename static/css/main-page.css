@@ -1,5 +1,5 @@
 #main-page{
-  background-color: var(--black2F);
+  background-color: var(--background);
 }
 
 /* ----- Top ----- */
@@ -18,16 +18,16 @@
   padding: 5px;
   border: none;
   color:  white;
-  background-color: var(--black2F);
+  background-color: var(--background);
   outline: none;
   flex-grow: 1;
 }
 #inputbar input::placeholder{
-  color: var(--whiteA1);
+  color: var(--gray-light);
 }
 
 #inputbar span{
-  color: var(--whiteA1);
+  color: var(--gray-light);
   font-size: 32px;
   width: 35px;
   line-height: 35px;
@@ -37,17 +37,17 @@
 }
 #inputbar span:hover{
   color: white;
-  background-color: var(--black30);
+  background-color: var(--black-light);
 }
 #inputbar span:active{
-  background-color: var(--black2F);
+  background-color: var(--background);
 }
 
 /* Global Options */
 #global-options{
   height: 25px;
   padding-left: 5px;
-  background-color: var(--black16);
+  background-color: var(--black-dark);
   display: flex;
   user-select: none;
   justify-content: space-between;
@@ -58,12 +58,16 @@
 }
 
 #global-options .fas{
-  color: var(--black30);
+  color: var(--black-light);
   align-self: center;
 }
 
 #global-options .fas:hover{
-  color: var(--white8A);
+  color: var(--gray-dark);
+}
+
+#global-options .fas:active{
+  color: var(--black-light);
 }
 
 #global-options .selected{
@@ -85,32 +89,32 @@
 #global-options button{
   height: 25px;
   padding: 0 8px;
-  background-color: var(--blue12);
+  background-color: var(--blue-dark);
   color: white;
 }
 #global-options button:hover{
-  background-color: var(--blue15);
+  background-color: var(--blue-light);
 }
 #global-options button:active{
-  background-color: var(--blue12);
+  background-color: var(--blue-dark);
 }
 
 /* ----- Center ----- */
 #center{
   height: calc(100vh - 115px);
-  background-color: var(--black2F);
+  background-color: var(--background);
   overflow-y: scroll;
 }
 
 /* ----- Bottom -----*/
 #bottom{
   height: 25px;
-  background-color: var(--black16);
+  background-color: var(--black-dark);
   display: flex;
 }
 
 #message{
-  color: var(--whiteA1);
+  color: var(--gray-light);
   font-size: 15px;
   user-select: none;
   padding-left: 5px;
@@ -122,8 +126,8 @@
 .spinner {
   width: 12px;
   height: 12px;
-  border-top-color: var(--whiteA1);
-  border-left-color: var(--whiteA1);
+  border-top-color: var(--gray-light);
+  border-left-color: var(--gray-light);
 
   margin: 0 4px;
   animation: spinner 600ms linear infinite;
@@ -151,23 +155,23 @@
 }
 
 #clear-many-btn{
-  background-color: var(--redF6);
+  background-color: var(--red-dark);
   min-width: 100px;
 }
 #clear-many-btn:hover{
-  background-color: var(--redFD);
+  background-color: var(--red-light);
 }
 #clear-many-btn:active{
-  background-color: var(--redF6);
+  background-color: var(--red-dark);
 }
 
 #clear-completed-btn{
-  background-color: var(--black30);
+  background-color: var(--black-light);
   width: 170px;
 }
 #clear-completed-btn:hover{
-  background-color: var(--black4F);
+  background-color: var(--highlight);
 }
 #clear-completed-btn:active{
-  background-color: var(--black30);
+  background-color: var(--black-light);
 }

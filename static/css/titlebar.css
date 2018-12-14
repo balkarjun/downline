@@ -1,6 +1,6 @@
 #titlebar{
   height: 30px;
-  background-color: var(--black16);
+  background-color: var(--titlebar);
   display: flex;
   user-select: none;
   text-align: center;
@@ -9,7 +9,7 @@
 }
 
 #titlebar .fas{
-  color: var(--whiteA1);
+  color: var(--gray-light);
   font-size: 17px;
   width: 40px;
   line-height: 30px;
@@ -22,17 +22,17 @@
 #titlebar h1{
   color: white;
   width: 100%;
-  padding-left: 40px;
-  font-size: 17px;
+  padding-left: 55px;
+  font-size: 16px;
   line-height: 30px;
   font-weight: 500;
   align-self: center;
 }
 
 #minimize-btn, #close-btn{
-  color: var(--white8A);
-  font-size: 26px;
-  width: 40px;
+  color: var(--gray-dark);
+  font-size: 24px;
+  width: 50px;
   line-height: 30px;
   cursor: pointer;
   -webkit-app-region: no-drag;
@@ -40,9 +40,9 @@
 
 #minimize-btn:hover{
   color: white;
-  background-color: var(--black30);
+  background-color: var(--black-light);
 }
 #close-btn:hover{
   color: white;
-  background-color: var(--redF6);
+  background-color: var(--red-dark);
 }
