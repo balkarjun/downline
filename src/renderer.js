@@ -169,13 +169,12 @@ new Vue({
         // Load link if url field is not empty
         this.loadingItems++;
 
-        const callbacks = {
+        ytdl.fetchInfo({
+          urls: [this.newURL], 
           onSuccess: info => this.addItem(info),
           onError: err => console.log(err),
           onExit: () => this.loadingItems--
-        };
-
-        ytdl.fetchInfo([this.newURL], callbacks);
+        });
 
         this.newURL = '';
       } else {
@@ -196,21 +195,11 @@ new Vue({
       if(this.ongoingDownloads < this.maxSimultaneous){
         this.downloadables[index].state = 'downloading';
 
-        // Choose between audio and video
-        const quality = item.isAudioChosen
-          ? item.formats.audio[item.formats.audioIndex]
-          : item.formats.video[item.formats.videoIndex]
+        this.ongoingDownloads++;
 
-        const options = {
-          url: url,
-          quality: quality,
-          isAudioChosen: item.isAudioChosen,
-          isSubsChosen: item.isSubsChosen,
-          subtitles: item.subtitles,
-          outputFormat: `${this.downloadLocation}/%(title)s.%(ext)s`
-        }
-
-        const callbacks = {
+        ytdl.download({
+          item: item,
+          outputFormat: `${this.downloadLocation}/%(title)s.%(ext)s`,
           onStart: () => console.log('Download Started'),
           onDownload: (url, progress) => {
             if (progress != null) {
@@ -220,21 +209,16 @@ new Vue({
           },
           onComplete: (url) => {
             const index = this.downloadables.findIndex(x => x.url === url);
-
-            // If process ends while downloading, download is complete
-            // Prevents triggering of completion if process was stopped 
-            // due to pausing the download
+            
+            // If process was exit after downloading and not after pausing
             if (this.downloadables[index].state === 'downloading') {
               this.downloadables[index].state = 'completed';
+              
               this.ongoingDownloads--;
-
               this.downloadFromQueue();
             }
           }
-        }
-
-        this.ongoingDownloads++;
-        ytdl.download(options, callbacks);
+        });
       } else {
         this.downloadables[index].state = 'queued';
         this.downloadQueue.push(url);

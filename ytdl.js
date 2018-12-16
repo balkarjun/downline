@@ -14,15 +14,15 @@ class YTDL{
   }
 
   /* Fetches information for a list of URLs */
-  fetchInfo(urls, callbacks){
+  fetchInfo({ urls, onSuccess, onError, onExit }){
     const args = ['--all-subs', '--dump-json', '--no-playlist', ...urls];
     const child = spawn(this.ytdlPath, args);
 
-    child.stdout.on('data', data => callbacks.onSuccess(this._getMetadata(data.toString())));
+    child.stdout.on('data', data => onSuccess(this._getMetadata(data.toString())));
 
-    child.stderr.on('data', error => callbacks.onError(error.toString()));
+    child.stderr.on('data', error => onError(error.toString()));
 
-    child.on('exit', callbacks.onExit);
+    child.on('exit', onExit);
   }
 
   /* Returns metadata for a url when given JSON dump */
@@ -91,38 +91,42 @@ class YTDL{
     return metadata;
   }
 
-  /* Downloads a URL with given options */
-  download(options, callbacks){
-    const { url, quality, isAudioChosen, isSubsChosen, subtitles, outputFormat } = options;
+  /* Downloads an item */
+  download({ item, outputFormat, onStart, onDownload, onComplete}){
 
-    const format = isAudioChosen 
-      ? `bestaudio[abr<=${quality}]` 
-      : `bestvideo[height<=${quality}]+bestaudio/best[height<=${quality}]`;
+    let format;
+    if(item.isAudioChosen){
+      const quality = item.formats.audio[item.formats.audioIndex];
+      format = `bestaudio[abr<=${quality}]`;
+    } else {
+      const quality = item.formats.video[item.formats.videoIndex];
+      format = `bestvideo[height<=${quality}]+bestaudio/best[height<=${quality}]`;
+    }
     
     let args;
-    if(isSubsChosen && subtitles.length !== 0){
+    if(item.isSubsChosen && item.subtitles.length !== 0){
       // Download and embed subtitles
-      args = ['--ffmpeg-location', this.ffmpegPath, '--all-subs', '--embed-subs', '-f', format, '-o', outputFormat, url];
+      args = ['--ffmpeg-location', this.ffmpegPath, '--all-subs', '--embed-subs', '-f', format, '-o', outputFormat, item.url];
     } else {
-      args = ['--ffmpeg-location', this.ffmpegPath, '-f', format, '-o', outputFormat, url];
+      args = ['--ffmpeg-location', this.ffmpegPath, '-f', format, '-o', outputFormat, item.url];
     }
 
     const child = spawn(this.ytdlPath, args);
-    callbacks.onStart();
+    onStart();
 
-    this.ongoing.push({ url: url, pid: child.pid });
+    this.ongoing.push({ url: item.url, pid: child.pid });
 
     // Send download progress info
-    child.stdout.on('data', data => callbacks.onDownload(url, this._extractProgress(data.toString())));
+    child.stdout.on('data', data => onDownload(item.url, this._extractProgress(data.toString())));
     // Log errors
     child.stderr.on('data', data => console.error(data.toString()));
     
     child.on('close', () => {
       // Remove completed download from ongoing list
-      const indexOfCompleted = this.ongoing.findIndex(x => x.url === url);
+      const indexOfCompleted = this.ongoing.findIndex(x => x.url === item.url);
       this.ongoing.splice(indexOfCompleted, 1);
 
-      callbacks.onComplete(url);
+      onComplete(item.url);
     });
   }
 
@@ -135,12 +139,11 @@ class YTDL{
       : null;
   }
 
-  /* Pauses download of given URL */
+  /* Pauses download of given URL by killing child process */
   pause(url){
     const index = this.ongoing.findIndex(x => x.url == url);
     
     if(index !== -1){
-      // Kill child process
       process.kill(this.ongoing[index].pid);
     }
   }

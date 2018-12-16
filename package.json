@@ -34,9 +34,7 @@
       "allowToChangeInstallationDirectory": true
     },
     "files": [
-      "**/*",
-      "./static/**",
-      "./src/**"
+      "**/*"
     ],
     "extraFiles": [
       "./resources/**"
