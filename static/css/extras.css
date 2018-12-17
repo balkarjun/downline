@@ -46,6 +46,12 @@
   user-select: none;
 }
 
+#settings label small{
+  color: var(--gray-light);
+  font-size: 14px;
+  font-weight: 400;
+}
+
 /* Download Location */
 #download-location{
   display: flex;

@@ -1,16 +1,17 @@
 const { clipboard, remote, shell } = require('electron');
+const { dialog, app } = remote;
+const path = require('path');
 
 let YTDL, Store;
 if(process.env.NODE_ENV === 'DEV'){
-  YTDL = require('/home/arjunb/Desktop/Downline/ytdl.js');
-  Store = require('/home/arjunb/Desktop/Downline/store.js');
+  YTDL = require(path.join(process.cwd(), 'ytdl.js'));
+  Store = require(path.join(process.cwd(), 'store.js'));
 } else {
   YTDL = require('../ytdl.js');
   Store = require('../store.js');
 }
 
 const ytdl = new YTDL();
-const { dialog, app } = remote;
 
 const store = new Store('downline', {
   downloadables: [],
@@ -33,41 +34,31 @@ new Vue({
     activeTab: 'settings'
   },
   computed: {
-    anyToBeDownloaded(){
-      // Returns true if any items chosen are to be downloaded
-      return this.downloadables
-        .filter(x => x.isChosen || !this.anyChosen)
-        .some(x => x.state === 'stopped' && x.progress.value == 0);
+    modifiableItems(){ // Returns selected items if any, otherwise all items, that are not yet complete
+      return this.downloadables.filter(x => (x.isChosen || !this.anyChosen) && x.state !== 'completed');
     },
-    anyCompleted(){
-      // Returns true if any items chosen are completed
-      return this.downloadables
-        .filter(x => x.isChosen || !this.anyChosen)
-        .some(x => x.state === 'completed');
+    anyToBeDownloaded(){ // Returns true if any modifiable items are to be downloaded
+      return this.modifiableItems.some(x => x.state === 'stopped' && x.progress.value == 0);
     },
-    anySubbed(){
-      // Returns true if any selected item has subtitles
-      return this.downloadables
-        .filter(x => x.isChosen || !this.anyChosen)
-        .some(x => x.subtitles.length !== 0);
+    anySubbed(){ // Returns true if any modifiable items have subtitles
+      return this.modifiableItems.some(x => x.subtitles.length !== 0);
     },
-    areChosenDownloading(){
-      // True if all chosen items are downloading
-      return this.downloadables
-        .filter(x => (x.isChosen || !this.anyChosen) && x.state !== 'completed')
-        .every(x => x.state === 'downloading' || x.state === 'queued');
+    areChosenDownloading(){ // True if all modifiable items are downloading or queued
+      return this.modifiableItems.every(x => x.state !== 'stopped');
     },
-    anyChosen() {
-      // Returns true if any item is chosen
+    anyCompleted() { // Returns true if any modifiable items are completed
+      return this.downloadables.some(x => (x.isChosen || !this.anyChosen) && x.state === 'completed');
+    },
+    anyChosen() { // Returns true if any item is chosen
       return this.downloadables.some(x => x.isChosen);
     },
     existsItems() {
       return this.downloadables.length !== 0;
     },
     global() {
-      // Selected items if any, else all items that are yet to be downloaded
-      const selected = this.downloadables
-        .filter(x => (x.isChosen || !this.anyChosen) && x.state === 'stopped' && x.progress.value == 0);
+      // Modifiable items that are yet to be downloaded
+      const selected = this.modifiableItems
+        .filter(x => x.state === 'stopped' && x.progress.value == 0);
 
       let global = {
         isGlobal: true,
@@ -80,10 +71,9 @@ new Vue({
       }
 
       // Set audio and video to union of all audio and video formats
-      selected.map(x => x.formats)
-      .forEach(x => {
-        global.formats.video.push(...x.video);
-        global.formats.audio.push(...x.audio);
+      selected.forEach(x => {
+        global.formats.video.push(...x.formats.video);
+        global.formats.audio.push(...x.formats.audio);
       });
 
       global.formats.video = Array.from(new Set(global.formats.video));
@@ -100,10 +90,18 @@ new Vue({
     }
   },
   methods: {
-    isStarting(item) { return item.progress.value == 0 && item.state !== 'queued' },
-    isQueued(item) { return item.state === 'queued' },
-    isPaused(item) { return item.progress.value != 0 && item.state === 'stopped' },
-    isDownloading(item) { return item.progress.value != 0 && item.state === 'downloading' },
+    isStarting(item) {
+      return item.progress.value == 0 && item.state !== 'queued' 
+    },
+    isQueued(item) {
+      return item.state === 'queued' 
+    },
+    isPaused(item) {
+      return item.progress.value != 0 && item.state === 'stopped' 
+    },
+    isDownloading(item) {
+      return item.progress.value != 0 && item.state === 'downloading' 
+    },
     toggle(item) {
       item.isChosen = this.anyChosen ? !item.isChosen : false;
     },
@@ -184,9 +182,8 @@ new Vue({
     },
     addItem(info) {
       // Add downloadable to list if not already present
-      if (this.downloadables.findIndex(x => x.url === info.url) === -1) {
+      if (this.downloadables.findIndex(x => x.url === info.url) === -1)
         this.downloadables.push(info);
-      }
     },
     download(url) {
       const index = this.downloadables.findIndex(x => x.url === url);
@@ -209,7 +206,6 @@ new Vue({
           },
           onComplete: (url) => {
             const index = this.downloadables.findIndex(x => x.url === url);
-            
             // If process was exit after downloading and not after pausing
             if (this.downloadables[index].state === 'downloading') {
               this.downloadables[index].state = 'completed';
@@ -264,12 +260,10 @@ new Vue({
     },
     downloadFromQueue(){
       // If download queue is not empty, request download
-      if(this.downloadQueue.length !== 0){
+      if(this.downloadQueue.length !== 0)
         this.download(this.downloadQueue.shift());
-      }
     },
     downloadOrPauseMany(){
-      // Downloads or pauses mutliple items
       if(this.areChosenDownloading){
         // Pause all chosen
         this.downloadables.forEach(x => {
@@ -300,7 +294,6 @@ new Vue({
       store.set('downloadables', this.downloadables);
       store.set('downloadLocation', this.downloadLocation);
       store.set('maxSimultaneous', this.maxSimultaneous);
-
       // Close app
       remote.getCurrentWindow().close();
     }

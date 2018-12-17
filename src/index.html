@@ -56,7 +56,7 @@
             @click="updateChosenProp('audio')">
           </span>
           <span v-else></span>
-          <button @click="downloadOrPauseMany"> 
+          <button v-if="modifiableItems.length !== 0" @click="downloadOrPauseMany"> 
             {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}
           </button>
         </div>
@@ -161,7 +161,7 @@
         </div>
 
         <div id="max-simultaneous">
-          <label>Simultaneous Downloads (max. 5)</label>
+          <label>Simultaneous Downloads <small>max. 5</small></label>
           <div>
             <span class="fas fa-chevron-circle-left" 
               @click="maxSimultaneous = maxSimultaneous>1?--maxSimultaneous:maxSimultaneous">
