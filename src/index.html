@@ -46,11 +46,13 @@
           </div>
 
           <span class="fas" 
+            data-tooltip="Download Subtitles"
             v-if="anyToBeDownloaded" 
             :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}" 
             @click="updateChosenProp('subs')">
           </span>
           <span class="fas fa-music" 
+            data-tooltip="Audio Only" 
             v-if="anyToBeDownloaded" 
             :class="{selected: global.isAudioChosen}" 
             @click="updateChosenProp('audio')">
