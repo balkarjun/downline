@@ -98,12 +98,12 @@
               <span class="option-icon fas" 
                 :class="{'fa-closed-captioning': item.subtitles.length !== 0, selected: item.isSubsChosen}" 
                 @dblclick.stop 
-                @click.stop="item.isSubsChosen = !item.isSubsChosen">
+                @click.stop="updateIsSubsChosen(item)">
               </span>
               <span class="option-icon fas fa-music" 
                 :class="{selected: item.isAudioChosen}" 
                 @dblclick.stop 
-                @click.stop="item.isAudioChosen = !item.isAudioChosen">
+                @click.stop="updateIsAudioChosen(item)">
               </span>
             </div>
 

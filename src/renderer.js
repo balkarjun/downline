@@ -34,17 +34,20 @@ new Vue({
     activeTab: 'settings'
   },
   computed: {
-    modifiableItems(){ // Returns selected items if any, otherwise all items, that are not yet complete
+    chosenItems(){ // Returns selected items if any, otherwise all items, that are not yet complete
       return this.downloadables.filter(x => (x.isChosen || !this.anyChosen) && x.state !== 'completed');
     },
+    modifiableItems(){ // Returns items that are yet to be downloaded
+      return this.chosenItems.filter(x => x.state === 'stopped' && x.progress.value == 0);
+    },
     anyToBeDownloaded(){ // Returns true if any modifiable items are to be downloaded
-      return this.modifiableItems.some(x => x.state === 'stopped' && x.progress.value == 0);
+      return this.chosenItems.some(x => x.state === 'stopped' && x.progress.value == 0);
     },
     anySubbed(){ // Returns true if any modifiable items have subtitles
-      return this.modifiableItems.some(x => x.subtitles.length !== 0);
+      return this.chosenItems.some(x => x.subtitles.length !== 0);
     },
     areChosenDownloading(){ // True if all modifiable items are downloading or queued
-      return this.modifiableItems.every(x => x.state !== 'stopped');
+      return this.chosenItems.every(x => x.state !== 'stopped');
     },
     anyCompleted() { // Returns true if any modifiable items are completed
       return this.downloadables.some(x => (x.isChosen || !this.anyChosen) && x.state === 'completed');
@@ -56,10 +59,6 @@ new Vue({
       return this.downloadables.length !== 0;
     },
     global() {
-      // Modifiable items that are yet to be downloaded
-      const selected = this.modifiableItems
-        .filter(x => x.state === 'stopped' && x.progress.value == 0);
-
       let global = {
         isGlobal: true,
         isSubsChosen: false,
@@ -71,7 +70,7 @@ new Vue({
       }
 
       // Set audio and video to union of all audio and video formats
-      selected.forEach(x => {
+      this.modifiableItems.forEach(x => {
         global.formats.video.push(...x.formats.video);
         global.formats.audio.push(...x.formats.audio);
       });
@@ -91,22 +90,26 @@ new Vue({
   },
   methods: {
     isStarting(item) {
-      return item.progress.value == 0 && item.state !== 'queued' 
+      return item.progress.value == 0 && item.state !== 'queued';
     },
     isQueued(item) {
-      return item.state === 'queued' 
+      return item.state === 'queued';
     },
     isPaused(item) {
-      return item.progress.value != 0 && item.state === 'stopped' 
+      return item.progress.value != 0 && item.state === 'stopped';
     },
     isDownloading(item) {
-      return item.progress.value != 0 && item.state === 'downloading' 
+      return item.progress.value != 0 && item.state === 'downloading';
     },
     toggle(item) {
       item.isChosen = this.anyChosen ? !item.isChosen : false;
+      this.global.isAudioChosen = this.modifiableItems.every(x => x.isAudioChosen);
+      this.global.isSubsChosen = this.modifiableItems.every(x => x.subtitles.length === 0 || x.isSubsChosen);
     },
     choose(item) {
       item.isChosen = !item.isChosen;
+      this.global.isAudioChosen = this.modifiableItems.every(x => x.isAudioChosen);
+      this.global.isSubsChosen = this.modifiableItems.every(x => x.subtitles.length === 0 || x.isSubsChosen);
     },
     chosenQuality(item) {
       return item.isAudioChosen
@@ -156,11 +159,21 @@ new Vue({
       else this.global.isSubsChosen = !this.global.isSubsChosen;
 
       this.downloadables.forEach(x => {
-        if(x.isChosen || !this.anyChosen){
+        if ((x.isChosen || !this.anyChosen) && x.state === 'stopped' && x.progress.value == 0){
           if (prop === 'audio') x.isAudioChosen = this.global.isAudioChosen;
           else x.isSubsChosen = this.global.isSubsChosen;
         }
       });
+    },
+    updateIsAudioChosen(item){
+      item.isAudioChosen = !item.isAudioChosen;
+      // Update global if necessary
+      this.global.isAudioChosen = this.modifiableItems.every(x => x.isAudioChosen);
+    },
+    updateIsSubsChosen(item){
+      item.isSubsChosen = !item.isSubsChosen;
+      // Update global if necessary
+      this.global.isSubsChosen = this.modifiableItems.every(x => x.subtitles.length === 0 || x.isSubsChosen);
     },
     fetchInfo() {
       if (this.newURL.trim().length !== 0) {
