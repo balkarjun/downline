@@ -5,9 +5,9 @@ It is a GUI for the awesome [youtube-dl](https://rg3.github.io/youtube-dl/) comm
 
 **Download the beta version [here](https://github.com/jarbun/downline/releases)**
 
-## Demo
+## Screenshots
 <p align="center">
-<img src="https://user-images.githubusercontent.com/23068820/50214512-7b52f700-03a6-11e9-84b5-38374676ddbf.gif" alt="demo" height=600px/>
+  <img src="./extras/demo.gif" alt="screenshots" height=600px/>
 </p>
 
 ## Features
