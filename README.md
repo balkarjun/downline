@@ -7,7 +7,7 @@ It is a GUI for the awesome [youtube-dl](https://rg3.github.io/youtube-dl/) comm
 
 ## Screenshots
 <p align="center">
-  <img src="./extras/demo.gif" alt="screenshots" height=600px/>
+  <img src="./extras/demo.gif" alt="screenshots"/>
 </p>
 
 ## Features
