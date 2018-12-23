@@ -1,8 +1,9 @@
 .downloadable{
   display: flex;
-  height: 80px;
+  height: 70px;
   width: 100%;
   position: relative;
+  margin-bottom: 5px;
 }
 .downloadable.chosen{
   background-color: var(--highlight);
@@ -11,7 +12,7 @@
 /* ----- Left ----- */
 .left img{
   height: 100%;
-  width: 130px;
+  width: 135px;
   object-fit: cover;
   user-select: none;
 }
@@ -31,12 +32,12 @@
   position: absolute;
   color: rgba(255, 255, 255, 0);
   background-color: rgba(0, 0, 0, 0.1);
-  font-size: 38px;
+  font-size: 42px;
   top: 0;
-  height: 80px;
-  width: 130px;
+  height: 70px;
+  width: 135px;
   text-align: center;
-  line-height: 80px;
+  line-height: 70px;
 }
 
 .downloadable:hover .left .fas{
@@ -65,7 +66,6 @@
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
-  border-bottom: 1px solid #393939;
 }
 
 .middle h1{
@@ -161,7 +161,6 @@
 .right{
   display: flex;
   width: 16px;
-  border-bottom: 1px solid #393939;
 }
 .close{
   font-size: 22px;
