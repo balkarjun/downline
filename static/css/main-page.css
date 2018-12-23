@@ -111,11 +111,13 @@
   margin: 0 20px;
   color: var(--gray-dark);
   user-select: none;
+  text-align: center;
 }
 #empty-message span{
   position: relative;
   font-size: 24px;
   top: 2px;
+  font-weight: 500;
 }
 
 /* ----- Bottom -----*/

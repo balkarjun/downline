@@ -25,7 +25,7 @@
       <span id="close-btn" @click="close">&times;</span>
     </section>
 
-    <section id="main-page" v-show="!isExtrasOpen">
+    <section id="main-page" v-if="!isExtrasOpen">
       <section id="top">
         <div id="inputbar">
           <input type="text" spellcheck="false" placeholder="Enter URL"
@@ -147,7 +147,7 @@
       </section>
     </section>
 
-    <section id="extras" v-show="isExtrasOpen">
+    <section id="extras" v-else>
       <ul id="tabs">
         <li @click="activeTab = 'settings'" :class="{active: activeTab === 'settings'}">Settings</li>
         <li @click="activeTab = 'about'" :class="{active: activeTab === 'about'}">About</li>

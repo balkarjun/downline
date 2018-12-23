@@ -2,31 +2,27 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
-let win = null;
+let mainWindow = null;
 
-let url;
-if(process.env.NODE_ENV === 'DEV'){
-  // URL of development server
-  url = 'http://127.0.0.1:5500/src/index.html';
-} else {
-  url = path.join('file:', __dirname, 'index.html');
-}
+const url = process.env.NODE_ENV === 'DEV'
+  ? 'http://127.0.0.1:5500/src/index.html'
+  : path.join('file:', __dirname, 'index.html');
 
 app.on('ready', () => {
-  win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 470,
-    height: 620,
+    height: 600,
     minWidth: 420,
     minHeight: 500,
     frame: false,
     show: false,
     icon: path.join(__dirname, '../static/images/icon.png')
   });
-  win.loadURL(url);
+  mainWindow.loadURL(url);
 
-  win.once('ready-to-show', () => win.show());
+  mainWindow.once('ready-to-show', () => mainWindow.show());
 
-  win.on('closed', () => win = null);
+  mainWindow.on('closed', () => mainWindow = null);
 });
 
 app.on('window-all-closed', () => app.quit());

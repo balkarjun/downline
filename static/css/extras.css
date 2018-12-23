@@ -134,6 +134,10 @@
   font-weight: 500;
 }
 
+#app-name em{
+  font-weight: 400;
+}
+
 #about p{
   padding: 0;
   margin: 10px 0;

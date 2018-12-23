@@ -4,11 +4,11 @@ const path = require('path');
 
 let YTDL, Store;
 if(process.env.NODE_ENV === 'DEV'){
-  YTDL = require(path.join(process.cwd(), 'ytdl.js'));
-  Store = require(path.join(process.cwd(), 'store.js'));
+  YTDL = require(path.join(process.cwd(), 'src', 'ytdl.js'));
+  Store = require(path.join(process.cwd(), 'src', 'store.js'));
 } else {
-  YTDL = require('../ytdl.js');
-  Store = require('../store.js');
+  YTDL = require('./ytdl.js');
+  Store = require('./store.js');
 }
 
 const ytdl = new YTDL();
@@ -303,7 +303,7 @@ new Vue({
       remote.getCurrentWindow().minimize();
     },
     close() {
-      // Store data
+      // Save data
       store.set('downloadables', this.downloadables);
       store.set('downloadLocation', this.downloadLocation);
       store.set('maxSimultaneous', this.maxSimultaneous);

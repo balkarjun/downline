@@ -1,4 +1,4 @@
-/* Data Persistence */
+/* Synchronous data storage */
 const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
@@ -14,19 +14,19 @@ class Store{
     this.data = this._parseData(defaults);
   }
 
-  // Retrieve value stored in 'key'
+  // Retrieve value stored in key
   get(key){
     return this.data[key];
   }
 
-  // Store data
+  // Store key-value pair
   set(key, val){
     this.data[key] = val;
     fs.writeFileSync(this.path, JSON.stringify(this.data));
   }
-
+  
+  // If file exists, parse and return data, else return default data
   _parseData(defaults){
-    // If file exists, parse and return data, else return passed in defaults
     try{
       return JSON.parse(fs.readFileSync(this.path));
     } catch (err) {

@@ -1,12 +1,13 @@
 /* NodeJS API for youtube-dl */
 const { spawn } = require('child_process');
+const path = require('path');
 
 class YTDL{
   constructor(){
     // Path to youtube-dl binary
-    this.ytdlPath = './resources/youtube-dl/youtube-dl';
+    this.ytdlPath = path.join(process.cwd(), 'resources', 'youtube-dl', 'youtube-dl');
     // Path to directory containing ffmpeg
-    this.ffmpegPath = './resources/ffmpeg/';
+    this.ffmpegPath = path.join(process.cwd(), 'resources', 'ffmpeg');
     // Regex to extract download progress info from ytdl output
     this.progressRegex = /\[download\]\D+(\d+\.\d+)\D+(\d+\.\d+\w+)\D+(\d+\.\d+\w+\/s)\D+((?:\d+:?)+)/;
     // Stores data of ongoing downloads
@@ -121,8 +122,8 @@ class YTDL{
     // Log errors
     child.stderr.on('data', data => console.error(data.toString()));
     
+    // Remove completed download from ongoing list
     child.on('close', () => {
-      // Remove completed download from ongoing list
       const indexOfCompleted = this.ongoing.findIndex(x => x.url === item.url);
       this.ongoing.splice(indexOfCompleted, 1);
 
@@ -130,7 +131,7 @@ class YTDL{
     });
   }
 
-  /* Returns progress data when given console output */
+  /* Parses console output and returns progress info */
   _extractProgress(data){
     const match = this.progressRegex.exec(data);
 
@@ -139,7 +140,7 @@ class YTDL{
       : null;
   }
 
-  /* Pauses download of given URL by killing child process */
+  /* Pauses download of given URL by killing its child process */
   pause(url){
     const index = this.ongoing.findIndex(x => x.url == url);
     
@@ -154,7 +155,6 @@ class YTDL{
     duration.setSeconds(seconds);
     // Extract string containing hh:mm:ss
     duration = duration.toISOString().substr(11, 8);
-
     // Remove unwanted zeros and return
     return duration.substr(duration.search(/[1-9]/));
   }
