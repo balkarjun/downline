@@ -185,6 +185,6 @@ a:hover{
   text-decoration: underline;
 }
 
-.hide{
+#images img.hide{
   display: none;
 }
