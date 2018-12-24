@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="Description" content="A free and open source software for downloading video and audio from YouTube, Vimeo, Dailymotion, SoundCloud and many other sites">
   <title>Downline</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
 </head>
 <body>
   <a id="view-source" target="#" href="https://github.com/jarbun/downline">
-    <img src="assets/icons/github-mark.png">
+    <img src="assets/icons/github-mark.png" alt="github mark">
     <span>View Source</span>
   </a>
   <h1>Downline</h1>
@@ -32,11 +33,9 @@
       Linux Portable <small>52.1MB</small>
     </a>
   </div>
-  
-  <p id="supported-os">Downline works on Windows and Linux</p>
 
   <div id="images">
-    <img src="assets/9.png">
+    <img src="assets/9.png" alt="screenshot">
   </div>
 
   <h2>Features</h2>
@@ -53,6 +52,18 @@
     Created and maintained by Arjun B <a target="#" href="https://github.com/jarbun">(@jarbun)</a>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const image = document.querySelector('#images img');
+
+    let index = 0;
+    function updateImage() {
+      image.setAttribute('src', 'assets/' + (index + 1) + '.png');
+      // Modulus by the number of images
+      index = (index + 1) % 11;
+    }
+
+    updateImage();
+    setInterval(updateImage, 1500);
+  </script>
 </body>
 </html>

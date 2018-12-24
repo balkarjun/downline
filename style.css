@@ -10,6 +10,8 @@
 body{
   font-family: 'Open Sans', sans-serif;
   font-size: 19px;
+  font-weight: 400;
+  font-display: swap;
   width: 90%;
   margin: 0 auto;
   color: #101010;
@@ -72,7 +74,7 @@ p{
   font-size: 15px;
   line-height: 100%;
   padding: 10px 10px 7px 10px;
-  margin: 5px;
+  margin: 10px 10px 20px 10px;
   display: inline-block;
   width: 210px;
   text-transform: uppercase;
@@ -136,7 +138,7 @@ li a{
 }
 
 #latest-version{
-  padding: 20px 0;
+  padding-top: 20px;
   display: block;
   font-size: 21px;
 }
@@ -181,13 +183,6 @@ a{
 
 a:hover{
   text-decoration: underline;
-}
-
-#supported-os{
-  margin: 5px 0 10px 0;
-  font-size: 16px;
-  color: #777;
-  font-weight: 600;
 }
 
 .hide{
