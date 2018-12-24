@@ -1,26 +1,10 @@
 :root{
   --active-color: #1976D2;
   --focus-color: #1E88E5;
-	--red: #FF4136;
-	--blue: #1976D2;
-	--green: #2ECC40;
-	--yellow: #FFDC00;
-	--orange: #FF851B;
-	--purple: #B10DC9;
-	--light-black: rgba(0, 0, 0, 0.87);
-	--light-gray: rgba(0, 0, 0, 0.06);
-	--gray: rgba(0, 0, 0, 0.12);
-	--dark-gray: rgba(0, 0, 0, 0.24);
-	--elev-one:	0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
-	--elev-two: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.20);
-	--elev-three: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.20);
-	--elev-four: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.20);
-	--elev-six: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.20);
-	--elev-eight: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
-	--elev-nine: 0 9px 12px 1px rgba(0,0,0,0.14), 0 3px 16px 2px rgba(0,0,0,0.12), 0 5px 6px -3px rgba(0,0,0,0.20);
-	--elev-twelve: 0 12px 17px 2px rgba(0,0,0,0.14), 0 5px 22px 4px rgba(0,0,0,0.12), 0 7px 8px -4px rgba(0,0,0,0.20);
-	--elev-sixteen: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.20);
-	--elev-twentyfour: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.20);
+
+  --elev-two: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.20);
+  --elev-three: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.20);
+  --elev-six: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.20);
 }
 
 body{
@@ -34,7 +18,7 @@ body{
 h1{
   text-align: center;
   font-size: 56px;
-  margin: 20px 0 8px 0;
+  margin: 0 0 8px 0;
 }
 
 h2{
@@ -47,10 +31,10 @@ p{
 }
 
 #view-source{
-  position: absolute;
   display: flex;
+  width: 150px;
   color: inherit;
-  margin-top: 10px;
+  margin-top: 5px;
   justify-content: space-between;
   border-radius: 4px;
   text-decoration: none;
@@ -66,6 +50,7 @@ p{
   line-height: 42px;
   padding: 0 10px;
   border-radius: 0 4px 4px 0;
+  color: #777;
 }
 
 #view-source:hover{
@@ -87,7 +72,6 @@ p{
   font-size: 15px;
   line-height: 100%;
   padding: 10px 10px 7px 10px;
-  /* padding: 12px ; */
   margin: 5px;
   display: inline-block;
   width: 210px;
@@ -136,19 +120,18 @@ h2{
 }
 
 ul{
-  width: 60%;
+  display: table;
   margin: 0 auto;
-  -moz-column-count: 2;
-  -moz-column-gap: 40px;
-  -webkit-column-count: 2;
-  -webkit-column-gap: 40px;
-  column-count: 2;
-  column-gap: 40px;
 }
 
 li{
   padding: 5px;
   font-size: 20px;
+}
+
+li a{
+  color: #333;
+  padding: 0;
 }
 
 #latest-version{
