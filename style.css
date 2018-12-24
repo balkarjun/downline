@@ -131,6 +131,7 @@ li{
 
 li a{
   color: #333;
+  text-decoration: underline;
   padding: 0;
 }
 
