@@ -35,7 +35,17 @@
   </div>
 
   <div id="images">
-    <img src="assets/9.png" alt="screenshot">
+    <img src="assets/1.png" alt="screenshot">
+    <img src="assets/2.png" alt="screenshot" class="hide">
+    <img src="assets/3.png" alt="screenshot" class="hide">
+    <img src="assets/4.png" alt="screenshot" class="hide">
+    <img src="assets/5.png" alt="screenshot" class="hide">
+    <img src="assets/6.png" alt="screenshot" class="hide">
+    <img src="assets/7.png" alt="screenshot" class="hide">
+    <img src="assets/8.png" alt="screenshot" class="hide">
+    <img src="assets/9.png" alt="screenshot" class="hide">
+    <img src="assets/10.png" alt="screenshot" class="hide">
+    <img src="assets/11.png" alt="screenshot" class="hide">
   </div>
 
   <h2>Features</h2>
@@ -53,17 +63,15 @@
   </div>
 
   <script>
-    const image = document.querySelector('#images img');
+    const images = document.querySelectorAll('#images img');
 
+    // Unhide images one-by-one
     let index = 0;
-    function updateImage() {
-      image.setAttribute('src', 'assets/' + (index + 1) + '.png');
-      // Modulus by the number of images
-      index = (index + 1) % 11;
-    }
-
-    updateImage();
-    setInterval(updateImage, 1500);
+    setInterval(function() {
+      images[index].classList.add('hide');
+      index = (index + 1) % images.length;
+      images[index].classList.remove('hide');
+    }, 1500);
   </script>
 </body>
 </html>
