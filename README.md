@@ -3,11 +3,11 @@
 
 It is a GUI for the awesome [youtube-dl](https://rg3.github.io/youtube-dl/) command-line media downloader and is built using ElectronJS and VueJS.
 
-**Download the beta version [here](https://github.com/jarbun/downline/releases)**
+**Download the latest version [here](https://github.com/jarbun/downline/releases/latest)**
 
 ## Screenshots
 <p align="center">
-  <img src="./extras/demo.gif" alt="screenshots"/>
+  <img src="https://user-images.githubusercontent.com/23068820/50515866-42650180-0acd-11e9-9e8f-02b0292929a5.png" alt="screenshot" width="540"/>
 </p>
 
 ## Features
