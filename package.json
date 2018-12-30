@@ -9,7 +9,8 @@
     "start": "electron .",
     "dev": "NODE_ENV=DEV electron .",
     "build:win": "build --win",
-    "build:linux": "build --linux"
+    "build:linux": "build --linux",
+    "build:mac": "build --mac"
   },
   "author": "Arjun B <https://github.com/jarbun>",
   "license": "MIT",
@@ -19,6 +20,12 @@
   },
   "build": {
     "appId": "com.jarbun.downline",
+    "mac": {
+      "target": [
+        "dir"
+      ],
+      "icon": "build/256x256.icns"
+    },
     "linux": {
       "target": [
         "AppImage"

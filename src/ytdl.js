@@ -5,9 +5,13 @@ const path = require('path');
 class YTDL{
   constructor(){
     // Path to youtube-dl binary
-    this.ytdlPath = path.join(process.cwd(), 'resources', 'youtube-dl', 'youtube-dl');
+    this.ytdlPath = process.platform === 'darwin'
+    ? path.join(__dirname, '../../', 'youtube-dl', 'youtube-dl')
+    : path.join(process.cwd(), 'resources', 'youtube-dl', 'youtube-dl');
     // Path to directory containing ffmpeg
-    this.ffmpegPath = path.join(process.cwd(), 'resources', 'ffmpeg');
+    this.ffmpegPath = process.platform === 'darwin'
+      ? path.join(__dirname, '../../', 'ffmpeg')
+      : path.join(process.cwd(), 'resources', 'ffmpeg');
     // Regex to extract download progress info from ytdl output
     this.progressRegex = /\[download\]\D+(\d+\.\d+)\D+(\d+\.\d+\w+)\D+(\d+\.\d+\w+\/s)\D+((?:\d+:?)+)/;
     // Stores data of ongoing downloads
