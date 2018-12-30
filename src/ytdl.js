@@ -151,12 +151,15 @@ class YTDL{
 
   /* Converts seconds to hh:mm:ss format */
   _formatDuration(seconds){
-    let duration = new Date(null);
-    duration.setSeconds(seconds);
-    // Extract string containing hh:mm:ss
-    duration = duration.toISOString().substr(11, 8);
-    // Remove unwanted zeros and return
-    return duration.substr(duration.search(/[1-9]/));
+    if(seconds){
+      let duration = new Date(null);
+      duration.setSeconds(seconds);
+      // Extract string containing hh:mm:ss
+      duration = duration.toISOString().substr(11, 8);
+      // Remove unwanted zeros and return
+      return duration.substr(duration.search(/[1-9]/));
+    }
+    return 'N/A';
   }
 }
 
