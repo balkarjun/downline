@@ -3,7 +3,7 @@ const { dialog, app } = remote;
 const path = require('path');
 
 let YTDL, Store;
-if(process.env.NODE_ENV === 'DEV'){
+if (process.env.NODE_ENV === 'DEV') {
   YTDL = require(path.join(process.cwd(), 'src', 'ytdl.js'));
   Store = require(path.join(process.cwd(), 'src', 'store.js'));
 } else {
@@ -34,19 +34,19 @@ new Vue({
     activeTab: 'settings'
   },
   computed: {
-    chosenItems(){ // Returns selected items if any, otherwise all items, that are not yet complete
+    chosenItems() { // Returns selected items if any, otherwise all items, that are not yet complete
       return this.downloadables.filter(x => (x.isChosen || !this.anyChosen) && x.state !== 'completed');
     },
-    modifiableItems(){ // Returns items that are yet to be downloaded
+    modifiableItems() { // Returns items that are yet to be downloaded
       return this.chosenItems.filter(x => x.state === 'stopped' && x.progress.value == 0);
     },
-    anyToBeDownloaded(){ // Returns true if any modifiable items are to be downloaded
+    anyToBeDownloaded() { // Returns true if any modifiable items are to be downloaded
       return this.chosenItems.some(x => x.state === 'stopped' && x.progress.value == 0);
     },
-    anySubbed(){ // Returns true if any modifiable items have subtitles
+    anySubbed() { // Returns true if any modifiable items have subtitles
       return this.chosenItems.some(x => x.subtitles.length !== 0);
     },
-    areChosenDownloading(){ // True if all modifiable items are downloading or queued
+    areChosenDownloading() { // True if all modifiable items are downloading or queued
       return this.chosenItems.every(x => x.state !== 'stopped');
     },
     anyCompleted() { // Returns true if any modifiable items are completed
@@ -67,7 +67,7 @@ new Vue({
           video: [], audio: [],
           videoIndex: 0, audioIndex: 0
         }
-      }
+      };
 
       // Set audio and video to union of all audio and video formats
       this.modifiableItems.forEach(x => {
@@ -81,7 +81,7 @@ new Vue({
       // Sort in ascending order
       global.formats.video.sort((a, b) => a - b);
       global.formats.audio.sort((a, b) => a - b);
-      
+
       global.formats.videoIndex = global.formats.video.length - 1;
       global.formats.audioIndex = global.formats.audio.length - 1;
 
@@ -114,7 +114,7 @@ new Vue({
     chosenQuality(item) {
       return item.isAudioChosen
         ? item.formats.audio[item.formats.audioIndex]
-        : item.formats.video[item.formats.videoIndex]
+        : item.formats.video[item.formats.videoIndex];
     },
     increment(item) {
       if (item.isAudioChosen && item.formats.audioIndex < item.formats.audio.length - 1) {
@@ -134,18 +134,18 @@ new Vue({
 
       this.updateChosenQuality(item);
     },
-    updateChosenQuality(item){
+    updateChosenQuality(item) {
       // If global audio/video were modified, update audio/video of selected items
-      if(item.isGlobal){
+      if (item.isGlobal) {
         const newQuality = this.chosenQuality(this.global);
 
         this.downloadables.forEach(x => {
-          if(x.isChosen || !this.anyChosen){
+          if (x.isChosen || !this.anyChosen) {
             const index = item.isAudioChosen
               ? x.formats.audio.indexOf(newQuality)
-              : x.formats.video.indexOf(newQuality)
-            
-            if(index !== -1){
+              : x.formats.video.indexOf(newQuality);
+
+            if (index !== -1) {
               if (item.isAudioChosen) x.formats.audioIndex = index;
               else x.formats.videoIndex = index;
             }
@@ -154,23 +154,23 @@ new Vue({
       }
       this.$forceUpdate();
     },
-    updateChosenProp(prop){
+    updateChosenProp(prop) {
       if (prop === 'audio') this.global.isAudioChosen = !this.global.isAudioChosen;
       else this.global.isSubsChosen = !this.global.isSubsChosen;
 
       this.downloadables.forEach(x => {
-        if ((x.isChosen || !this.anyChosen) && x.state === 'stopped' && x.progress.value == 0){
+        if ((x.isChosen || !this.anyChosen) && x.state === 'stopped' && x.progress.value == 0) {
           if (prop === 'audio') x.isAudioChosen = this.global.isAudioChosen;
           else x.isSubsChosen = this.global.isSubsChosen;
         }
       });
     },
-    updateIsAudioChosen(item){
+    updateIsAudioChosen(item) {
       item.isAudioChosen = !item.isAudioChosen;
       // Update global if necessary
       this.global.isAudioChosen = this.modifiableItems.every(x => x.isAudioChosen);
     },
-    updateIsSubsChosen(item){
+    updateIsSubsChosen(item) {
       item.isSubsChosen = !item.isSubsChosen;
       // Update global if necessary
       this.global.isSubsChosen = this.modifiableItems.every(x => x.subtitles.length === 0 || x.isSubsChosen);
@@ -181,7 +181,7 @@ new Vue({
         this.loadingItems++;
 
         ytdl.fetchInfo({
-          urls: [this.newURL], 
+          urls: [this.newURL],
           onSuccess: info => this.addItem(info),
           onError: err => console.log(err),
           onExit: () => this.loadingItems--
@@ -202,7 +202,7 @@ new Vue({
       const index = this.downloadables.findIndex(x => x.url === url);
       const item = this.downloadables[index];
 
-      if(this.ongoingDownloads < this.maxSimultaneous){
+      if (this.ongoingDownloads < this.maxSimultaneous) {
         this.downloadables[index].state = 'downloading';
 
         this.ongoingDownloads++;
@@ -222,7 +222,7 @@ new Vue({
             // If process was exit after downloading and not after pausing
             if (this.downloadables[index].state === 'downloading') {
               this.downloadables[index].state = 'completed';
-              
+
               this.ongoingDownloads--;
               this.downloadFromQueue();
             }
@@ -256,7 +256,7 @@ new Vue({
     pause(url) {
       const index = this.downloadables.findIndex(x => x.url === url);
 
-      if(index !== -1){
+      if (index !== -1) {
         if (this.downloadables[index].state === 'downloading') {
           this.downloadables[index].state = 'stopped';
           this.ongoingDownloads--;
@@ -271,17 +271,17 @@ new Vue({
         }
       }
     },
-    downloadFromQueue(){
+    downloadFromQueue() {
       // If download queue is not empty, request download
-      if(this.downloadQueue.length !== 0)
+      if (this.downloadQueue.length !== 0)
         this.download(this.downloadQueue.shift());
     },
-    downloadOrPauseMany(){
-      if(this.areChosenDownloading){
+    downloadOrPauseMany() {
+      if (this.areChosenDownloading) {
         // Pause all chosen
         this.downloadables.forEach(x => {
           if ((x.isChosen || !this.anyChosen) && x.state !== 'completed')
-            this.pause(x.url)
+            this.pause(x.url);
         });
       } else {
         // Download all chosen
@@ -291,7 +291,7 @@ new Vue({
         });
       }
     },
-    openLink(link){
+    openLink(link) {
       shell.openExternal(link);
     },
     selectDirectory() {

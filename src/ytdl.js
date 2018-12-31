@@ -2,8 +2,8 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
-class YTDL{
-  constructor(){
+class YTDL {
+  constructor() {
     // Path to youtube-dl binary
     this.ytdlPath = process.env.NODE_ENV === 'DEV'
       ? path.join(process.cwd(), 'resources', 'youtube-dl', 'youtube-dl')
@@ -19,7 +19,7 @@ class YTDL{
   }
 
   /* Fetches information for a list of URLs */
-  fetchInfo({ urls, onSuccess, onError, onExit }){
+  fetchInfo({ urls, onSuccess, onError, onExit }) {
     const args = ['--all-subs', '--dump-json', '--no-playlist', ...urls];
     const child = spawn(this.ytdlPath, args);
 
@@ -31,11 +31,11 @@ class YTDL{
   }
 
   /* Returns metadata for a url when given JSON dump */
-  _getMetadata(data){
+  _getMetadata(data) {
     let webpage_url, title, thumbnail, duration, formats, requested_subtitles;
     let video = [], audio = [];
 
-    try{
+    try {
       ({ webpage_url, title, thumbnail, duration, formats, requested_subtitles } = JSON.parse(data));
 
       formats.forEach(format => {
@@ -68,7 +68,7 @@ class YTDL{
     }
 
     // Get list of available subtitles
-    const subtitles = requested_subtitles==null?[]:Object.keys(requested_subtitles);
+    const subtitles = requested_subtitles == null ? [] : Object.keys(requested_subtitles);
 
     const metadata = {
       url: webpage_url,
@@ -97,19 +97,19 @@ class YTDL{
   }
 
   /* Downloads an item */
-  download({ item, outputFormat, onStart, onDownload, onComplete}){
+  download({ item, outputFormat, onStart, onDownload, onComplete }) {
 
     let format;
-    if(item.isAudioChosen){
+    if (item.isAudioChosen) {
       const quality = item.formats.audio[item.formats.audioIndex];
       format = `bestaudio[abr<=${quality}]`;
     } else {
       const quality = item.formats.video[item.formats.videoIndex];
       format = `bestvideo[height<=${quality}]+bestaudio/best[height<=${quality}]`;
     }
-    
+
     let args;
-    if(item.isSubsChosen && item.subtitles.length !== 0){
+    if (item.isSubsChosen && item.subtitles.length !== 0) {
       // Download and embed subtitles
       args = ['--ffmpeg-location', this.ffmpegPath, '--all-subs', '--embed-subs', '-f', format, '-o', outputFormat, item.url];
     } else {
@@ -125,7 +125,7 @@ class YTDL{
     child.stdout.on('data', data => onDownload(item.url, this._extractProgress(data.toString())));
     // Log errors
     child.stderr.on('data', data => console.error(data.toString()));
-    
+
     // Remove completed download from ongoing list
     child.on('close', () => {
       const indexOfCompleted = this.ongoing.findIndex(x => x.url === item.url);
@@ -136,7 +136,7 @@ class YTDL{
   }
 
   /* Parses console output and returns progress info */
-  _extractProgress(data){
+  _extractProgress(data) {
     const match = this.progressRegex.exec(data);
 
     return match
@@ -145,17 +145,17 @@ class YTDL{
   }
 
   /* Pauses download of given URL by killing its child process */
-  pause(url){
+  pause(url) {
     const index = this.ongoing.findIndex(x => x.url == url);
-    
-    if(index !== -1){
+
+    if (index !== -1) {
       process.kill(this.ongoing[index].pid);
     }
   }
 
   /* Converts seconds to hh:mm:ss format */
-  _formatDuration(seconds){
-    if(seconds){
+  _formatDuration(seconds) {
+    if (seconds) {
       let duration = new Date(null);
       duration.setSeconds(seconds);
       // Extract string containing hh:mm:ss
