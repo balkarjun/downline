@@ -152,6 +152,20 @@ li a{
   text-align: center;
 }
 
+#previous-versions{
+  color: royalblue;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+}
+
+.separator{
+  display: block;
+  margin: 5px auto;
+  border-bottom: 2px solid #ccc;
+  width: 240px;
+}
+
 #images{
   background-color: #eee;
   border-radius: 4px;
@@ -171,9 +185,9 @@ li a{
   color: white;
   background-color: #222;
   margin-top: 60px;
-  padding: 10px;
+  padding: 6px;
   text-align: center;
-  font-size: 18px;
+  font-size: 17px;
   border-radius: 4px 4px 0 0;
 }
 
