@@ -58,7 +58,7 @@
             @click="updateChosenProp('audio')">
           </span>
           <span v-else></span>
-          <button v-if="modifiableItems.length !== 0" @click="downloadOrPauseMany"> 
+          <button v-if="chosenItems.length !== 0" @click="downloadOrPauseMany"> 
             {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}
           </button>
         </div>
