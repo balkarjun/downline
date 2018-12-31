@@ -92,6 +92,7 @@ p{
   padding-top: 5px;
   display: block;
   font-weight: 300;
+  text-transform: none;
 }
 
 .clickable:hover{
