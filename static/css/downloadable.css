@@ -157,6 +157,14 @@
   background-color: var(--blue-light);
 }
 
+/* Open Folder */
+.progress .info .fa-folder-open{
+  font-size: 17px;
+}
+.progress .info .fa-folder-open:hover{
+  color: white;
+}
+
 /* ----- Right ----- */
 .right{
   display: flex;

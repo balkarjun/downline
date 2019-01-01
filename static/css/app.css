@@ -44,26 +44,33 @@ button{
 }
 
 .fa-closed-captioning[data-tooltip]:hover::after{
-  width: 150px;
-  margin-left: -75px;
+  width: 140px;
+  margin-left: -70px;
 }
 .fa-music[data-tooltip]:hover::after{
-  width: 90px;
-  margin-left: -45px;
-  top: -26px;
+  width: 80px;
+  margin-left: -40px;
+  top: -24px;
+}
+.fa-folder-open[data-tooltip]:hover::after{
+  width: 110px;
+  left: 0;
+  margin-left: -5px;
 }
 
 [data-tooltip]:hover::after{
   content: attr(data-tooltip);
   position: absolute;
-  top: -24px;
+  top: -22px;
   left: 50%;
   text-align: center;
   padding: 3px 0;
+  height: 12px;
+  line-height: 12px;
   border-radius: 4px;
   font-family: 'Work Sans';
   font-weight: 400;
-  font-size: 14px;
+  font-size: 13px;
   color: white;
   background-color: var(--black-dark);
   animation: appear 0.8s steps(1, end);

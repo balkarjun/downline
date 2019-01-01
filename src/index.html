@@ -119,10 +119,12 @@
                   <span>{{ item.progress.value }}% of {{ item.progress.size }} &centerdot; {{ item.progress.speed }}</span>
                   <span>{{ item.progress.eta }}</span>
                 </span>
-                <span v-else>Download Complete</span>
+                <span v-else>
+                  <span class="fas fa-folder-open" data-tooltip="Show in Folder" @click="showInFolder(item.filepath)"></span>
+                </span>
               </span>
 
-              <span class="bar">
+              <span v-if="item.state !== 'completed'" class="bar">
                 <span class="value" :style="progressValue(item.url)"></span>
               </span>
             </div>

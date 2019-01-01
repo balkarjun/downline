@@ -12,8 +12,6 @@ class YTDL {
     this.ffmpegPath = process.env.NODE_ENV === 'DEV'
       ? path.join(process.cwd(), 'resources', 'ffmpeg')
       : path.join(__dirname, '../../', 'ffmpeg');
-    // Regex to extract download progress info from ytdl output
-    this.progressRegex = /\[download\]\D+(\d+\.\d+)\D+(\d+\.\d+\w+)\D+(\d+\.\d+\w+\/s)\D+((?:\d+:?)+)/;
     // Stores data of ongoing downloads
     this.ongoing = [];
   }
@@ -72,6 +70,7 @@ class YTDL {
 
     const metadata = {
       url: webpage_url,
+      filepath: null,
       title: title,
       thumbnail: thumbnail,
       duration: this._formatDuration(duration),
@@ -122,7 +121,12 @@ class YTDL {
     this.ongoing.push({ url: item.url, pid: child.pid });
 
     // Send download progress info
-    child.stdout.on('data', data => onDownload(item.url, this._extractProgress(data.toString())));
+    child.stdout.on('data', data => {
+      onDownload(item.url, {
+        progress: this._extractProgress(data.toString()),
+        filepath: this._getFilepath(data.toString())
+      });
+    });
     // Log errors
     child.stderr.on('data', data => console.error(data.toString()));
 
@@ -137,10 +141,18 @@ class YTDL {
 
   /* Parses console output and returns progress info */
   _extractProgress(data) {
-    const match = this.progressRegex.exec(data);
-
+    const progressRegex = /\[download\]\D+(\d+\.\d+)\D+(\d+\.\d+\w+)\D+(\d+\.\d+\w+\/s)\D+((?:\d+:?)+)/;
+    const match = progressRegex.exec(data);
     return match
       ? { value: match[1], size: match[2], speed: match[3], eta: match[4] }
+      : null;
+  }
+
+  _getFilepath(data) {
+    const filepathRegex = /\[ffmpeg\].*?\"(.*)\"/;
+    const match = filepathRegex.exec(data);
+    return match
+      ? match[1]
       : null;
   }
 

@@ -204,6 +204,8 @@ new Vue({
 
       if (this.ongoingDownloads < this.maxSimultaneous) {
         this.downloadables[index].state = 'downloading';
+        // Set default file path
+        this.downloadables[index].filepath = path.join(this.downloadLocation, '*');
 
         this.ongoingDownloads++;
 
@@ -211,11 +213,10 @@ new Vue({
           item: item,
           outputFormat: `${this.downloadLocation}/%(title)s.%(ext)s`,
           onStart: () => console.log('Download Started'),
-          onDownload: (url, progress) => {
-            if (progress != null) {
-              const index = this.downloadables.findIndex(x => x.url === url);
-              this.downloadables[index].progress = progress;
-            }
+          onDownload: (url, { progress, filepath }) => {
+            const index = this.downloadables.findIndex(x => x.url === url);
+            if (progress != null) this.downloadables[index].progress = progress;
+            if (filepath != null) this.downloadables[index].filepath = filepath;
           },
           onComplete: (url) => {
             const index = this.downloadables.findIndex(x => x.url === url);
@@ -290,6 +291,9 @@ new Vue({
             this.download(x.url);
         });
       }
+    },
+    showInFolder(filepath) {
+      shell.showItemInFolder(filepath);
     },
     openLink(link) {
       shell.openExternal(link);
