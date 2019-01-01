@@ -138,25 +138,17 @@
 
 /* Spinner */
 .spinner {
-  width: 12px;
-  height: 12px;
-  border-top-color: var(--gray-light);
-  border-left-color: var(--gray-light);
-
-  margin: 0 4px;
-  animation: spinner 600ms linear infinite;
-  border-bottom-color: transparent;
-  border-right-color: transparent;
-  border-style: solid;
-  border-width: 2px;
-  border-radius: 50%;  
-  box-sizing: border-box;
   display: inline-block;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--gray-light);
+  border-radius: 50%;
+  width: 11px;
+  height: 11px;
   vertical-align: middle;
+  animation: spin 1s linear infinite;
 }
 
-/* Animation styles */
-@keyframes spinner {
+@keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
