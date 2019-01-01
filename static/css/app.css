@@ -21,7 +21,8 @@
 }
 
 body{
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+    Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 0;
 }
 
