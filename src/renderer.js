@@ -101,6 +101,9 @@ new Vue({
     isDownloading(item) {
       return item.progress.value != 0 && item.state === 'downloading';
     },
+    isCompleted(item) {
+      return item.state === 'completed';
+    },
     toggle(item) {
       item.isChosen = this.anyChosen ? !item.isChosen : false;
       this.global.isAudioChosen = this.modifiableItems.every(x => x.isAudioChosen);

@@ -112,7 +112,10 @@
 
             <div class="progress" v-else>
               <span class="info">
-                <span v-if="isStarting(item)">Starting Download</span>
+                <span v-if="isCompleted(item)">
+                  <span class="fas fa-folder-open" data-tooltip="Show in Folder" @click="showInFolder(item.filepath)"></span>
+                </span>
+                <span v-else-if="isStarting(item)">Starting Download</span>
                 <span v-else-if="isQueued(item)">Queued</span>
                 <span v-else-if="isPaused(item)">
                   <span>{{ item.progress.value }}% of {{ item.progress.size }}</span>
@@ -122,12 +125,9 @@
                   <span>{{ item.progress.value }}% of {{ item.progress.size }} &centerdot; {{ item.progress.speed }}</span>
                   <span>{{ item.progress.eta }}</span>
                 </span>
-                <span v-else>
-                  <span class="fas fa-folder-open" data-tooltip="Show in Folder" @click="showInFolder(item.filepath)"></span>
-                </span>
               </span>
 
-              <span v-if="item.state !== 'completed'" class="bar">
+              <span v-if="!isCompleted(item)" class="bar">
                 <span class="value" :style="progressValue(item.url)"></span>
               </span>
             </div>
