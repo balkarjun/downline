@@ -292,6 +292,19 @@ new Vue({
         });
       }
     },
+    restart(url) {
+      const index = this.downloadables.findIndex(x => x.url === url);
+
+      this.downloadables[index].filepath = null;
+      this.downloadables[index].state = 'stopped';
+      this.downloadables[index].isChosen = false;
+      this.downloadables[index].progress = {
+        value: 0,
+        size: null,
+        speed: null,
+        eta: null
+      };
+    },
     showInFolder(filepath) {
       shell.showItemInFolder(filepath);
     },

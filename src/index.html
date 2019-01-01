@@ -77,7 +77,10 @@
               v-else-if="item.state === 'downloading' || item.state === 'queued'" 
               @click="pause(item.url)">
             </span>
-            <span class="fas fa-check" v-else></span>
+            <span v-else>
+              <span class="fas fa-check"></span>
+              <span class="fas fa-redo-alt" @click="restart(item.url)"></span>
+            </span>
           </section>
 
           <section class="middle" @dblclick="choose(item)" @click="toggle(item)">

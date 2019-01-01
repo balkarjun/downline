@@ -39,6 +39,10 @@
   line-height: 75px;
 }
 
+.left .fa-redo-alt{
+  opacity: 0;
+}
+
 .downloadable:hover .left .fas{
   color: white;
   background-color: rgba(0, 0, 0, 0.4);
@@ -57,6 +61,12 @@
 
 .downloadable:hover .left .fa-check{
   background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+}
+
+.downloadable:hover .left .fa-redo-alt{
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 1;
 }
 
 /* ----- Middle ----- */
