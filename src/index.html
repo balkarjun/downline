@@ -39,7 +39,7 @@
             <span class="fas fa-chevron-circle-left" 
               @click="decrement(global)">
             </span>
-            <span id="global-quality">{{ chosenQuality(global) }}</span>
+            <span id="global-quality">{{ chosenQuality(global) || '&mdash;' }}</span>
             <span class="fas fa-chevron-circle-right" 
               @click="increment(global)">
             </span>
@@ -91,7 +91,7 @@
                   @dblclick.stop 
                   @click.stop="decrement(item)">
                 </span>
-                <span class="quality">{{ chosenQuality(item) }}</span>
+                <span class="quality">{{ chosenQuality(item) || '&mdash;' }}</span>
                 <span class="fas fa-chevron-circle-right" 
                   @dblclick.stop 
                   @click.stop="increment(item)">

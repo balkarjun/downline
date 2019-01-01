@@ -204,6 +204,8 @@ new Vue({
     download(url) {
       const index = this.downloadables.findIndex(x => x.url === url);
       const item = this.downloadables[index];
+      // Stop if an invalid quality is chosen
+      if (this.chosenQuality(item) == null) return;
 
       if (this.ongoingDownloads < this.maxSimultaneous) {
         this.downloadables[index].state = 'downloading';
