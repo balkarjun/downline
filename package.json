@@ -7,9 +7,14 @@
   "main": "./src/main.js",
   "scripts": {
     "dev": "NODE_ENV=DEV electron .",
+    "prebuild:all": "rm -rf dist && rm -rf releases/*",
+    "build:all": "npm run build:win & npm run build:linux & npm run build:mac & wait",
     "build:win": "build --win",
+    "postbuild:win": "cd \"./dist/win\" && mv *.exe ../../releases/downline-setup-windows.exe && 7z a -mx=9 downline-portable-windows.7z win-unpacked && mv downline-portable-windows.7z ../../releases/ && echo \"\n[BUILD COMPLETE] Windows\"",
     "build:linux": "build --linux",
-    "build:mac": "build --mac"
+    "postbuild:linux": "cd \"./dist/linux\" && mv *.AppImage ../../releases/downline-appimage-linux.AppImage && tar -cJf downline-portable-linux.tar.xz linux-unpacked && mv downline-portable-linux.tar.xz ../../releases/ && echo \"\n[BUILD COMPLETE] Linux\"",
+    "build:mac": "build --mac",
+    "postbuild:mac": "cd \"./dist/mac/mac\" && 7z a -mx=9 downline-portable-macos.7z Downline.app && mv downline-portable-macos.7z ../../../releases/ && echo \"\n[BUILD COMPLETE] Mac\""
   },
   "author": "Arjun B <https://github.com/jarbun>",
   "license": "MIT",
@@ -19,16 +24,15 @@
   },
   "build": {
     "appId": "com.jarbun.downline",
+    "directories": {
+      "output": "dist/${os}"
+    },
     "mac": {
-      "target": [
-        "dir"
-      ],
+      "target": "dir",
       "icon": "build/256x256.icns"
     },
     "linux": {
-      "target": [
-        "AppImage"
-      ],
+      "target": "AppImage",
       "icon": "build/256x256.png"
     },
     "win": {
@@ -40,10 +44,17 @@
       "allowToChangeInstallationDirectory": true
     },
     "files": [
-      "**/*"
+      "./src/**",
+      "./static/**",
+      "LICENSE",
+      "package.json"
     ],
     "extraFiles": [
-      "./resources/**"
+      {
+        "from": "./resources/${os}",
+        "to": "./resources",
+        "filter": "**/*"
+      }
     ]
   }
 }
