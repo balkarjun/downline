@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="Description" content="A free and open source software for downloading video and audio from YouTube, Vimeo, Dailymotion, SoundCloud and many other sites">
+  <meta name="Description" content="Free and open-source media downloader for YouTube and many other sites">
   <title>Downline</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="style.css">
@@ -21,58 +21,40 @@
 </head>
 <body>
   <a id="view-source" target="#" href="https://github.com/jarbun/downline">
-    <img src="assets/icons/github-mark.png" alt="github mark">
-    <span>View Source</span>
+    <img src="assets/github-mark.png" alt="github mark">
   </a>
   <h1>Downline</h1>
-  <p>Free and open source software for downloading video and audio from YouTube, Vimeo, Dailymotion, SoundCloud and many other sites</p>
+  <p>Free and open-source media downloader for YouTube and many other sites</p>
 
   <div id="downloads">
     <span id="latest-version">
       Download the latest version 
       <em>1.0.1</em>
     </span>
-    <div>
-      <a class="clickable ripple" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-setup-windows.exe">
-        Windows Setup <small>54MB &centerdot; exe</small>
-      </a>
-      
-      <a class="clickable ripple" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-portable-windows.7z">
-        Windows Portable <small>54MB &centerdot; 7z</small>
-      </a>
-    </div>
+    <a class="clickable" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-setup-windows.exe">
+      Windows Setup <small>54MB &centerdot; exe</small>
+    </a>
+    <a class="clickable" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-portable-windows.7z">
+      Windows Portable <small>54MB &centerdot; 7z</small>
+    </a>
     <span class="separator"></span>
-    <div>
-      <a class="clickable ripple" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-appimage-linux.AppImage">
-        Linux Executable <small>68MB &centerdot; AppImage</small>
-      </a>
-      <a class="clickable ripple" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-portable-linux.tar.xz">
-        Linux Portable <small>49MB &centerdot; tar.xz</small>
-      </a>
-    </div>
-    <span class="separator"></span>
-    <div>
-      <a class="clickable ripple" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-portable-macos.zip">
-        MacOS Portable <small>62MB &centerdot; zip</small>
-      </a>
-    </div>
 
-    <a id="previous-versions" target="#" href="https://github.com/jarbun/downline/releases">Previous Versions</a>
+    <a class="clickable" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-appimage-linux.AppImage">
+      Linux Executable <small>68MB &centerdot; AppImage</small>
+    </a>
+    <a class="clickable" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-portable-linux.tar.xz">
+      Linux Portable <small>49MB &centerdot; tar.xz</small>
+    </a>
+    <span class="separator"></span>
+    
+    <a class="clickable" href="https://github.com/jarbun/downline/releases/download/v1.0.1/downline-portable-macos.zip">
+      MacOS Portable <small>62MB &centerdot; zip</small>
+    </a>
+
+    <a id="previous-versions" target="#" href="https://github.com/jarbun/downline/releases">Previous Versions & Changelog</a>
   </div>
 
-  <div id="images">
-    <img src="assets/1.png" alt="screenshot">
-    <img src="assets/2.png" alt="screenshot" class="hide">
-    <img src="assets/3.png" alt="screenshot" class="hide">
-    <img src="assets/4.png" alt="screenshot" class="hide">
-    <img src="assets/5.png" alt="screenshot" class="hide">
-    <img src="assets/6.png" alt="screenshot" class="hide">
-    <img src="assets/7.png" alt="screenshot" class="hide">
-    <img src="assets/8.png" alt="screenshot" class="hide">
-    <img src="assets/9.png" alt="screenshot" class="hide">
-    <img src="assets/10.png" alt="screenshot" class="hide">
-    <img src="assets/11.png" alt="screenshot" class="hide">
-  </div>
+  <img id="screenshot" src="assets/screenshots.gif" alt="screenshots">
 
   <h2>Features</h2>
   <ul>
@@ -87,16 +69,5 @@
   <div id="site-info">
     Created and maintained by Arjun B <a target="#" href="https://github.com/jarbun">@jarbun</a>
   </div>
-
-  <script>
-    const images = document.querySelectorAll('#images img');
-    // Unhide images one-by-one
-    let index = 0;
-    setInterval(function() {
-      images[index].classList.add('hide');
-      index = (index + 1) % images.length;
-      images[index].classList.remove('hide');
-    }, 1500);
-  </script>
 </body>
 </html>
