@@ -30,11 +30,11 @@ class YTDL {
 
   /* Returns metadata for a url when given JSON dump */
   _getMetadata(data) {
-    let webpage_url, title, thumbnail, duration, formats, requested_subtitles;
+    let webpage_url, title, thumbnail, duration, formats, requested_subtitles, playlist_index, playlist_title, n_entries, playlist;
     let video = [], audio = [];
 
     try {
-      ({ webpage_url, title, thumbnail, duration, formats, requested_subtitles } = JSON.parse(data));
+      ({ webpage_url, title, thumbnail, duration, formats, requested_subtitles, playlist_index, playlist_title, n_entries, playlist } = JSON.parse(data));
 
       formats.forEach(format => {
         if (format.vcodec !== 'none' && video.indexOf(format.height) === -1) {
@@ -53,11 +53,19 @@ class YTDL {
       const titleRegex = /"title":\s?\"(.*?)\"/;
       const thumbnailRegex = /"thumbnail":\s?\"(.*?)\"/;
       const durationRegex = /"duration":\s?(\d*)/;
+      const playlistIndexRegex = /"playlist_index":\s?(\d*)/;
+      const playlistTitleRegex = /"playlist_title":\s?\"(.*?)\"/;
+      const nEntriesRegex = /"n_entries":\s?(\d*)/;
+      const playlistRegex = /"playlist":\s?\"(.*?)\"/;
 
       webpage_url = urlRegex.exec(data)[1];
       title = titleRegex.exec(data)[1];
       thumbnail = thumbnailRegex.exec(data)[1];
       duration = durationRegex.exec(data)[1];
+      playlist_index = playlistIndexRegex.exec(data)[1];
+      playlist_title = playlistTitleRegex.exec(data)[1];
+      n_entries = nEntriesRegex.exec(data)[1];
+      playlistRegex = playlistRegex.exec(data)[1];
 
       video = ['144', '240', '360', '480', '720', '1080'];
       audio = ['50', '128', '160'];
@@ -90,6 +98,12 @@ class YTDL {
         size: null,
         speed: null,
         eta: null
+      },
+      playlist: {
+        exists: !!playlist,
+        entries: n_entries,
+        title: playlist_title,
+        index: playlist_index
       }
     };
     return metadata;
