@@ -18,7 +18,7 @@ class YTDL {
 
   /* Fetches information for a list of URLs */
   fetchInfo({ urls, onSuccess, onError, onExit }) {
-    const args = ['--all-subs', '--dump-json', '--no-playlist', ...urls];
+    const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors', ...urls];
     const child = spawn(this.ytdlPath, args);
 
     child.stdout.on('data', data => onSuccess(this._getMetadata(data.toString())));
