@@ -17,6 +17,7 @@ const store = new Store('downline', {
   downloadables: [],
   downloadLocation: '../',
   maxSimultaneous: 2,
+  autonumberItems: false
 });
 
 new Vue({
@@ -28,6 +29,7 @@ new Vue({
     downloadables: store.get('downloadables'),
     downloadLocation: store.get('downloadLocation'),
     maxSimultaneous: store.get('maxSimultaneous'),
+    autonumberItems: store.get('autonumberItems'),
     ongoingDownloads: 0,
     downloadQueue: [],
     appVersion: app.getVersion(),
@@ -329,6 +331,7 @@ new Vue({
       store.set('downloadables', this.downloadables);
       store.set('downloadLocation', this.downloadLocation);
       store.set('maxSimultaneous', this.maxSimultaneous);
+      store.set('autonumberItems', this.autonumberItems);
       // Close app
       remote.getCurrentWindow().close();
     }

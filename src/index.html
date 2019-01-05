@@ -179,6 +179,13 @@
             </span>
           </div>
         </div>
+
+        <div id="autonumber-items" @click="autonumberItems = !autonumberItems">
+          <span class="fas" 
+            :class="[{ 'fa-square': !autonumberItems }, { 'fa-check-square': autonumberItems }]">
+          </span>
+          <label>Autonumber Playlist Items</label>
+        </div>
       </div>
       <div id="about" v-else-if="activeTab === 'about'">
         <img src="../static/images/icon.png">

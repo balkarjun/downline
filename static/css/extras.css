@@ -90,6 +90,7 @@
 #max-simultaneous{
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px;
 }
 
 #max-simultaneous div{
@@ -116,6 +117,21 @@
   line-height: 100%;
   font-size: 17px;
   font-weight: 500;
+}
+
+/* Autonumber Items */
+#autonumber-items{
+  display: flex;
+}
+
+#autonumber-items .fas{
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+#autonumber-items label{
+  cursor: pointer;
+  align-self: center;
 }
 
 /* ----- About Page ----- */
