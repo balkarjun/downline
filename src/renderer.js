@@ -211,14 +211,24 @@ new Vue({
 
       if (this.ongoingDownloads < this.maxSimultaneous) {
         this.downloadables[index].state = 'downloading';
-        // Set default file path
-        this.downloadables[index].filepath = path.join(this.downloadLocation, '*');
+
+        let outputFormat;
+        if (this.downloadables[index].playlist.exists && this.autonumberItems) {
+          outputFormat = path.join(this.downloadLocation, this.downloadables[index].playlist.title, `${this.downloadables[index].playlist.index} - %(title)s.%(ext)s`);
+          this.downloadables[index].filepath = path.join(this.downloadLocation, this.downloadables[index].playlist.title, '*');
+        } else if (this.downloadables[index].playlist.exists) {
+          outputFormat = path.join(this.downloadLocation, this.downloadables[index].playlist.title, '%(title)s.%(ext)s');
+          this.downloadables[index].filepath = path.join(this.downloadLocation, this.downloadables[index].playlist.title, '*');
+        } else {
+          outputFormat = path.join(this.downloadLocation, '%(title)s.%(ext)s');
+          this.downloadables[index].filepath = path.join(this.downloadLocation, '*');
+        }
 
         this.ongoingDownloads++;
 
         ytdl.download({
           item: item,
-          outputFormat: `${this.downloadLocation}/%(title)s.%(ext)s`,
+          outputFormat: outputFormat,
           onStart: () => console.log('Download Started'),
           onDownload: (url, { progress, filepath }) => {
             const index = this.downloadables.findIndex(x => x.url === url);
