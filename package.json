@@ -10,11 +10,11 @@
     "prebuild:all": "rm -rf dist && rm -rf releases/*",
     "build:all": "npm run build:win & npm run build:linux & npm run build:mac & wait",
     "build:win": "build --win",
-    "postbuild:win": "cd \"./dist/win\" && mv *.exe ../../releases/downline-setup-windows.exe && 7z a -mx=9 downline-portable-windows.7z win-unpacked && mv downline-portable-windows.7z ../../releases/ && echo \"\n[BUILD COMPLETE] Windows\"",
+    "postbuild:win": "cd \"./dist/win\" && mv *.exe ../../releases/downline-$npm_package_version-setup-windows.exe && 7z a -mx=9 downline-$npm_package_version-portable-windows.7z win-unpacked && mv *.7z ../../releases/",
     "build:linux": "build --linux",
-    "postbuild:linux": "cd \"./dist/linux\" && mv *.AppImage ../../releases/downline-appimage-linux.AppImage && tar -cJf downline-portable-linux.tar.xz linux-unpacked && mv downline-portable-linux.tar.xz ../../releases/ && echo \"\n[BUILD COMPLETE] Linux\"",
+    "postbuild:linux": "cd \"./dist/linux\" && mv *.AppImage ../../releases/downline-$npm_package_version-appimage-linux.AppImage && tar -cJf downline-$npm_package_version-portable-linux.tar.xz linux-unpacked && mv *.tar.xz ../../releases/",
     "build:mac": "build --mac",
-    "postbuild:mac": "cd \"./dist/mac/mac\" && 7z a -mx=9 downline-portable-macos.7z Downline.app && mv downline-portable-macos.7z ../../../releases/ && echo \"\n[BUILD COMPLETE] Mac\""
+    "postbuild:mac": "cd \"./dist/mac/mac\" && 7z a -mx=9 downline-$npm_package_version-portable-macos.7z Downline.app && mv *.7z ../../../releases/"
   },
   "author": "Arjun B <https://github.com/jarbun>",
   "license": "MIT",

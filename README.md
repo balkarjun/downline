@@ -46,7 +46,7 @@ The build process performs the following steps:
 - Clean output directories (removes `dist` and removes files from `releases`)
 - Build distributable(s) for target platform(s)
 - Compress portable distributions (requires `tar` and `7z`)
-- Rename distributables in the format `downline-{type}-{platform}.{ext}`
+- Rename distributables in the format `downline-{version}-{type}-{platform}.{ext}`
 - Move all distributables to `releases` folder
 
 Place the dependencies for the target platform (e.g. for windows) in a folder as shown:
