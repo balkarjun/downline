@@ -189,11 +189,10 @@
       </div>
       <div id="about" v-else-if="activeTab === 'about'">
         <img src="../static/images/icon.png">
-        <p id="app-name">Downline <em>{{ appVersion }}</em></p>
-        
+        <span id="app-name">Downline</span>
+        <span id="app-version">Version: {{ appVersion }}</span>
         <p>
-          Downline is a free and open-source video and audio downloader for
-          YouTube, Vimeo, Dailymotion, SoundCloud and many other sites
+          Free and open-source media downloader for YouTube and many other sites
         </p>
         <button @click="openLink('https://jarbun.github.io/downline/')">Visit Website</button>
       </div>
