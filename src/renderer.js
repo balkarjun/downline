@@ -17,7 +17,9 @@ const store = new Store('downline', {
   downloadables: [],
   downloadLocation: '../',
   maxSimultaneous: 2,
-  autonumberItems: false
+  autonumberItems: false,
+  etag: '',
+  latestVersion: ''
 });
 
 new Vue({
@@ -30,10 +32,13 @@ new Vue({
     downloadLocation: store.get('downloadLocation'),
     maxSimultaneous: store.get('maxSimultaneous'),
     autonumberItems: store.get('autonumberItems'),
+    etag: store.get('etag'),
+    latestVersion: store.get('latestVersion'),
     ongoingDownloads: 0,
     downloadQueue: [],
     appVersion: app.getVersion(),
-    activeTab: 'settings'
+    activeTab: 'settings',
+    newVersionMessage: ''
   },
   computed: {
     chosenItems() { // Returns selected items if any, otherwise all items, that are not yet complete
@@ -342,8 +347,44 @@ new Vue({
       store.set('downloadLocation', this.downloadLocation);
       store.set('maxSimultaneous', this.maxSimultaneous);
       store.set('autonumberItems', this.autonumberItems);
+      store.set('etag', this.etag);
+      store.set('latestVersion', this.latestVersion);
       // Close app
       remote.getCurrentWindow().close();
+    },
+    checkForUpdates() {
+      this.newVersionMessage = '...';
+      fetch('https://api.github.com/repos/jarbun/downline/releases/latest', {
+        headers: {
+          'If-None-Match': this.etag
+        }
+      })
+        .then(function (response) {
+          if (response.status == 200) {
+            this.etag = response.headers.get('etag');
+
+            response.json().then(function (data) {
+              const currentVersion = `v${this.appVersion}`;
+              this.latestVersion = data.tag_name;
+              if (currentVersion == this.latestVersion) {
+                this.newVersionMessage = 'No updates available';
+              } else {
+                this.newVersionMessage = `New version ${this.latestVersion} available. Please download from website`;
+              }
+            }.bind(this));
+          } else if (response.status == 304) {
+            const currentVersion = `v${this.appVersion}`;
+            if (currentVersion == this.latestVersion) {
+              this.newVersionMessage = 'No updates available';
+            } else {
+              this.newVersionMessage = `New version ${this.latestVersion} available. Please download from website`;
+            }
+          }
+        }.bind(this))
+        .catch(err => {
+          this.newVersionMessage = '';
+          console.log('Fetch Error: ', err);
+        });
     }
   }
 });

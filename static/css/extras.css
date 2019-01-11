@@ -140,10 +140,10 @@
 }
 
 #about img{
-  margin: 0 calc(50% - 35px);
+  margin: 0 auto 5px auto;
+  display: block;
   width: 70px;
   user-select: none;
-  margin-bottom: 5px;
 }
 
 #app-name{
@@ -165,8 +165,9 @@
 }
 
 #about button{
-  width: 140px;
   height: 25px;
+  padding: 2px 10px;
+  display: block;
   border-radius: 4px;
   color: white;
   background-color: var(--blue-dark);
@@ -176,4 +177,15 @@
 }
 #about button:active{
   background-color: var(--blue-dark);
+}
+
+#check-for-updates{
+  margin: 5px auto;
+}
+
+#new-version-message{
+  text-align: center;
+  display: block;
+  font-size: 15px;
+  color: #bbb;
 }

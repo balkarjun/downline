@@ -191,10 +191,12 @@
         <img src="../static/images/icon.png">
         <span id="app-name">Downline</span>
         <span id="app-version">Version: {{ appVersion }}</span>
+        <button id="check-for-updates" @click="checkForUpdates">Check for Updates</button>
+        <span id="new-version-message">{{ newVersionMessage }}</span>
         <p>
           Free and open-source media downloader for YouTube and many other sites
         </p>
-        <button @click="openLink('https://jarbun.github.io/downline/')">Visit Website</button>
+        <button id="visit-website" @click="openLink('https://jarbun.github.io/downline/')">Visit Website</button>
       </div>
     </section>
   </div>
