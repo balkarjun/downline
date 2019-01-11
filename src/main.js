@@ -1,8 +1,9 @@
 /* Main Electron Process */
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 let mainWindow = null;
+let isSaved = false;
 
 const url = process.env.NODE_ENV === 'DEV'
   ? 'http://127.0.0.1:5500/src/index.html'
@@ -22,7 +23,19 @@ app.on('ready', () => {
 
   mainWindow.once('ready-to-show', () => mainWindow.show());
 
+  mainWindow.on('close', event => {
+    if (!isSaved) {
+      event.preventDefault();
+      mainWindow.webContents.send('save');
+    }
+  });
+
   mainWindow.on('closed', () => mainWindow = null);
 });
 
 app.on('window-all-closed', () => app.quit());
+
+ipcMain.on('quit', () => {
+  isSaved = true;
+  app.quit();
+});

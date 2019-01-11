@@ -1,4 +1,4 @@
-const { clipboard, remote, shell } = require('electron');
+const { clipboard, remote, shell, ipcRenderer } = require('electron');
 const { dialog, app } = remote;
 const path = require('path');
 
@@ -22,7 +22,7 @@ const store = new Store('downline', {
   latestVersion: ''
 });
 
-new Vue({
+const vm = new Vue({
   el: '#app',
   data: {
     newURL: '',
@@ -342,14 +342,6 @@ new Vue({
       remote.getCurrentWindow().minimize();
     },
     close() {
-      // Save data
-      store.set('downloadables', this.downloadables);
-      store.set('downloadLocation', this.downloadLocation);
-      store.set('maxSimultaneous', this.maxSimultaneous);
-      store.set('autonumberItems', this.autonumberItems);
-      store.set('etag', this.etag);
-      store.set('latestVersion', this.latestVersion);
-      // Close app
       remote.getCurrentWindow().close();
     },
     checkForUpdates() {
@@ -387,4 +379,16 @@ new Vue({
         });
     }
   }
+});
+
+// Save Data
+ipcRenderer.on('save', event => {
+  store.set('downloadables', vm.downloadables);
+  store.set('downloadLocation', vm.downloadLocation);
+  store.set('maxSimultaneous', vm.maxSimultaneous);
+  store.set('autonumberItems', vm.autonumberItems);
+  store.set('etag', vm.etag);
+  store.set('latestVersion', vm.latestVersion);
+
+  ipcRenderer.send('quit');
 });
