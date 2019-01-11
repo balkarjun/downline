@@ -1,4 +1,6 @@
 # Downline
+![GitHub All Releases](https://img.shields.io/github/downloads/jarbun/downline/total.svg)
+
 **[Downline](https://jarbun.github.io/downline/) is a free and open source video and audio downloader** for YouTube, Vimeo, Dailymotion, SoundCloud and many other sites and works on Windows, MacOS and Linux.
 
 Downline is built using [electron](https://electronjs.org/) and [vuejs](https://vuejs.org/), and uses [youtube-dl](https://github.com/rg3/youtube-dl/) and [ffmpeg](https://ffmpeg.org/).
