@@ -107,10 +107,9 @@
 }
 .quality{
   color: white;
-  font-size: 17px;
   width: 50px;
   text-align: center;
-  line-height: 15px;
+  line-height: 100%;
   font-weight: 500;
 }
 

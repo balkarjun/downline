@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,500');
+@import url('https://fonts.googleapis.com/css?family=Rubik:400,500');
 
 :root{
   --titlebar: #1d1d1d;
@@ -21,7 +21,7 @@
 }
 
 body{
-  font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+  font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
     Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 0;
 }

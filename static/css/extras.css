@@ -15,7 +15,9 @@
 #tabs li{
   background-color: var(--black-dark);
   font-weight: 500;
-  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.6px;
   width: calc(100%/2);
   height: 30px;
   line-height: 30px;
@@ -42,13 +44,12 @@
 }
 
 #settings label{
-  font-weight: 500;
   user-select: none;
 }
 
 #settings label small{
   color: var(--gray-light);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -65,8 +66,8 @@
 
 #location-text{
   color: var(--gray-light);
+  font-size: 15px;
   flex-grow: 1;
-  margin-left: 5px;
   align-self: center;
 }
 

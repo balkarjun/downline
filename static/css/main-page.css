@@ -31,7 +31,7 @@
   color: var(--gray-light);
   font-size: 32px;
   width: 35px;
-  line-height: 35px;
+  line-height: 100%;
   text-align: center;
   font-weight: 500;
   user-select: none;
@@ -80,10 +80,9 @@
 
 #global-quality{
   color: white;
-  font-size: 17px;
   width: 50px;
   text-align: center;
-  line-height: 25px;
+  align-self: center;
   font-weight: 500;
 }
 
