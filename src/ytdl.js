@@ -14,6 +14,8 @@ class YTDL {
       : path.join(__dirname, '../../', 'ffmpeg');
     // Stores data of ongoing downloads
     this.ongoing = [];
+    // Stores json output of youtube-dl
+    this.jsonData = '';
   }
 
   /* Fetches information for a list of URLs */
@@ -30,12 +32,14 @@ class YTDL {
 
   /* Returns metadata for a url when given JSON dump */
   _getMetadata(data) {
-    let webpage_url, title, thumbnail, duration, formats, requested_subtitles, playlist_index, playlist_title, n_entries, playlist;
-    let video = [], audio = [];
+    let metadata = null;
 
-    try {
-      ({ webpage_url, title, thumbnail, duration, formats, requested_subtitles, playlist_index, playlist_title, n_entries, playlist } = JSON.parse(data));
+    this.jsonData += data;
+    if (this._isValidJSON(this.jsonData)) {
+      const { webpage_url, title, thumbnail, duration, formats, requested_subtitles, playlist_index, playlist_title, n_entries, playlist } = JSON.parse(this.jsonData);
+      this.jsonData = '';
 
+      let video = [], audio = [];
       formats.forEach(format => {
         if (format.vcodec !== 'none' && video.indexOf(format.height) === -1) {
           video.push(format.height);
@@ -47,66 +51,52 @@ class YTDL {
       // Sort in ascending order
       video.sort((a, b) => a - b);
       audio.sort((a, b) => a - b);
-    } catch (err) {
-      // If there was an error parsing JSON, use these as fallback
-      const urlRegex = /"webpage_url":\s?\"(.*?)\"/;
-      const titleRegex = /"title":\s?\"(.*?)\"/;
-      const thumbnailRegex = /"thumbnail":\s?\"(.*?)\"/;
-      const durationRegex = /"duration":\s?(\d*)/;
-      const playlistIndexRegex = /"playlist_index":\s?(\d*)/;
-      const playlistTitleRegex = /"playlist_title":\s?\"(.*?)\"/;
-      const nEntriesRegex = /"n_entries":\s?(\d*)/;
-      const playlistRegex = /"playlist":\s?\"(.*?)\"/;
 
-      webpage_url = urlRegex.exec(data)[1];
-      title = titleRegex.exec(data)[1];
-      thumbnail = thumbnailRegex.exec(data)[1];
-      duration = durationRegex.exec(data)[1];
-      playlist_index = playlistIndexRegex.exec(data)[1];
-      playlist_title = playlistTitleRegex.exec(data)[1];
-      n_entries = nEntriesRegex.exec(data)[1];
-      playlistRegex = playlistRegex.exec(data)[1];
+      // Get list of available subtitles
+      const subtitles = requested_subtitles == null ? [] : Object.keys(requested_subtitles);
 
-      video = ['144', '240', '360', '480', '720', '1080'];
-      audio = ['50', '128', '160'];
-
-      requested_subtitles = null;
+      metadata = {
+        url: webpage_url,
+        filepath: null,
+        title: title,
+        thumbnail: thumbnail,
+        duration: this._formatDuration(duration),
+        state: 'stopped',
+        isChosen: false,
+        isSubsChosen: false,
+        isAudioChosen: false,
+        formats: {
+          video: video,
+          audio: audio,
+          videoIndex: video.length - 1,
+          audioIndex: audio.length - 1
+        },
+        subtitles: subtitles,
+        progress: {
+          value: 0,
+          size: null,
+          speed: null,
+          eta: null
+        },
+        playlist: {
+          exists: !!playlist,
+          entries: n_entries,
+          title: playlist_title,
+          index: playlist_index
+        }
+      };
     }
 
-    // Get list of available subtitles
-    const subtitles = requested_subtitles == null ? [] : Object.keys(requested_subtitles);
-
-    const metadata = {
-      url: webpage_url,
-      filepath: null,
-      title: title,
-      thumbnail: thumbnail,
-      duration: this._formatDuration(duration),
-      state: 'stopped',
-      isChosen: false,
-      isSubsChosen: false,
-      isAudioChosen: false,
-      formats: {
-        video: video,
-        audio: audio,
-        videoIndex: video.length - 1,
-        audioIndex: audio.length - 1
-      },
-      subtitles: subtitles,
-      progress: {
-        value: 0,
-        size: null,
-        speed: null,
-        eta: null
-      },
-      playlist: {
-        exists: !!playlist,
-        entries: n_entries,
-        title: playlist_title,
-        index: playlist_index
-      }
-    };
     return metadata;
+  }
+
+  _isValidJSON(string) {
+    try {
+      JSON.parse(string);
+    } catch (err) {
+      return false;
+    }
+    return true;
   }
 
   /* Downloads an item */

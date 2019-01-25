@@ -192,7 +192,9 @@ const vm = new Vue({
 
         ytdl.fetchInfo({
           urls: [this.newURL],
-          onSuccess: info => this.addItem(info),
+          onSuccess: info => {
+            if (info != null) this.addItem(info)
+          },
           onError: err => console.log(err),
           onExit: () => this.loadingItems--
         });
