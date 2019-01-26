@@ -32,7 +32,7 @@ button{
   font-weight: 500;
   border: none;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.75px;
   outline: none;
   cursor: pointer;
   user-select: none;
@@ -53,7 +53,7 @@ button{
   margin-left: -40px;
   top: -24px;
 }
-.fa-folder-open[data-tooltip]:hover::after{
+.fa-folder[data-tooltip]:hover::after{
   width: 110px;
   left: 0;
   margin-left: -5px;
@@ -69,7 +69,7 @@ button{
   height: 12px;
   line-height: 12px;
   border-radius: 4px;
-  font-family: 'Work Sans';
+  font-family: 'Rubik';
   font-weight: 400;
   font-size: 13px;
   color: white;

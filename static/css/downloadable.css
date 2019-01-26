@@ -1,17 +1,29 @@
 .downloadable{
   display: flex;
-  height: 75px;
+  height: 80px;
   width: 100%;
   position: relative;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.downloadable:hover{
+  background-color: var(--black-hover);
 }
 .downloadable.chosen{
   background-color: var(--highlight);
 }
+.downloadable.chosen:hover{
+  background-color: var(--highlight);
+}
 
 /* ----- Left ----- */
+.left{
+  padding-left: 3px;
+}
 .left img{
-  height: 100%;
-  width: 135px;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
   object-fit: cover;
   user-select: none;
 }
@@ -33,10 +45,15 @@
   background-color: rgba(0, 0, 0, 0.1);
   font-size: 42px;
   top: 0;
-  height: 75px;
-  width: 135px;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  margin-top: 3px;
+  /* margin-left: 3px; */
+  /* border: 1px solid black; */
+  /* padding-top: 3px; */
   text-align: center;
-  line-height: 75px;
+  line-height: 80px;
 }
 
 .left .fa-redo-alt{
@@ -74,12 +91,12 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin: 3px 0;
   justify-content: space-between;
-  border-bottom: 1px solid #363636;
 }
 
 .middle h1{
-  margin: 0;
+  margin: 0 0 0 2px;
   color: white;
   padding-left: 5px;
   font-weight: 400;
@@ -145,6 +162,10 @@
 }
 
 .progress .info span{
+  letter-spacing: 0.3px;
+  font-variant-numeric: tabular-nums lining-nums;
+  /* font-variant-numeric: proportional-nums; */
+  /* font-variant: small-caps; */
   font-size: 12px;
   color: var(--gray-light);
   display: flex;
@@ -167,28 +188,26 @@
 }
 
 /* Open Folder */
-.progress .info .fa-folder-open{
+.progress .info .fa-folder{
   font-size: 17px;
+  margin-left: 3px;
 }
-.progress .info .fa-folder-open:hover{
+.progress .info .fa-folder:hover{
   color: white;
 }
 
 /* ----- Right ----- */
 .right{
-  display: flex;
-  width: 16px;
-  border-bottom: 1px solid #363636;
+  margin: 4px 3px 0 0;
 }
 .close{
-  font-size: 22px;
-  font-weight: 500;
-  color: var(--gray-dark);
-  opacity: 0;
   width: 16px;
-  height: 20px;
+  font-size: 22px;
+  line-height: 16px;
+  color: var(--gray-dark);
+  display: block;
+  opacity: 0;
   text-align: center;
-  line-height: 100%;
   user-select: none;
   cursor: pointer;
 }
