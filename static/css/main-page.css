@@ -4,13 +4,14 @@
 
 /* ----- Top ----- */
 #top{
-  height: 60px;
+  height: 40px;
+  border-bottom: 3px solid var(--black-dark);
 }
 
 /* Inputbar */
 #inputbar{
   display: flex;
-  height: 35px;
+  height: 40px;
 }
 
 #inputbar input{
@@ -30,8 +31,8 @@
 #inputbar span{
   color: var(--gray-light);
   font-size: 32px;
-  width: 35px;
-  line-height: 100%;
+  width: 40px;
+  line-height: 40px;
   text-align: center;
   font-weight: 500;
   user-select: none;
@@ -101,7 +102,6 @@
 
 /* ----- Center ----- */
 #center{
-  height: calc(100vh - 115px);
   background-color: var(--background);
   overflow-y: scroll;
 }
@@ -121,18 +121,56 @@
 
 /* ----- Bottom -----*/
 #bottom{
-  height: 25px;
   background-color: var(--black-dark);
-  display: flex;
 }
 
-#message{
+#more-options{
+  width: 100%;
+  height: 50px;
+  background-color: teal;
+}
+
+#messages{
+  height: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#loading-indicator{
   color: var(--gray-light);
   font-size: 15px;
   user-select: none;
   padding-left: 5px;
-  flex-grow: 1;
   line-height: 25px;
+  width: 150px;
+}
+
+#show-hide{
+  font-size: 18px;
+  background-color: var(--black-dark);
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  position: relative;
+  top: -10px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--gray-light);
+}
+
+#show-hide:hover{
+  background-color: var(--black-light);
+  color: white;
+}
+
+#status{
+  color: var(--gray-light);
+  text-align: right;
+  font-size: 15px;
+  padding-right: 5px;
+  line-height: 25px;
+  width: 150px;
 }
 
 /* Spinner */

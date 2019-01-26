@@ -27,6 +27,7 @@ const vm = new Vue({
   data: {
     newURL: '',
     isExtrasOpen: false,
+    showMoreOptions: false,
     loadingItems: 0,
     downloadables: store.get('downloadables'),
     downloadLocation: store.get('downloadLocation'),
@@ -93,6 +94,19 @@ const vm = new Vue({
       global.formats.audioIndex = global.formats.audio.length - 1;
 
       return global;
+    },
+    centerHeight() {
+      /* 
+        98px = Height of title bar (30px)
+              + Height of URL input (40px) 
+              + Bottom border of URL input (3px)
+              + Height of messages div in bottom bar (25px)
+        
+        50px = Height of more options div in bottom bar
+      */
+      return this.showMoreOptions
+        ? { height: 'calc(100vh - 98px - 50px)' }
+        : { height: 'calc(100vh - 98px)' };
     }
   },
   methods: {
@@ -277,6 +291,9 @@ const vm = new Vue({
       this.downloadables
         .filter(x => x.isChosen || !this.anyChosen)
         .forEach(x => this.clear(x.url));
+    },
+    toggleShowMore() {
+      this.showMoreOptions = !this.showMoreOptions;
     },
     pause(url) {
       const index = this.downloadables.findIndex(x => x.url === url);

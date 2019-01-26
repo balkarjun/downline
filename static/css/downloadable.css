@@ -15,6 +15,9 @@
 .downloadable.chosen:hover{
   background-color: var(--highlight);
 }
+.downloadable:last-child{
+  margin-bottom: 10px;
+}
 
 /* ----- Left ----- */
 .left{

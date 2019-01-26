@@ -33,38 +33,9 @@
             @keyup.enter="fetchInfo">
           <span @click="fetchInfo">&plus;</span>
         </div>
-
-        <div id="global-options" v-if="existsItems">
-          <div v-if="anyToBeDownloaded">
-            <span class="fas fa-chevron-circle-left" 
-              @click="decrement(global)">
-            </span>
-            <span id="global-quality">{{ chosenQuality(global) || '&mdash;' }}</span>
-            <span class="fas fa-chevron-circle-right" 
-              @click="increment(global)">
-            </span>
-          </div>
-
-          <span class="fas" 
-            data-tooltip="Download Subtitles"
-            v-if="anyToBeDownloaded" 
-            :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}" 
-            @click="updateChosenProp('subs')">
-          </span>
-          <span class="fas fa-music" 
-            data-tooltip="Audio Only" 
-            v-if="anyToBeDownloaded" 
-            :class="{selected: global.isAudioChosen}" 
-            @click="updateChosenProp('audio')">
-          </span>
-          <span v-else></span>
-          <button v-if="chosenItems.length !== 0" @click="downloadOrPauseMany"> 
-            {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}
-          </button>
-        </div>
       </section>
 
-      <section id="center">
+      <section id="center" :style="centerHeight">
         <div class="downloadable" :class="{chosen: item.isChosen}" v-for="(item, index) in downloadables">
           <section class="left">
             <img :src="item.thumbnail" onerror="this.src='../static/images/placeholder.png'">
@@ -143,13 +114,52 @@
       </section>
 
       <section id="bottom">
+        <div id="more-options" v-if="showMoreOptions">
+          <div id="global-options" v-if="existsItems">
+            <div v-if="anyToBeDownloaded">
+              <span class="fas fa-chevron-circle-left" @click="decrement(global)">
+              </span>
+              <span id="global-quality">{{ chosenQuality(global) || '&mdash;' }}</span>
+              <span class="fas fa-chevron-circle-right" @click="increment(global)">
+              </span>
+            </div>
+          
+            <span class="fas" data-tooltip="Download Subtitles" v-if="anyToBeDownloaded" :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}"
+              @click="updateChosenProp('subs')">
+            </span>
+            <span class="fas fa-music" data-tooltip="Audio Only" v-if="anyToBeDownloaded" :class="{selected: global.isAudioChosen}"
+              @click="updateChosenProp('audio')">
+            </span>
+            <span v-else></span>
+            <button v-if="chosenItems.length !== 0" @click="downloadOrPauseMany">
+              {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}
+            </button>
+          </div>
+        </div>
+
+        <div id="messages">
+          <span id="loading-indicator">
+            <span v-if="loadingItems !== 0" class="spinner"></span>
+            <span v-if="loadingItems !== 0">Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}</span>
+          </span>
+          <span id="show-hide" @click="toggleShowMore">
+            <span v-if="!showMoreOptions" class="fas fa-angle-up"></span>
+            <span v-else class="fas fa-angle-down"></span>
+          </span>
+          <span id="status">
+            6 Items
+          </span>
+        </div>
+      </section>
+
+      <!-- <section id="bottom">
         <span id="message">
           <span v-if="loadingItems !== 0" class="spinner"></span> 
           <span v-if="loadingItems !== 0">Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}</span>
         </span>
         <button v-if="anyCompleted" id="clear-completed-btn" @click="clearCompleted">Clear Completed</button>
         <button v-if="existsItems" id="clear-many-btn" @click="clearMany">Clear {{ anyChosen?'Selected':'All' }}</button>
-      </section>
+      </section> -->
     </section>
 
     <section id="extras" v-else>

@@ -1,6 +1,6 @@
 #titlebar{
   height: 30px;
-  background-color: var(--titlebar);
+  background-color: var(--black-dark);
   display: flex;
   user-select: none;
   text-align: center;
