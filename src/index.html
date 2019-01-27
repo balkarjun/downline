@@ -114,9 +114,12 @@
       </section>
 
       <section id="bottom">
-        <div id="more-options" v-if="showMoreOptions">
-          <div id="global-options" v-if="existsItems">
+        <section id="more-options" v-if="showMoreOptions">
+          <!-- <div id="global-options" v-if="existsItems">
             <div v-if="anyToBeDownloaded">
+              <button v-if="chosenItems.length !== 0" @click="downloadOrPauseMany">
+                {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}
+              </button>
               <span class="fas fa-chevron-circle-left" @click="decrement(global)">
               </span>
               <span id="global-quality">{{ chosenQuality(global) || '&mdash;' }}</span>
@@ -130,12 +133,29 @@
             <span class="fas fa-music" data-tooltip="Audio Only" v-if="anyToBeDownloaded" :class="{selected: global.isAudioChosen}"
               @click="updateChosenProp('audio')">
             </span>
-            <span v-else></span>
-            <button v-if="chosenItems.length !== 0" @click="downloadOrPauseMany">
-              {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}
-            </button>
           </div>
-        </div>
+          <button v-if="anyCompleted" id="clear-completed-btn" @click="clearCompleted">Clear Completed</button>
+          <button v-if="existsItems" id="clear-many-btn" @click="clearMany">Clear {{ anyChosen?'Selected':'All' }}</button> -->
+          <div id="global-options" v-if="existsItems">
+            <div id="download-or-pause-many" v-if="chosenItems.length !== 0" @click="downloadOrPauseMany" class="fas" :class="[{'fa-pause-circle': areChosenDownloading}, {'fa-play-circle': !areChosenDownloading}]"></div>
+            <span id="global-quality-select" v-if="anyToBeDownloaded">
+              <span class="fas fa-chevron-circle-left" @click="decrement(global)"></span>
+              <span id="global-quality">{{ chosenQuality(global) || '&mdash;' }}</span>
+              <span class="fas fa-chevron-circle-right" @click="increment(global)"></span>
+            </span>
+            <span class="fas fa-closed-captioning" data-tooltip="Download Subtitles" v-if="anyToBeDownloaded" :class="{selected: global.isSubsChosen, 'hidden': !anySubbed}"
+              @click="updateChosenProp('subs')">
+            </span>
+            <span class="fas fa-music" data-tooltip="Audio Only" v-if="anyToBeDownloaded" :class="{selected: global.isAudioChosen}"
+              @click="updateChosenProp('audio')">
+            </span>
+          </div>
+          <div id="buttons">
+            <span data-tooltip="Clear Completed" :class="{'hidden': !anyCompleted}" class="fas fa-minus-circle" @click="clearCompleted"></span>
+            <span data-tooltip="Clear All" v-if="existsItems && !anyChosen" class="fas fa-times-circle" @click="clearMany"></span>
+            <span data-tooltip="Clear Selected" v-if="existsItems && anyChosen" class="fas fa-times-circle" @click="clearMany"></span>
+          </div>
+        </section>
 
         <div id="messages">
           <span id="loading-indicator">
@@ -143,11 +163,10 @@
             <span v-if="loadingItems !== 0">Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}</span>
           </span>
           <span id="show-hide" @click="toggleShowMore">
-            <span v-if="!showMoreOptions" class="fas fa-angle-up"></span>
-            <span v-else class="fas fa-angle-down"></span>
+            <span class="fas fa-angle-up" :class="{'rotate-arrow': showMoreOptions}"></span>
           </span>
           <span id="status">
-            6 Items
+            {{ downloadables.length }} Items
           </span>
         </div>
       </section>

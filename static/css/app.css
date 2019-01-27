@@ -13,8 +13,8 @@
   --gray-dark: #848484;
   --gray-light: #aeaeae;
 
-  --red-dark: #d32f2f;
-  --red-light: #e53935;
+  --red-dark: #e53935;
+  --red-light: #f44336;
 
   --blue-dark: #1976d2;
   --blue-light: #1e88e5;
@@ -55,8 +55,16 @@ button{
 }
 .fa-folder[data-tooltip]:hover::after{
   width: 110px;
-  left: 0;
-  margin-left: -5px;
+  left: -5px;
+  /* margin-left: -5px; */
+}
+.fa-minus-circle[data-tooltip]:hover::after{
+  width: 115px;
+  left: -48px;
+}
+.fa-times-circle[data-tooltip]:hover::after{
+  width: 100px;
+  left: -40px;
 }
 
 [data-tooltip]:hover::after{
@@ -107,4 +115,8 @@ appear{
 
 .fa-closed-captioning{
   font-size: 21px;
+}
+
+.hidden{
+  visibility: hidden;
 }

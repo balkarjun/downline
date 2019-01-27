@@ -27,7 +27,7 @@ const vm = new Vue({
   data: {
     newURL: '',
     isExtrasOpen: false,
-    showMoreOptions: false,
+    showMoreOptions: true,
     loadingItems: 0,
     downloadables: store.get('downloadables'),
     downloadLocation: store.get('downloadLocation'),
@@ -105,7 +105,7 @@ const vm = new Vue({
         50px = Height of more options div in bottom bar
       */
       return this.showMoreOptions
-        ? { height: 'calc(100vh - 98px - 50px)' }
+        ? { height: 'calc(100vh - 98px - 50px - 3px)' }
         : { height: 'calc(100vh - 98px)' };
     }
   },
