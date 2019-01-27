@@ -177,7 +177,15 @@ class YTDL {
       // Extract string containing hh:mm:ss
       duration = duration.toISOString().substr(11, 8);
       // Remove unwanted zeros and return
-      return duration.substr(duration.search(/[1-9]/));
+      if (duration[0] != '0') {
+        return duration;
+      } else if (duration[1] != '0') {
+        return duration.substr(1);
+      } else if (duration[3] != '0') {
+        return duration.substr(3);
+      } else {
+        return duration.substr(4);
+      }
     }
     return 'N/A';
   }

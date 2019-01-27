@@ -1,6 +1,6 @@
 .downloadable{
   display: flex;
-  height: 80px;
+  height: 75px;
   width: 100%;
   position: relative;
   padding-top: 3px;
@@ -24,39 +24,28 @@
   padding-left: 3px;
 }
 .left img{
-  height: 80px;
-  width: 80px;
+  height: 75px;
+  width: 75px;
   border-radius: 50%;
   object-fit: cover;
   user-select: none;
 }
 
-.left .duration{
-  color: white;
-  background-color: var(--background);
-  position: absolute;
-  top: 0;
-  font-size: 12px;
-  padding: 0 3px;
-  border-bottom-right-radius: 4px;
-  user-select: none;
-  z-index: 1;
-}
 .left .fas{
   position: absolute;
   color: rgba(255, 255, 255, 0);
   background-color: rgba(0, 0, 0, 0.1);
   font-size: 42px;
   top: 0;
-  height: 80px;
-  width: 80px;
+  height: 75px;
+  width: 75px;
   border-radius: 50%;
   margin-top: 3px;
   /* margin-left: 3px; */
   /* border: 1px solid black; */
   /* padding-top: 3px; */
   text-align: center;
-  line-height: 80px;
+  line-height: 75px;
 }
 
 .left .fa-redo-alt{
@@ -95,7 +84,17 @@
   flex-direction: column;
   flex-grow: 1;
   margin: 3px 0;
-  justify-content: space-between;
+  width: calc(100% - 75px - 20px - 30px - 3px);
+  /* background-color: teal; */
+  /* justify-content: space-between; */
+}
+
+.middle .duration{
+  font-size: 13px;
+  margin-left: 8px;
+  color: var(--gray-dark);
+  user-select: none;
+  flex-grow: 1;
 }
 
 .middle h1{
@@ -103,9 +102,12 @@
   color: white;
   padding-left: 5px;
   font-weight: 400;
-  font-size: 15.5px;
-  max-height: 70%;
-  overflow-y: scroll;
+  font-size: 15px;
+  /* flex-grow: 1; */
+  white-space: nowrap;
+  /* display: block; */
+  /* width: 350px; */
+  overflow-x: scroll;
   user-select: none;
 }
 .middle h1::-webkit-scrollbar{
@@ -166,7 +168,6 @@
 
 .progress .info span{
   letter-spacing: 0.3px;
-  font-variant-numeric: tabular-nums lining-nums;
   /* font-variant-numeric: proportional-nums; */
   /* font-variant: small-caps; */
   font-size: 12px;
@@ -201,10 +202,13 @@
 
 /* ----- Right ----- */
 .right{
-  margin: 4px 3px 0 0;
+  padding-top: 4px;
+  /* margin: 4px 3px 0 0; */
+  width: 20px;
+  display: block;
 }
 .close{
-  width: 16px;
+  width: 20px;
   font-size: 22px;
   line-height: 16px;
   color: var(--gray-dark);
