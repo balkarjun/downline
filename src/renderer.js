@@ -27,7 +27,7 @@ const vm = new Vue({
   data: {
     newURL: '',
     isExtrasOpen: false,
-    showMoreOptions: true,
+    showMoreOptions: false,
     loadingItems: 0,
     downloadables: store.get('downloadables'),
     downloadLocation: store.get('downloadLocation'),
@@ -98,15 +98,14 @@ const vm = new Vue({
     centerHeight() {
       /* 
         98px = Height of title bar (30px)
-              + Height of URL input (40px) 
-              + Bottom border of URL input (3px)
+              + Height of URL input (35px) 
               + Height of messages div in bottom bar (25px)
         
         50px = Height of more options div in bottom bar
       */
       return this.showMoreOptions
-        ? { height: 'calc(100vh - 98px - 50px - 3px)' }
-        : { height: 'calc(100vh - 98px)' };
+        ? { height: 'calc(100vh - 95px - 50px)' }
+        : { height: 'calc(100vh - 95px)' };
     }
   },
   methods: {

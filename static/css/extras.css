@@ -2,6 +2,7 @@
   height: calc(100vh - 30px);
   background-color: var(--background);
   color: white;
+  font-size: 15px;
 }
 
 #tabs{
@@ -49,7 +50,7 @@
 
 #settings label small{
   color: var(--gray-light);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
 }
 
@@ -66,7 +67,6 @@
 
 #location-text{
   color: var(--gray-light);
-  font-size: 15px;
   flex-grow: 1;
   align-self: center;
 }
@@ -137,31 +137,46 @@
 /* ----- About Page ----- */
 #about{
   padding: 10px;
-}
-
-#about img{
-  margin: 0 auto 5px auto;
-  display: block;
-  width: 70px;
   user-select: none;
 }
 
+#image-name-version{
+  display: flex;
+  width: 200px;
+  margin: 0 auto;
+}
+#about img{
+  width: 70px;
+  height: 70px;
+}
+
+#name-version{
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+#name-version span{
+  line-height: 35px;
+}
+
 #app-name{
-  display: block;
-  font-size: 18px;
   font-weight: 500;
-  text-align: center;
+  cursor: pointer;
+  font-size: 17px;
+  letter-spacing: 0.3px;
+}
+#app-name:hover{
+  text-decoration: underline;
 }
 
 #app-version{
-  display: block;
-  text-align: center;
+  font-size: 16px;
+  letter-spacing: 0.3px;
 }
 
 #about p{
-  padding: 0;
-  margin: 10px 0;
   text-align: center;
+  font-size: 15.5px;
 }
 
 #about button{
@@ -169,6 +184,7 @@
   padding: 2px 10px;
   display: block;
   border-radius: 4px;
+  margin: 0 auto;
   color: white;
   background-color: var(--blue-dark);
 }
@@ -179,13 +195,10 @@
   background-color: var(--blue-dark);
 }
 
-#check-for-updates{
-  margin: 5px auto;
-}
-
 #new-version-message{
   text-align: center;
   display: block;
-  font-size: 15px;
   color: #bbb;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }

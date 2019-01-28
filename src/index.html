@@ -31,7 +31,7 @@
           <input type="text" spellcheck="false" placeholder="Enter URL"
             v-model="newURL" 
             @keyup.enter="fetchInfo">
-          <span @click="fetchInfo">&plus;</span>
+          <span @click="fetchInfo" class="fas fa-plus"></span>
         </div>
       </section>
 
@@ -115,27 +115,6 @@
 
       <section id="bottom">
         <section id="more-options" v-if="showMoreOptions">
-          <!-- <div id="global-options" v-if="existsItems">
-            <div v-if="anyToBeDownloaded">
-              <button v-if="chosenItems.length !== 0" @click="downloadOrPauseMany">
-                {{ areChosenDownloading?'Pause':'Download' }} {{ anyChosen?'Selected':'All' }}
-              </button>
-              <span class="fas fa-chevron-circle-left" @click="decrement(global)">
-              </span>
-              <span id="global-quality">{{ chosenQuality(global) || '&mdash;' }}</span>
-              <span class="fas fa-chevron-circle-right" @click="increment(global)">
-              </span>
-            </div>
-          
-            <span class="fas" data-tooltip="Download Subtitles" v-if="anyToBeDownloaded" :class="{selected: global.isSubsChosen, 'fa-closed-captioning': anySubbed}"
-              @click="updateChosenProp('subs')">
-            </span>
-            <span class="fas fa-music" data-tooltip="Audio Only" v-if="anyToBeDownloaded" :class="{selected: global.isAudioChosen}"
-              @click="updateChosenProp('audio')">
-            </span>
-          </div>
-          <button v-if="anyCompleted" id="clear-completed-btn" @click="clearCompleted">Clear Completed</button>
-          <button v-if="existsItems" id="clear-many-btn" @click="clearMany">Clear {{ anyChosen?'Selected':'All' }}</button> -->
           <div id="global-options" v-if="existsItems">
             <div id="download-or-pause-many" v-if="chosenItems.length !== 0" @click="downloadOrPauseMany" class="fas" :class="[{'fa-pause-circle': areChosenDownloading}, {'fa-play-circle': !areChosenDownloading}]"></div>
             <span id="global-quality-select" v-if="anyToBeDownloaded">
@@ -162,23 +141,14 @@
             <span v-if="loadingItems !== 0" class="spinner"></span>
             <span v-if="loadingItems !== 0">Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}</span>
           </span>
-          <span id="show-hide" @click="toggleShowMore">
+          <span :class="{'hidden': !existsItems}" id="show-hide" @click="toggleShowMore">
             <span class="fas fa-angle-up" :class="{'rotate-arrow': showMoreOptions}"></span>
           </span>
-          <span id="status">
-            {{ downloadables.length }} Items
+          <span :class="{'hidden': !existsItems}" id="status">
+            {{ downloadables.length==1?'1 Item':downloadables.length+' Items' }}
           </span>
         </div>
       </section>
-
-      <!-- <section id="bottom">
-        <span id="message">
-          <span v-if="loadingItems !== 0" class="spinner"></span> 
-          <span v-if="loadingItems !== 0">Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}</span>
-        </span>
-        <button v-if="anyCompleted" id="clear-completed-btn" @click="clearCompleted">Clear Completed</button>
-        <button v-if="existsItems" id="clear-many-btn" @click="clearMany">Clear {{ anyChosen?'Selected':'All' }}</button>
-      </section> -->
     </section>
 
     <section id="extras" v-else>
@@ -217,15 +187,17 @@
         </div>
       </div>
       <div id="about" v-else-if="activeTab === 'about'">
-        <img src="../static/images/icon.png">
-        <span id="app-name">Downline</span>
-        <span id="app-version">Version: {{ appVersion }}</span>
+        <div id="image-name-version">
+          <img src="../static/images/icon.png">
+          <div id="name-version">
+            <span id="app-name" @click="openLink('https://jarbun.github.io/downline/')">Downline</span>
+            <span id="app-version">Version: {{ appVersion }}</span>
+          </div>
+        </div>
+        <p>Free and open-source media downloader for YouTube and many other sites</p>
         <button id="check-for-updates" @click="checkForUpdates">Check for Updates</button>
         <span id="new-version-message">{{ newVersionMessage }}</span>
-        <p>
-          Free and open-source media downloader for YouTube and many other sites
-        </p>
-        <button id="visit-website" @click="openLink('https://jarbun.github.io/downline/')">Visit Website</button>
+        <button id="update-ytdll">Update youtube-dl</button>
       </div>
     </section>
   </div>

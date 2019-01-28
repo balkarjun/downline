@@ -5,7 +5,6 @@
 /* ----- Top ----- */
 #top{
   height: 40px;
-  border-bottom: 3px solid var(--black-dark);
 }
 
 /* Inputbar */
@@ -19,30 +18,32 @@
   padding: 5px;
   border: none;
   color:  white;
-  background-color: var(--background);
+  background-color: var(--black-dark);
   outline: none;
   flex-grow: 1;
+  font-size: 15.5px;
 }
 #inputbar input::placeholder{
   color: var(--gray-light);
   user-select: none;
 }
 
-#inputbar span{
+#inputbar .fas{
   color: var(--gray-light);
-  font-size: 32px;
-  width: 40px;
+  background-color: var(--black-dark);
+  font-size: 21px;
   line-height: 40px;
+  width: 40px;
   text-align: center;
-  font-weight: 500;
-  user-select: none;
 }
-#inputbar span:hover{
+
+#inputbar .fas:hover{
   color: white;
   background-color: var(--black-light);
 }
-#inputbar span:active{
-  background-color: var(--background);
+
+#inputbar .fas:active{
+  background-color: var(--black-dark);
 }
 
 /* ----- Center ----- */
@@ -72,8 +73,7 @@
 #more-options{
   width: 100%;
   height: 50px;
-  background-color: var(--background);
-  border-top: 3px solid var(--black-dark);
+  background-color: var(--black-dark);
   display: flex;
 }
 
@@ -118,11 +118,13 @@
   font-weight: 500;
   width: 50px;
   text-align: center;
+  user-select: none;
 }
 
 #messages{
   height: 25px;
   display: flex;
+  background-color: var(--black-dark);
   justify-content: space-between;
 }
 
@@ -157,6 +159,9 @@
   background-color: var(--black-light);
   color: white;
 }
+#bottom #show-hide .fas:hover{
+  color: white;
+}
 
 .rotate-arrow{
   transform: rotate(180deg);
@@ -169,6 +174,7 @@
   padding-right: 5px;
   line-height: 25px;
   width: 150px;
+  user-select: none;
 }
 
 /* Spinner */
@@ -216,10 +222,6 @@
 
 #bottom button:hover{
   background-color: var(--black-hover);
-}
-
-#bottom .fa-music{
-  padding-bottom: 2px;
 }
 
 #bottom .fas.selected{

@@ -28,7 +28,7 @@ body{
 
 button{
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   border: none;
   text-transform: uppercase;
@@ -46,17 +46,15 @@ button{
 
 .fa-closed-captioning[data-tooltip]:hover::after{
   width: 140px;
-  margin-left: -70px;
+  margin-left: -80px;
 }
 .fa-music[data-tooltip]:hover::after{
   width: 80px;
-  margin-left: -40px;
-  top: -24px;
+  margin-left: -48px;
 }
 .fa-folder[data-tooltip]:hover::after{
   width: 110px;
   left: -5px;
-  /* margin-left: -5px; */
 }
 .fa-minus-circle[data-tooltip]:hover::after{
   width: 115px;
