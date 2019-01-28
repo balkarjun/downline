@@ -170,13 +170,11 @@
         </div>
       </div>
       <div id="about" v-else-if="activeTab === 'about'">
-        <div id="image-name-version">
+        <div id="app-name-logo">
           <img src="../static/images/icon.png">
-          <div id="name-version">
-            <span id="app-name" @click="openLink('https://jarbun.github.io/downline/')">Downline</span>
-            <span id="app-version">Version: {{ appVersion }}</span>
-          </div>
+          <span @click="openLink('https://jarbun.github.io/downline/')">Downline</span>
         </div>
+        <div id="app-version">Version {{ appVersion }}</div>
         <p>Free and open-source media downloader for YouTube and many other sites</p>
         <button id="check-for-updates" @click="checkForUpdates">Check for Updates</button>
         <span id="new-version-message">{{ newVersionMessage }}</span>

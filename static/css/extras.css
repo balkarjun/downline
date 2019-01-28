@@ -140,38 +140,32 @@
   user-select: none;
 }
 
-#image-name-version{
+#app-name-logo{
   display: flex;
-  width: 200px;
-  margin: 0 auto;
-}
-#about img{
-  width: 70px;
-  height: 70px;
+  width: 150px;
+  margin: 0 auto 5px auto;
 }
 
-#name-version{
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-}
-#name-version span{
-  line-height: 35px;
+#app-name-logo img{
+  width: 35px;
+  height: 35px;
 }
 
-#app-name{
+#app-name-logo span{
   font-weight: 500;
-  cursor: pointer;
-  font-size: 17px;
+  font-size: 18px;
+  line-height: 35px;
+  margin-left: 10px;
   letter-spacing: 0.3px;
+  cursor: pointer;
 }
-#app-name:hover{
+#app-name-logo span:hover{
   text-decoration: underline;
 }
 
 #app-version{
-  font-size: 16px;
   letter-spacing: 0.3px;
+  text-align: center;
 }
 
 #about p{
