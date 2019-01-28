@@ -31,7 +31,7 @@
 #inputbar .fas{
   color: var(--gray-light);
   background-color: var(--black-dark);
-  font-size: 21px;
+  font-size: 20px;
   line-height: 40px;
   width: 40px;
   text-align: center;
@@ -53,10 +53,11 @@
 }
 
 #empty-message{
-  margin: 0 20px;
+  margin: 20px;
   color: var(--gray-dark);
   user-select: none;
   text-align: center;
+  font-size: 15.5px;
 }
 #empty-message span{
   position: relative;
