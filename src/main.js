@@ -11,7 +11,7 @@ const url = process.env.NODE_ENV === 'DEV'
 
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
-    width: 470,
+    width: 460,
     height: 530,
     minWidth: 420,
     minHeight: 500,

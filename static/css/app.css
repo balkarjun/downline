@@ -39,6 +39,15 @@ button{
   user-select: none;
 }
 
+#extras{
+  transition: transform .15s;
+  z-index: 3;
+  position: relative;
+}
+.show-extras{
+  transform: translateY(calc(-100vh + 30px));
+}
+
 /* ----- Tooltips ----- */
 [data-tooltip]{
   position: relative;
