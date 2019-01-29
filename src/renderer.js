@@ -22,6 +22,10 @@ const store = new Store('downline', {
   latestVersion: ''
 });
 
+let keys = {};
+window.onkeyup = e => keys[e.keyCode] = false;
+window.onkeydown = e => keys[e.keyCode] = true;
+
 const vm = new Vue({
   el: '#app',
   data: {
@@ -111,13 +115,19 @@ const vm = new Vue({
     isCompleted(item) {
       return item.state === 'completed';
     },
-    toggle(item) {
-      item.isChosen = this.anyChosen ? !item.isChosen : false;
-      this.global.isAudioChosen = this.modifiableItems.every(x => x.isAudioChosen);
-      this.global.isSubsChosen = this.modifiableItems.every(x => x.subtitles.length === 0 || x.isSubsChosen);
-    },
     choose(item) {
-      item.isChosen = !item.isChosen;
+      if (keys[17]) {
+        // If ctrl key is pressed, select clicked item
+        item.isChosen = !item.isChosen;
+        this.showMoreOptions = true;
+      } else {
+        // Else unselect all
+        this.showMoreOptions = false;
+        this.downloadables.forEach(x => x.isChosen = false);
+      }
+      this.updateGlobals();
+    },
+    updateGlobals() {
       this.global.isAudioChosen = this.modifiableItems.every(x => x.isAudioChosen);
       this.global.isSubsChosen = this.modifiableItems.every(x => x.subtitles.length === 0 || x.isSubsChosen);
     },

@@ -48,7 +48,7 @@
               </span>
             </section>
 
-            <section class="middle" @dblclick="choose(item)" @click="toggle(item)">
+            <section class="middle" @click="choose(item)">
               <h1>{{ item.title }}</h1>
               <span class="duration">{{ item.duration }}</span>
               <div class="options" v-if="item.progress.value == 0 && item.state === 'stopped'">

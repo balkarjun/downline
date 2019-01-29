@@ -3,8 +3,7 @@
   height: 75px;
   width: 100%;
   position: relative;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding: 3px 0;
 }
 .downloadable:hover{
   background-color: var(--black-hover);
@@ -44,9 +43,6 @@
   width: 75px;
   border-radius: 50%;
   margin-top: 3px;
-  /* margin-left: 3px; */
-  /* border: 1px solid black; */
-  /* padding-top: 3px; */
   text-align: center;
   line-height: 75px;
 }
@@ -87,9 +83,6 @@
   flex-direction: column;
   flex-grow: 1;
   margin: 3px 0;
-  width: calc(100% - 75px - 20px - 30px - 3px);
-  /* background-color: teal; */
-  /* justify-content: space-between; */
 }
 
 .middle .duration{
@@ -106,10 +99,7 @@
   padding-left: 5px;
   font-weight: 400;
   font-size: 15px;
-  /* flex-grow: 1; */
   white-space: nowrap;
-  /* display: block; */
-  /* width: 350px; */
   overflow-x: scroll;
   user-select: none;
 }
@@ -171,8 +161,6 @@
 
 .progress .info span{
   letter-spacing: 0.3px;
-  /* font-variant-numeric: proportional-nums; */
-  /* font-variant: small-caps; */
   font-size: 12px;
   color: var(--gray-light);
   display: flex;
@@ -206,7 +194,6 @@
 /* ----- Right ----- */
 .right{
   padding-top: 4px;
-  /* margin: 4px 3px 0 0; */
   width: 20px;
   display: block;
 }
