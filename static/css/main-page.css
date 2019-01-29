@@ -170,6 +170,10 @@
   line-height: 30px;
 }
 
+#show-hide span{
+  transition: transform .25s;
+}
+
 #show-hide:hover{
   background-color: var(--black-light);
   color: white;
