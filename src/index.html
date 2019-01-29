@@ -33,67 +33,70 @@
       </section>
 
       <section id="center" :class="{'center-height': showMoreOptions}">
-        <div class="downloadable" :class="{chosen: item.isChosen}" v-for="(item, index) in downloadables">
-          <section class="left">
-            <img :src="item.thumbnail" onerror="this.src='../static/images/placeholder.png'">
-            <span class="fas fa-play-circle" v-if="item.state === 'stopped'" @click="download(item.url)">
-            </span>
-            <span class="fas fa-pause-circle" v-else-if="item.state === 'downloading' || item.state === 'queued'"
-              @click="pause(item.url)">
-            </span>
-            <span v-else>
-              <span class="fas fa-check"></span>
-              <span class="fas fa-redo-alt" @click="restart(item.url)"></span>
-            </span>
-          </section>
+        <transition-group name="fade">
+          <div class="downloadable" :class="{chosen: item.isChosen}" v-for="(item, index) in downloadables" :key="item.url">
+            <section class="left">
+              <img :src="item.thumbnail" onerror="this.src='../static/images/placeholder.png'">
+              <span class="fas fa-play-circle" v-if="item.state === 'stopped'" @click="download(item.url)">
+              </span>
+              <span class="fas fa-pause-circle" v-else-if="item.state === 'downloading' || item.state === 'queued'"
+                @click="pause(item.url)">
+              </span>
+              <span v-else>
+                <span class="fas fa-check"></span>
+                <span class="fas fa-redo-alt" @click="restart(item.url)"></span>
+              </span>
+            </section>
 
-          <section class="middle" @dblclick="choose(item)" @click="toggle(item)">
-            <h1>{{ item.title }}</h1>
-            <span class="duration">{{ item.duration }}</span>
-            <div class="options" v-if="item.progress.value == 0 && item.state === 'stopped'">
-              <div>
-                <span class="fas fa-chevron-circle-left" @dblclick.stop @click.stop="decrement(item)">
+            <section class="middle" @dblclick="choose(item)" @click="toggle(item)">
+              <h1>{{ item.title }}</h1>
+              <span class="duration">{{ item.duration }}</span>
+              <div class="options" v-if="item.progress.value == 0 && item.state === 'stopped'">
+                <div>
+                  <span class="fas fa-chevron-circle-left" @dblclick.stop @click.stop="decrement(item)">
+                  </span>
+                  <span class="quality">{{ chosenQuality(item) || '&mdash;' }}</span>
+                  <span class="fas fa-chevron-circle-right" @dblclick.stop @click.stop="increment(item)">
+                  </span>
+                </div>
+
+                <span class="option-icon fas" :class="{'fa-closed-captioning': item.subtitles.length !== 0, selected: item.isSubsChosen}"
+                  @dblclick.stop @click.stop="updateIsSubsChosen(item)">
                 </span>
-                <span class="quality">{{ chosenQuality(item) || '&mdash;' }}</span>
-                <span class="fas fa-chevron-circle-right" @dblclick.stop @click.stop="increment(item)">
+                <span class="option-icon fas fa-music" :class="{selected: item.isAudioChosen}" @dblclick.stop
+                  @click.stop="updateIsAudioChosen(item)">
                 </span>
               </div>
 
-              <span class="option-icon fas" :class="{'fa-closed-captioning': item.subtitles.length !== 0, selected: item.isSubsChosen}"
-                @dblclick.stop @click.stop="updateIsSubsChosen(item)">
-              </span>
-              <span class="option-icon fas fa-music" :class="{selected: item.isAudioChosen}" @dblclick.stop @click.stop="updateIsAudioChosen(item)">
-              </span>
-            </div>
-
-            <div class="progress" v-else>
-              <span class="info">
-                <span v-if="isCompleted(item)">
-                  <span class="fas fa-folder" data-tooltip="Show in Folder" @click="showInFolder(item.filepath)"></span>
+              <div class="progress" v-else>
+                <span class="info">
+                  <span v-if="isCompleted(item)">
+                    <span class="fas fa-folder" data-tooltip="Show in Folder" @click="showInFolder(item.filepath)"></span>
+                  </span>
+                  <span v-else-if="isStarting(item)">Starting Download</span>
+                  <span v-else-if="isQueued(item)">Queued</span>
+                  <span v-else-if="isPaused(item)">
+                    <span>{{ item.progress.value }}% of {{ item.progress.size }}</span>
+                    <span>Paused</span>
+                  </span>
+                  <span v-else-if="isDownloading(item)">
+                    <span>{{ item.progress.value }}% of {{ item.progress.size }} &centerdot; {{ item.progress.speed }}</span>
+                    <span>{{ item.progress.eta }}</span>
+                  </span>
                 </span>
-                <span v-else-if="isStarting(item)">Starting Download</span>
-                <span v-else-if="isQueued(item)">Queued</span>
-                <span v-else-if="isPaused(item)">
-                  <span>{{ item.progress.value }}% of {{ item.progress.size }}</span>
-                  <span>Paused</span>
-                </span>
-                <span v-else-if="isDownloading(item)">
-                  <span>{{ item.progress.value }}% of {{ item.progress.size }} &centerdot; {{ item.progress.speed }}</span>
-                  <span>{{ item.progress.eta }}</span>
-                </span>
-              </span>
 
-              <span v-if="!isCompleted(item)" class="bar">
-                <span class="value" :style="progressValue(item.url)"></span>
-              </span>
-            </div>
-          </section>
+                <span v-if="!isCompleted(item)" class="bar">
+                  <span class="value" :style="progressValue(item.url)"></span>
+                </span>
+              </div>
+            </section>
 
-          <section class="right">
-            <span class="close" @click="clear(item.url)">&times;</span>
-          </section>
-        </div>
-        <div id="empty-message" v-if="!existsItems">
+            <section class="right">
+              <span class="close" @click="clear(item.url)">&times;</span>
+            </section>
+          </div>
+        </transition-group>
+        <div id="empty-message" :class="{'show-empty-message': !existsItems}">
           Type or paste a link above or press the <span>&plus;</span> button to grab link from clipboard
         </div>
       </section>
@@ -121,11 +124,11 @@
             <span data-tooltip="Clear Selected" v-if="existsItems && anyChosen" class="fas fa-times-circle" @click="clearMany"></span>
           </div>
         </section>
-        
+
         <div id="messages">
           <span id="loading-indicator">
-            <span v-if="loadingItems !== 0" class="spinner"></span>
-            <span v-if="loadingItems !== 0">Loading {{ loadingItems }} {{ loadingItems>1?'URLs':'URL' }}</span>
+            <span class="spinner hidden"></span>
+            <span class="hidden">Loading</span>
           </span>
           <span id="show-hide" @click="toggleShowMore">
             <span class="fas fa-angle-up" :class="{'rotate-arrow': showMoreOptions}"></span>

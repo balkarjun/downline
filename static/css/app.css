@@ -40,12 +40,28 @@ button{
 }
 
 #extras{
-  transition: transform .15s;
+  transition: transform .25s;
   z-index: 3;
   position: relative;
 }
 .show-extras{
   transform: translateY(calc(-100vh + 30px));
+}
+
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+.fade-enter-to, .fade-leave{
+  opacity: 1;
+}
+.fade-leave-active, .fade-enter-active{
+  transition: opacity .25s;
+}
+.fade-leave-active.downloadable{
+  position: absolute;
+}
+.fade-move{
+  transition: transform .25s;
 }
 
 /* ----- Tooltips ----- */

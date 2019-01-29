@@ -66,12 +66,18 @@
   user-select: none;
   text-align: center;
   font-size: 15.5px;
+  opacity: 0;
+  position: absolute;
 }
 #empty-message span{
   position: relative;
   font-size: 24px;
   top: 2px;
   font-weight: 500;
+}
+#empty-message.show-empty-message{
+  opacity: 1;
+  transition: opacity .2s 2s;
 }
 
 /* ----- Bottom -----*/
@@ -141,11 +147,12 @@
   background-color: var(--black-dark);
   justify-content: space-between;
   z-index: 2;
+  font-size: 14px;
+  letter-spacing: 0.3px;
 }
 
 #loading-indicator{
   color: var(--gray-light);
-  font-size: 15px;
   user-select: none;
   padding-left: 5px;
   line-height: 25px;
@@ -189,7 +196,6 @@
 #status{
   color: var(--gray-light);
   text-align: right;
-  font-size: 15px;
   padding-right: 5px;
   line-height: 25px;
   width: 150px;
@@ -204,7 +210,8 @@
   border-radius: 50%;
   width: 11px;
   height: 11px;
-  vertical-align: middle;
+  position: relative;
+  top: 2.5px;
   animation: spin 1s linear infinite;
 }
 

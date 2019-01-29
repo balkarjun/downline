@@ -28,7 +28,6 @@ const vm = new Vue({
     newURL: '',
     isExtrasOpen: false,
     showMoreOptions: false,
-    loadingItems: 0,
     downloadables: store.get('downloadables'),
     downloadLocation: store.get('downloadLocation'),
     maxSimultaneous: store.get('maxSimultaneous'),
@@ -189,7 +188,7 @@ const vm = new Vue({
     fetchInfo() {
       if (this.newURL.trim().length !== 0) {
         // Load link if url field is not empty
-        this.loadingItems++;
+        document.querySelectorAll('#loading-indicator span').forEach(x => x.classList.remove('hidden'));
 
         ytdl.fetchInfo({
           urls: [this.newURL],
@@ -197,7 +196,7 @@ const vm = new Vue({
             if (info != null) this.addItem(info)
           },
           onError: err => console.log(err),
-          onExit: () => this.loadingItems--
+          onExit: () => document.querySelectorAll('#loading-indicator span').forEach(x => x.classList.add('hidden'))
         });
 
         this.newURL = '';
