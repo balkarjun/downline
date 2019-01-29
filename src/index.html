@@ -32,7 +32,7 @@
         </div>
       </section>
 
-      <section id="center" :style="centerHeight">
+      <section id="center" :class="{'center-height': showMoreOptions}">
         <div class="downloadable" :class="{chosen: item.isChosen}" v-for="(item, index) in downloadables">
           <section class="left">
             <img :src="item.thumbnail" onerror="this.src='../static/images/placeholder.png'">
@@ -99,7 +99,7 @@
       </section>
 
       <section id="bottom">
-        <section id="more-options" v-if="showMoreOptions">
+        <section id="more-options" :class="{'more-options-height': showMoreOptions}">
           <div id="global-options" v-if="existsItems">
             <div id="download-or-pause-many" v-if="chosenItems.length !== 0" @click="downloadOrPauseMany" class="fas"
               :class="[{'fa-pause-circle': areChosenDownloading}, {'fa-play-circle': !areChosenDownloading}]"></div>
@@ -121,7 +121,7 @@
             <span data-tooltip="Clear Selected" v-if="existsItems && anyChosen" class="fas fa-times-circle" @click="clearMany"></span>
           </div>
         </section>
-
+        
         <div id="messages">
           <span id="loading-indicator">
             <span v-if="loadingItems !== 0" class="spinner"></span>

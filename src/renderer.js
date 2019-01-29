@@ -94,18 +94,6 @@ const vm = new Vue({
       global.formats.audioIndex = global.formats.audio.length - 1;
 
       return global;
-    },
-    centerHeight() {
-      /* 
-        98px = Height of title bar (30px)
-              + Height of URL input (35px) 
-              + Height of messages div in bottom bar (25px)
-        
-        50px = Height of more options div in bottom bar
-      */
-      return this.showMoreOptions
-        ? { height: 'calc(100vh - 95px - 50px)' }
-        : { height: 'calc(100vh - 95px)' };
     }
   },
   methods: {
