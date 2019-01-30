@@ -43,7 +43,7 @@ const vm = new Vue({
     etag: store.get('etag'),
     latestVersion: store.get('latestVersion'),
     audioFormats: ['mp3', 'aac', 'flac', 'm4a', 'opus', 'vorbis', 'wav'],
-    videoFormats: ['mp4', 'webm', 'mkv'],
+    videoFormats: ['best', 'mp4', 'webm', 'mkv'],
     ongoingDownloads: 0,
     downloadQueue: [],
     appVersion: app.getVersion(),
@@ -254,6 +254,8 @@ const vm = new Vue({
         ytdl.download({
           item: item,
           outputFormat: outputFormat,
+          audioFormat: this.audioFormats[this.audioFormatIndex],
+          videoFormat: this.videoFormats[this.videoFormatIndex],
           onStart: () => console.log('Download Started'),
           onDownload: (url, { progress, filepath }) => {
             const index = this.downloadables.findIndex(x => x.url === url);

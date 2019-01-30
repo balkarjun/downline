@@ -100,7 +100,8 @@ class YTDL {
   }
 
   /* Downloads an item */
-  download({ item, outputFormat, onStart, onDownload, onComplete }) {
+  download({ item, outputFormat, audioFormat, videoFormat, onStart, onDownload, onComplete }) {
+    console.log(audioFormat, videoFormat);
 
     let format;
     if (item.isAudioChosen) {
@@ -114,10 +115,18 @@ class YTDL {
     let args;
     if (item.isSubsChosen && item.subtitles.length !== 0) {
       // Download and embed subtitles
-      args = ['--ffmpeg-location', this.ffmpegPath, '--all-subs', '--embed-subs', '-f', format, '-o', outputFormat, item.url];
+      args = ['--ffmpeg-location', this.ffmpegPath, '--all-subs', '--embed-subs', '-f', format, '-o', outputFormat];
     } else {
-      args = ['--ffmpeg-location', this.ffmpegPath, '-f', format, '-o', outputFormat, item.url];
+      args = ['--ffmpeg-location', this.ffmpegPath, '-f', format, '-o', outputFormat];
     }
+
+    if (item.isAudioChosen) {
+      args.push(...['--extract-audio', '--audio-format', audioFormat]);
+    } else if (videoFormat != 'best') {
+      args.push(...['--recode-video', videoFormat]);
+    }
+
+    args.push(item.url);
 
     const child = spawn(this.ytdlPath, args);
     onStart();
@@ -126,6 +135,7 @@ class YTDL {
 
     // Send download progress info
     child.stdout.on('data', data => {
+      console.log(data.toString());
       onDownload(item.url, {
         progress: this._extractProgress(data.toString()),
         filepath: this._getFilepath(data.toString())
@@ -153,11 +163,16 @@ class YTDL {
   }
 
   _getFilepath(data) {
-    const filepathRegex = /\[ffmpeg\].*?\"(.*)\"/;
-    const match = filepathRegex.exec(data);
-    return match
-      ? match[1]
-      : null;
+    let match;
+    // Encountered during merging of audio and video
+    if ((match = /\[ffmpeg\].*?\"(.*)\"/.exec(data)) != null) {
+      return match[1];
+    }
+    // Encountered during format conversion
+    if ((match = /\[ffmpeg\].*?Destination:(.*)/.exec(data)) != null) {
+      return match[1];
+    }
+    return null;
   }
 
   /* Pauses download of given URL by killing its child process */
