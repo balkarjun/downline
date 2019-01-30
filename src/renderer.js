@@ -19,7 +19,9 @@ const store = new Store('downline', {
   maxSimultaneous: 2,
   autonumberItems: false,
   etag: '',
-  latestVersion: ''
+  latestVersion: '',
+  audioFormatIndex: 0,
+  videoFormatIndex: 0
 });
 
 let keys = {};
@@ -36,8 +38,12 @@ const vm = new Vue({
     downloadLocation: store.get('downloadLocation'),
     maxSimultaneous: store.get('maxSimultaneous'),
     autonumberItems: store.get('autonumberItems'),
+    audioFormatIndex: store.get('audioFormatIndex'),
+    videoFormatIndex: store.get('videoFormatIndex'),
     etag: store.get('etag'),
     latestVersion: store.get('latestVersion'),
+    audioFormats: ['mp3', 'aac', 'flac', 'm4a', 'opus', 'vorbis', 'wav'],
+    videoFormats: ['mp4', 'webm', 'mkv'],
     ongoingDownloads: 0,
     downloadQueue: [],
     appVersion: app.getVersion(),
@@ -418,6 +424,8 @@ ipcRenderer.on('save', event => {
   store.set('autonumberItems', vm.autonumberItems);
   store.set('etag', vm.etag);
   store.set('latestVersion', vm.latestVersion);
+  store.set('audioFormatIndex', vm.audioFormatIndex);
+  store.set('videoFormatIndex', vm.videoFormatIndex);
 
   ipcRenderer.send('quit');
 });

@@ -158,17 +158,32 @@
         <div id="max-simultaneous">
           <label>Simultaneous Downloads <small>max. 5</small></label>
           <div>
-            <span class="fas fa-chevron-circle-left" @click="maxSimultaneous = maxSimultaneous>1?--maxSimultaneous:maxSimultaneous">
-            </span>
+            <span class="fas fa-chevron-circle-left" @click="maxSimultaneous = maxSimultaneous>1?--maxSimultaneous:maxSimultaneous"></span>
             <span id="max-simultaneous-text">{{ maxSimultaneous }}</span>
-            <span class="fas fa-chevron-circle-right" @click="maxSimultaneous = maxSimultaneous<5?++maxSimultaneous:maxSimultaneous">
-            </span>
+            <span class="fas fa-chevron-circle-right" @click="maxSimultaneous = maxSimultaneous<5?++maxSimultaneous:maxSimultaneous"></span>
+          </div>
+        </div>
+
+        <div class="formats">
+          <header>Audio Formats</header>
+          <div>
+            <span class="fas fa-chevron-circle-left" @click="audioFormatIndex = audioFormatIndex>0?--audioFormatIndex:audioFormatIndex"></span>
+            <span class="format-text">{{ audioFormats[audioFormatIndex] }}</span>
+            <span class="fas fa-chevron-circle-right" @click="audioFormatIndex = audioFormatIndex<6?++audioFormatIndex:audioFormatIndex"></span>
+          </div>
+        </div>
+
+        <div class="formats">
+          <header>Video Formats</header>
+          <div>
+            <span class="fas fa-chevron-circle-left" @click="videoFormatIndex = videoFormatIndex>0?--videoFormatIndex:videoFormatIndex"></span>
+            <span class="format-text">{{ videoFormats[videoFormatIndex] }}</span>
+            <span class="fas fa-chevron-circle-right" @click="videoFormatIndex = videoFormatIndex<2?++videoFormatIndex:videoFormatIndex"></span>
           </div>
         </div>
 
         <div id="autonumber-items" @click="autonumberItems = !autonumberItems">
-          <span class="fas" :class="[{ 'fa-square': !autonumberItems }, { 'fa-check-square': autonumberItems }]">
-          </span>
+          <span class="fas" :class="[{ 'fa-square': !autonumberItems }, { 'fa-check-square': autonumberItems }]"></span>
           <label>Autonumber Playlist Items</label>
         </div>
       </div>
@@ -186,7 +201,7 @@
         <span id="new-version-message">
           {{ newVersionMessage=='loading'?'':newVersionMessage }}
         </span>
-        
+
         <button @click="update">
           <span class="spinner" v-show="ytdlUpdateMessage == 'loading' || ytdlDownloading"></span>
           {{ ytdlUpdateMessage=='loading'?'Checking':(ytdlDownloading?'Updating':'Update youtube-dl')}}

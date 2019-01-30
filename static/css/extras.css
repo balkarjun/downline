@@ -126,6 +126,7 @@
 /* Autonumber Items */
 #autonumber-items{
   display: flex;
+  padding-bottom: 20px;
 }
 
 #autonumber-items .fas{
@@ -136,6 +137,36 @@
 #autonumber-items label{
   cursor: pointer;
   align-self: center;
+}
+
+/* Audio Format */
+.formats{
+  padding-bottom: 20px;
+}
+
+.formats div{
+  user-select: none; 
+  display: flex; 
+  width: 100px; 
+  margin-top: 5px;
+}
+
+.format-text{
+  width: 55px;
+  text-align: center; 
+  line-height: 100%;
+  font-weight: 500;
+}
+
+.formats .fas{
+  color: var(--black-light);
+  align-self: center;
+}
+.formats .fas:hover{
+  color: var(--gray-dark);
+}
+.formats .fas:active{
+  color: var(--black-light);
 }
 
 /* ----- About Page ----- */
