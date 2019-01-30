@@ -179,9 +179,21 @@
         </div>
         <div id="app-version">Version {{ appVersion }}</div>
         <p>Free and open-source media downloader for YouTube and many other sites</p>
-        <button id="check-for-updates" @click="checkForUpdates">Check for Updates</button>
-        <span id="new-version-message">{{ newVersionMessage }}</span>
-        <button id="update-ytdll">Update youtube-dl</button>
+        <button id="check-for-updates" @click="checkForUpdates">
+          <span class="spinner" v-show="newVersionMessage == 'loading'"></span>
+          {{ newVersionMessage=='loading'?'Checking':'Check for Updates'}}
+        </button>
+        <span id="new-version-message">
+          {{ newVersionMessage=='loading'?'':newVersionMessage }}
+        </span>
+        
+        <button @click="update">
+          <span class="spinner" v-show="ytdlUpdateMessage == 'loading' || ytdlDownloading"></span>
+          {{ ytdlUpdateMessage=='loading'?'Checking':(ytdlDownloading?'Updating':'Update youtube-dl')}}
+        </button>
+        <span id="ytdl-update-message">
+          {{ ytdlUpdateMessage=='loading'?'':ytdlUpdateMessage }}
+        </span>
       </div>
     </section>
   </div>

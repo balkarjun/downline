@@ -5,6 +5,10 @@
   font-size: 15px;
 }
 
+#extras button{
+  line-height: 25px;
+}
+
 #tabs{
   display: flex;
   list-style: none;
@@ -175,12 +179,13 @@
 
 #about button{
   height: 25px;
-  padding: 2px 10px;
+  padding: 0 5px;
   display: block;
   border-radius: 4px;
   margin: 0 auto;
   color: white;
   background-color: var(--blue-dark);
+  min-width: 180px;
 }
 #about button:hover{
   background-color: var(--blue-light);
@@ -189,7 +194,13 @@
   background-color: var(--blue-dark);
 }
 
-#new-version-message{
+#about button .spinner{
+  margin-right: 2px;
+  border-left-color: white;
+  top: 3px;
+}
+
+#new-version-message, #ytdl-update-message{
   text-align: center;
   display: block;
   color: #bbb;

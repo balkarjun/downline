@@ -42,7 +42,9 @@ const vm = new Vue({
     downloadQueue: [],
     appVersion: app.getVersion(),
     activeTab: 'settings',
-    newVersionMessage: ''
+    newVersionMessage: '',
+    ytdlUpdateMessage: '',
+    ytdlDownloading: false
   },
   computed: {
     chosenItems() { // Returns selected items if any, otherwise all items, that are not yet complete
@@ -360,7 +362,7 @@ const vm = new Vue({
       remote.getCurrentWindow().close();
     },
     checkForUpdates() {
-      this.newVersionMessage = '...';
+      this.newVersionMessage = 'loading';
       fetch('https://api.github.com/repos/jarbun/downline/releases/latest', {
         headers: {
           'If-None-Match': this.etag
@@ -392,6 +394,18 @@ const vm = new Vue({
           this.newVersionMessage = '';
           console.log('Fetch Error: ', err);
         });
+    },
+    update() {
+      this.ytdlUpdateMessage = 'loading';
+      this.ytdlDownloading = false;
+      ytdl.update((message, status) => {
+        this.ytdlUpdateMessage = message;
+        if (status == 1) {
+          this.ytdlDownloading = true;
+        } else {
+          this.ytdlDownloading = false;
+        }
+      });
     }
   }
 });

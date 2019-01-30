@@ -189,6 +189,28 @@ class YTDL {
     }
     return 'N/A';
   }
+
+  /* Updates youtube-dl binary */
+  update(setMessage) {
+    const child = spawn(this.ytdlPath, ['--update']);
+
+    child.stdout.on('data', data => {
+      const message = data.toString();
+      console.log(message);
+      let match;
+      if (/youtube-dl\sis\sup-to-date/.exec(message)) {
+        setMessage('No updates available', 0);
+      } else if ((match = /Updating\sto\sversion\s([\d.]+)/.exec(message)) != null) {
+        setMessage(`Updating to version ${match[1]}`, 1);
+      } else if (/Updated\syoutube-dl/.exec(message)) {
+        setMessage('Updated successfully', 0);
+      } else if (/ERROR:\sno\swrite\spermissions/) {
+        setMessage('ERROR: Unable to update', 0);
+      } else {
+        setMessage(message);
+      }
+    });
+  }
 }
 
 module.exports = YTDL;

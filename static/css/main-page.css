@@ -202,24 +202,6 @@
   user-select: none;
 }
 
-/* Spinner */
-.spinner {
-  display: inline-block;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-left-color: var(--gray-light);
-  border-radius: 50%;
-  width: 11px;
-  height: 11px;
-  position: relative;
-  top: 2.5px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
 #bottom button{
   height: 25px;
   width: 100%;
