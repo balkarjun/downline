@@ -123,6 +123,9 @@ const vm = new Vue({
     isCompleted(item) {
       return item.state === 'completed';
     },
+    isPostprocessing(item) {
+      return item.state === 'postprocessing';
+    },
     choose(item) {
       if (keys[17]) {
         // If ctrl key is pressed, select clicked item
@@ -257,15 +260,16 @@ const vm = new Vue({
           audioFormat: this.audioFormats[this.audioFormatIndex],
           videoFormat: this.videoFormats[this.videoFormatIndex],
           onStart: () => console.log('Download Started'),
-          onDownload: (url, { progress, filepath }) => {
+          onDownload: (url, { progress, filepath, isPostprocessing }) => {
             const index = this.downloadables.findIndex(x => x.url === url);
             if (progress != null) this.downloadables[index].progress = progress;
             if (filepath != null) this.downloadables[index].filepath = filepath;
+            if (isPostprocessing) this.downloadables[index].state = 'postprocessing';
           },
           onComplete: (url) => {
             const index = this.downloadables.findIndex(x => x.url === url);
             // If process was exit after downloading and not after pausing
-            if (this.downloadables[index].state === 'downloading') {
+            if (this.downloadables[index].state === 'downloading' || this.downloadables[index].state === 'postprocessing') {
               this.downloadables[index].state = 'completed';
 
               this.ongoingDownloads--;
@@ -353,7 +357,8 @@ const vm = new Vue({
       };
     },
     showInFolder(filepath) {
-      shell.showItemInFolder(filepath);
+      console.log(filepath);
+      console.log(shell.showItemInFolder(filepath));
     },
     openLink(link) {
       shell.openExternal(link);

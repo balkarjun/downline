@@ -37,16 +37,15 @@
           <div class="downloadable" :class="{chosen: item.isChosen}" v-for="(item, index) in downloadables" :key="item.url">
             <section class="left">
               <img :src="item.thumbnail" onerror="this.src='../static/images/placeholder.png'">
-              <span class="fas fa-play-circle" v-if="item.state === 'stopped'" @click="download(item.url)">
-              </span>
+              <span class="fas fa-play-circle" v-if="item.state === 'stopped'" @click="download(item.url)"></span>
               <span class="fas fa-pause-circle" v-else-if="item.state === 'downloading' || item.state === 'queued'"
                 @click="pause(item.url)">
               </span>
-              <span v-else>
+              <span v-else-if="isCompleted(item)">
                 <span class="fas fa-check"></span>
                 <span class="fas fa-redo-alt" @click="restart(item.url)"></span>
               </span>
-            </section>
+            </section> 
 
             <section class="middle" @click="choose(item)">
               <h1>{{ item.title }}</h1>
@@ -83,9 +82,13 @@
                     <span>{{ item.progress.value }}% of {{ item.progress.size }} &centerdot; {{ item.progress.speed }}</span>
                     <span>{{ item.progress.eta }}</span>
                   </span>
+                  <span class="postprocessing" v-else-if="isPostprocessing(item)">
+                    <span class="spinner"></span>
+                    Postprocessing
+                  </span>
                 </span>
 
-                <span v-if="!isCompleted(item)" class="bar">
+                <span v-if="!isCompleted(item) && !isPostprocessing(item)" class="bar">
                   <span class="value" :style="progressValue(item.url)"></span>
                 </span>
               </div>

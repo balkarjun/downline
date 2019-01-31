@@ -168,6 +168,15 @@
   justify-content: space-between;
 }
 
+.progress .info .postprocessing{
+  justify-content: start;
+  margin-left: 4px;
+}
+.progress .info .postprocessing .spinner{
+  margin-right: 5px;
+  top: -0.6px;
+}
+
 .progress .bar{
   display: block;
   width: 100%;

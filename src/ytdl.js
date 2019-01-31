@@ -138,7 +138,8 @@ class YTDL {
       console.log(data.toString());
       onDownload(item.url, {
         progress: this._extractProgress(data.toString()),
-        filepath: this._getFilepath(data.toString())
+        filepath: this._getFilepath(data.toString()),
+        isPostprocessing: this._isPostprocessing(data.toString())
       });
     });
     // Log errors
@@ -169,10 +170,14 @@ class YTDL {
       return match[1];
     }
     // Encountered during format conversion
-    if ((match = /\[ffmpeg\].*?Destination:(.*)/.exec(data)) != null) {
+    if ((match = /\[ffmpeg\].*?Destination:\s(.*)/.exec(data)) != null) {
       return match[1];
     }
     return null;
+  }
+
+  _isPostprocessing(data) {
+    return /\[ffmpeg\]/.exec(data) != null;
   }
 
   /* Pauses download of given URL by killing its child process */
