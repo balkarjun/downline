@@ -122,7 +122,7 @@ class YTDL {
 
     if (item.isAudioChosen) {
       args.push(...['--extract-audio', '--audio-format', audioFormat]);
-    } else if (videoFormat != 'best') {
+    } else if (videoFormat != 'default') {
       args.push(...['--recode-video', videoFormat]);
     }
 

@@ -142,6 +142,7 @@
 /* Audio Format */
 .formats{
   padding-bottom: 20px;
+  user-select: none;
 }
 
 .formats div{
@@ -152,7 +153,7 @@
 }
 
 .format-text{
-  width: 55px;
+  width: 60px;
   text-align: center; 
   line-height: 100%;
   font-weight: 500;
