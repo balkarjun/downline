@@ -10,9 +10,9 @@
     "prebuild:all": "rm -rf dist && rm -rf releases/*",
     "build:all": "npm run build:win & npm run build:linux & npm run build:mac & wait",
     "build:win": "build --win",
-    "postbuild:win": "cd \"./dist/win\" && mv *.exe ../../releases/downline-$npm_package_version-setup-windows.exe && 7z a -mx=9 downline-$npm_package_version-portable-windows.7z win-unpacked && mv *.7z ../../releases/",
+    "postbuild:win": "cd \"./dist/win\" && mv *.exe ../../releases/downline-$npm_package_version-setup-windows.exe && mv win-unpacked downline && 7z a -mx=9 downline-$npm_package_version-portable-windows.7z downline && mv *.7z ../../releases/",
     "build:linux": "build --linux",
-    "postbuild:linux": "cd \"./dist/linux\" && mv *.AppImage ../../releases/downline-$npm_package_version-appimage-linux.AppImage && tar -cJf downline-$npm_package_version-portable-linux.tar.xz linux-unpacked && mv *.tar.xz ../../releases/",
+    "postbuild:linux": "cd \"./dist/linux\" && mv *.AppImage ../../releases/downline-$npm_package_version-appimage-linux.AppImage && mv linux-unpacked downline && tar -cJf downline-$npm_package_version-portable-linux.tar.xz downline && mv *.tar.xz ../../releases/",
     "build:mac": "build --mac",
     "postbuild:mac": "cd \"./dist/mac/mac\" && 7z a -mx=9 downline-$npm_package_version-portable-macos.7z Downline.app && mv *.7z ../../../releases/"
   },
