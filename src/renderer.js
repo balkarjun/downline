@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'DEV') {
 
 const ytdl = new YTDL();
 
-const store = new Store('downline', {
+const store = new Store('store', {
   downloadables: [],
   downloadLocation: '../',
   maxSimultaneous: 2,
