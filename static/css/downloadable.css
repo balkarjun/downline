@@ -11,6 +11,18 @@
 .downloadable.chosen{
   background-color: var(--highlight);
 }
+.downloadable.chosen .options .fas{
+  color: var(--gray-dark);
+}
+.downloadable.chosen .options .fas:hover{
+  color: var(--gray-light);
+}
+.downloadable.chosen .options .selected{
+  color: white;
+}
+.downloadable.chosen .options .selected:hover{
+  color: white;
+}
 .downloadable.chosen:hover{
   background-color: var(--highlight);
 }

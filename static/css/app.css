@@ -3,7 +3,7 @@
 :root{
   --titlebar: #1d1d1d;
   --background: #2f2f2f;
-  --highlight: rgba(120, 120, 120, 0.5);
+  --highlight: rgba(120, 120, 120, 0.4);
   --scrollbar: #666666;
 
   --black-dark: #222;
