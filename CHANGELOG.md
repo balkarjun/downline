@@ -1,3 +1,20 @@
+## v1.3.0 (2019-02-01)
+
+This update introduces format conversion for audio and video among other features and has a significantly better 
+user interface.
+
+### Added
+- Major UI improvements
+- Format conversion for audio ```(mp3, aac, m4a and more)``` 
+- Format conversion for video ```(mp4, webm, mkv)```
+- Option to update youtube-dl
+
+### Fixed
+- Major error that caused a few videos to not load
+
+### Changed
+- Ctrl+Click to select an item or multiple items
+
 ## v1.2.0 (2019-01-11)
 ### Added
 - Playlist items are now downloaded to a separate folder
