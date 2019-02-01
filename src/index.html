@@ -70,7 +70,7 @@
               <div class="progress" v-else>
                 <span class="info">
                   <span v-if="isCompleted(item)">
-                    <span class="fas fa-folder" data-tooltip="Show in Folder" @click="showInFolder(item.filepath)"></span>
+                    <span class="fas fa-folder" @click="showInFolder(item.filepath)"></span>
                   </span>
                   <span v-else-if="isStarting(item)">Starting Download</span>
                   <span v-else-if="isQueued(item)">Queued</span>

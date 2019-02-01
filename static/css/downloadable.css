@@ -201,6 +201,7 @@
   display: block;
   height: 100%;
   border-radius: 4px;
+  transition: width .25s;
   background-color: var(--blue-light);
 }
 

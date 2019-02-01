@@ -11,6 +11,7 @@
 #inputbar{
   display: flex;
   height: 40px;
+  background-color: var(--black-dark);
 }
 
 #inputbar input{
@@ -30,11 +31,11 @@
 
 #inputbar .fas{
   color: var(--gray-light);
-  background-color: var(--black-dark);
   font-size: 19px;
   line-height: 40px;
   width: 40px;
   text-align: center;
+  transition: background-color .15s;
 }
 
 #inputbar .fas:hover{
@@ -171,6 +172,7 @@
   border-radius: 50%;
   cursor: pointer;
   color: var(--gray-light);
+  transition: background-color .15s;
 }
 
 #show-hide .fas{
