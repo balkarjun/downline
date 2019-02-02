@@ -1,4 +1,4 @@
-## v1.3.0 (2019-02-01)
+## v1.3.0 (2019-02-02)
 
 This update introduces format conversion for audio and video among other features and has a significantly better 
 user interface.
