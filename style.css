@@ -7,20 +7,29 @@ body{
 h1{
   text-align: center;
   font-size: 58px;
-  margin: 15px 0;
+  margin: 30px 0 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+h1 img{
+  width: 64px;
+  height: 64px;
+  align-self: center;
+  padding-right: 10px;
 }
 
 h2{
   font-size: 38px;
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 h3{
   font-weight: 400;
   text-align: center;
   width: 90%;
-  margin: 0 auto;
+  margin: 10px auto;
   font-size: 22px;
 }
 
@@ -60,6 +69,18 @@ footer a{
   color: #bbb;
 }
 
+#latest-version{
+  padding-top: 20px;
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+  font-size: 21px;
+}
+
+#latest-version strong{
+  font-weight: 500;
+}
+
 .clickable{
   color: white;
   background-color: #1565C0;
@@ -96,10 +117,7 @@ footer a{
 }
 
 .separator{
-  display: block;
-  margin: 5px auto;
-  border-bottom: 2px solid #ccc;
-  width: 240px;
+  margin: 10px auto;
 }
 
 #screenshots{
@@ -123,19 +141,6 @@ footer a{
   width: 100%;
 }
 
-#latest-version{
-  padding-top: 20px;
-  display: block;
-  width: 90%;
-  margin: 0 auto;
-  font-size: 18px;
-}
-
-#latest-version strong{
-  font-weight: 500;
-  font-size: 19px;
-}
-
 #downloads{
   text-align: center;
   display: block;
@@ -145,4 +150,6 @@ footer a{
 #more-info{
   text-align: center;
   font-weight: 500;
+  width: 90%;
+  margin: 0 auto;
 }
