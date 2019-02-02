@@ -1,28 +1,29 @@
 # Downline
 ![GitHub All Releases](https://img.shields.io/github/downloads/jarbun/downline/total.svg)
 
-**[Downline](https://jarbun.github.io/downline/) is a free and open source video and audio downloader** for YouTube, Vimeo, Dailymotion, SoundCloud and many other sites and works on Windows, MacOS and Linux.
+[Downline](https://jarbun.github.io/downline/) is a free, cross-platform desktop application for downloading video and audio from YouTube and many other sites.
 
-Downline is built using [electron](https://electronjs.org/) and [vuejs](https://vuejs.org/), and uses [youtube-dl](https://github.com/rg3/youtube-dl/) and [ffmpeg](https://ffmpeg.org/).
+Downline works on Windows, MacOS and Linux.
 
 **Download the latest version [here](https://github.com/jarbun/downline/releases/latest)**.
 
 ## Screenshots
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/23068820/50515866-42650180-0acd-11e9-9e8f-02b0292929a5.png" alt="screenshot" width="540"/>
+  <img src="https://user-images.githubusercontent.com/23068820/52162513-f5db9a00-26fa-11e9-8cca-964d921f3bf3.png" alt="screenshots" width="460"/>
 </p>
 
 ## Features
 - Works for links from [several sites](https://rg3.github.io/youtube-dl/supportedsites.html)
 - Choose audio and video quality (with support for 4K videos)
+- Convert audio to multiple formats ```(mp3, aac, m4a and more)```
+- Convert video to multiple formats ```(mp4, webm, mkv)```
 - Pause and resume downloads
 - Download entire playlist and channel
 - Download and embed subtitles
 - Download multiple files simultaneously
 
 ### Coming Soon
-- Choose video and audio format
-- Choose format for filenames
+- More file naming options
 - Notifications and system tray integration
 - Load links from text file
 - Display errors
@@ -75,7 +76,13 @@ If you would like to build for a platform without all the extra build steps (or 
 ```
 ./node_modules/.bin/electron-builder build --platform
 ```
-More information about packaging and distribution can be found on the [electron-builder docs](https://www.electron.build/).
+
+## Credits
+- [youtube-dl](https://github.com/rg3/youtube-dl/)
+- [ffmpeg](https://ffmpeg.org/)
+- [electron](https://electronjs.org/)
+- [electron-builder](https://www.electron.build/)
+- [vuejs](https://vuejs.org/)
 
 ## Legal
 This software is distributed under the [MIT license](https://github.com/jarbun/downline/blob/master/LICENSE).
