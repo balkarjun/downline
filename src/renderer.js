@@ -32,7 +32,7 @@ const vm = new Vue({
   el: '#app',
   data: {
     newURL: '',
-    isExtrasOpen: true,
+    isExtrasOpen: false,
     showMoreOptions: false,
     downloadables: store.get('downloadables'),
     downloadLocation: store.get('downloadLocation'),
@@ -47,7 +47,7 @@ const vm = new Vue({
     ongoingDownloads: 0,
     downloadQueue: [],
     appVersion: app.getVersion(),
-    activeTab: 'about',
+    activeTab: 'settings',
     newVersionMessage: '',
     ytdlUpdateMessage: '',
     ytdlDownloading: false

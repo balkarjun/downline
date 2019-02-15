@@ -186,13 +186,14 @@
         </div>
       </section>
       <section id="about" v-else-if="activeTab === 'about'">
-        <div id="app-name-logo">
+        <div id="app-name-logo" @click="openLink('https://jarbun.github.io/downline/')">
           <img src="../static/images/icon.png">
-          <span @click="openLink('https://jarbun.github.io/downline/')">
+          <span>
             Downline
           </span>
         </div>
-        <div id="app-version">Version {{ appVersion }}</div>
+        <div id="author">Created by <strong>Arjun B</strong></div>
+        <div id="app-version">Version <strong>{{ appVersion }}</strong></div>
         <p>Free and open-source media downloader for YouTube and many other sites</p>
         <button id="check-for-updates" @click="checkForUpdates">
           <span class="spinner" v-show="newVersionMessage == 'loading'"></span>

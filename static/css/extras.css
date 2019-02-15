@@ -179,6 +179,7 @@
   display: flex;
   width: 150px;
   margin: 0 auto 5px auto;
+  cursor: pointer;
 }
 
 #app-name-logo img{
@@ -192,17 +193,28 @@
   line-height: 35px;
   margin-left: 10px;
   letter-spacing: 0.3px;
-  cursor: pointer;
-  color: #ccc;
-  text-decoration: underline;
 }
 #app-name-logo span:hover{
-  color: white;
+  text-decoration: underline;
+}
+
+#author{
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+#author strong{
+  font-weight: 500;
 }
 
 #app-version{
+  padding-top: 5px;
   letter-spacing: 0.3px;
   text-align: center;
+}
+
+#app-version strong{
+  font-weight: 500;
 }
 
 #about p{
