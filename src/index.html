@@ -17,19 +17,16 @@
 <body>
   <div id="app">
     <section id="titlebar">
-      <span class="fas" :class="[{ 'fa-cog': !isExtrasOpen }, { 'fa-arrow-left': isExtrasOpen }]" @click="isExtrasOpen = !isExtrasOpen">
-      </span>
+      <span class="fas" :class="[{ 'fa-cog': !isExtrasOpen }, { 'fa-arrow-left': isExtrasOpen }]" @click="isExtrasOpen = !isExtrasOpen"></span>
       <h1>Downline</h1>
       <span id="minimize-btn" @click="minimize">&minus;</span>
       <span id="close-btn" @click="close">&times;</span>
     </section>
 
     <section id="main-page">
-      <section id="top">
-        <div id="inputbar">
-          <input type="text" spellcheck="false" placeholder="Enter URL" v-model="newURL" @keyup.enter="fetchInfo">
-          <span @click="fetchInfo" class="fas fa-plus"></span>
-        </div>
+      <section id="inputbar">
+        <input type="text" spellcheck="false" placeholder="Enter URL" v-model="newURL" @keyup.enter="fetchInfo">
+        <span @click="fetchInfo" class="fas fa-plus"></span>
       </section>
 
       <section id="center" :class="{'center-height': showMoreOptions}">
@@ -38,9 +35,7 @@
             <section class="left">
               <img :src="item.thumbnail" onerror="this.src='../static/images/placeholder.png'">
               <span class="fas fa-play-circle" v-if="item.state === 'stopped'" @click="download(item.url)"></span>
-              <span class="fas fa-pause-circle" v-else-if="item.state === 'downloading' || item.state === 'queued'"
-                @click="pause(item.url)">
-              </span>
+              <span class="fas fa-pause-circle" v-else-if="item.state === 'downloading' || item.state === 'queued'" @click="pause(item.url)"></span>
               <span v-else-if="isCompleted(item)">
                 <span class="fas fa-check"></span>
                 <span class="fas fa-redo-alt" @click="restart(item.url)"></span>
@@ -149,7 +144,7 @@
         <li @click="activeTab = 'about'" :class="{active: activeTab === 'about'}">About</li>
       </ul>
 
-      <div id="settings" v-if="activeTab === 'settings'">
+      <section id="settings" v-if="activeTab === 'settings'">
         <div id="download-location">
           <label>Download Location</label>
           <div>
@@ -189,11 +184,13 @@
           <span class="fas" :class="[{ 'fa-square': !autonumberItems }, { 'fa-check-square': autonumberItems }]"></span>
           <label>Autonumber Playlist Items</label>
         </div>
-      </div>
-      <div id="about" v-else-if="activeTab === 'about'">
+      </section>
+      <section id="about" v-else-if="activeTab === 'about'">
         <div id="app-name-logo">
           <img src="../static/images/icon.png">
-          <span @click="openLink('https://jarbun.github.io/downline/')">Downline</span>
+          <span @click="openLink('https://jarbun.github.io/downline/')">
+            Downline
+          </span>
         </div>
         <div id="app-version">Version {{ appVersion }}</div>
         <p>Free and open-source media downloader for YouTube and many other sites</p>
@@ -212,7 +209,7 @@
         <span id="ytdl-update-message">
           {{ ytdlUpdateMessage=='loading'?'':ytdlUpdateMessage }}
         </span>
-      </div>
+      </section>
     </section>
   </div>
 

@@ -2,12 +2,7 @@
   background-color: var(--background);
 }
 
-/* ----- Top ----- */
-#top{
-  height: 40px;
-}
-
-/* Inputbar */
+/* ----- Inputbar ----- */
 #inputbar{
   display: flex;
   height: 40px;
