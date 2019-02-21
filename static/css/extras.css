@@ -175,36 +175,27 @@
   user-select: none;
 }
 
-#app-name-logo{
+#about header{
   display: flex;
   width: 150px;
   margin: 0 auto 5px auto;
   cursor: pointer;
 }
 
-#app-name-logo img{
+#about header img{
   width: 35px;
   height: 35px;
 }
 
-#app-name-logo span{
+#about header span{
   font-weight: 500;
   font-size: 18px;
   line-height: 35px;
   margin-left: 10px;
   letter-spacing: 0.3px;
 }
-#app-name-logo span:hover{
+#about header span:hover{
   text-decoration: underline;
-}
-
-#author{
-  letter-spacing: 0.3px;
-  text-align: center;
-}
-
-#author strong{
-  font-weight: 500;
 }
 
 #app-version{
@@ -220,13 +211,30 @@
 #about p{
   text-align: center;
   font-size: 15.5px;
+  margin: 10px 0 5px 0;
+}
+
+#author{
+  letter-spacing: 0.3px;
+  text-align: center;
+  color: var(--gray-light);
+  margin-bottom: 25px;
+  cursor: pointer;
+}
+
+#author strong{
+  font-weight: 500;
+}
+
+#author:hover{
+  text-decoration: underline;
 }
 
 #about button{
   padding: 0 5px;
   display: block;
   border-radius: 40px;
-  margin: 0 auto;
+  margin: 15px auto 0 auto;
   color: white;
   background-color: var(--blue-dark);
   min-width: 180px;
@@ -244,10 +252,10 @@
   top: 3px;
 }
 
-#new-version-message, #ytdl-update-message{
+.update-message{
   text-align: center;
   display: block;
   color: #bbb;
   margin-top: 5px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }

@@ -186,29 +186,33 @@
         </div>
       </section>
       <section id="about" v-else-if="activeTab === 'about'">
-        <div id="app-name-logo" @click="openLink('https://jarbun.github.io/downline/')">
+        <header @click="openLink('https://jarbun.github.io/downline/')">
           <img src="../static/images/icon.png">
-          <span>
-            Downline
-          </span>
+          <span>Downline</span>
+        </header>
+        <div id="app-version">
+          Version 
+          <strong>{{ appVersion }}</strong>
         </div>
-        <div id="author">Created by <strong>Arjun B</strong></div>
-        <div id="app-version">Version <strong>{{ appVersion }}</strong></div>
         <p>Free and open-source media downloader for YouTube and many other sites</p>
-        <button id="check-for-updates" @click="checkForUpdates">
+        <div id="author" @click="openLink('https://github.com/jarbun')">
+          Created by <strong>Arjun B</strong>
+        </div>
+        
+        <button @click="checkForUpdates">
           <span class="spinner" v-show="newVersionMessage == 'loading'"></span>
           {{ newVersionMessage=='loading'?'Checking':'Check for Updates'}}
         </button>
-        <span id="new-version-message">
-          {{ newVersionMessage=='loading'?'':newVersionMessage }}
+        <span class="update-message" v-if="newVersionMessage && newVersionMessage != 'loading'">
+          {{ newVersionMessage }}
         </span>
 
         <button @click="update">
           <span class="spinner" v-show="ytdlUpdateMessage == 'loading' || ytdlDownloading"></span>
           {{ ytdlUpdateMessage=='loading'?'Checking':(ytdlDownloading?'Updating':'Update youtube-dl')}}
         </button>
-        <span id="ytdl-update-message">
-          {{ ytdlUpdateMessage=='loading'?'':ytdlUpdateMessage }}
+        <span class="update-message" v-if="ytdlUpdateMessage && ytdlUpdateMessage != 'loading'">
+          {{ ytdlUpdateMessage }}
         </span>
       </section>
     </section>
