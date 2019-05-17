@@ -1,13 +1,29 @@
 /* NodeJS API for youtube-dl */
+const electron = require('electron');
 const { spawn } = require('child_process');
 const path = require('path');
+const fse = require('fs-extra');
 
 class YTDL {
   constructor() {
+    const userDataPath = (electron.app || electron.remote.app).getPath('userData');
+
     // Path to youtube-dl binary
-    this.ytdlPath = process.env.NODE_ENV === 'DEV'
-      ? path.join(process.cwd(), 'resources', 'youtube-dl', 'youtube-dl')
-      : path.join(__dirname, '../../', 'youtube-dl', 'youtube-dl');
+    this.ytdlPath = path.join(userDataPath, 'resources', 'youtube-dl', 'youtube-dl');
+
+    this.resourcesReady = new Promise((resolve, reject) => {
+      const resourcesSourcePath = process.env.NODE_ENV === 'DEV'
+        ? path.join(process.cwd(), 'resources', 'youtube-dl')
+        :  path.join(__dirname, '../../', 'youtube-dl');
+
+      if (fse.existsSync(this.ytdlPath)) {
+        resolve();
+      } else {
+        fse.copy(resourcesSourcePath, path.join(userDataPath, 'resources', 'youtube-dl'))
+          .then(() => resolve(), (reason) => reject(reason));
+      }
+    });
+
     // Path to directory containing ffmpeg
     this.ffmpegPath = process.env.NODE_ENV === 'DEV'
       ? path.join(process.cwd(), 'resources', 'ffmpeg')
@@ -21,13 +37,15 @@ class YTDL {
   /* Fetches information for a list of URLs */
   fetchInfo({ urls, onSuccess, onError, onExit }) {
     const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors', ...urls];
-    const child = spawn(this.ytdlPath, args);
+    this.resourcesReady.then(() => {
+      const child = spawn(this.ytdlPath, args);
 
-    child.stdout.on('data', data => onSuccess(this._getMetadata(data.toString())));
+      child.stdout.on('data', data => onSuccess(this._getMetadata(data.toString())));
 
-    child.stderr.on('data', error => onError(error.toString()));
+      child.stderr.on('data', error => onError(error.toString()));
 
-    child.on('exit', onExit);
+      child.on('exit', onExit);
+    });
   }
 
   /* Returns metadata for a url when given JSON dump */
@@ -127,30 +145,31 @@ class YTDL {
     }
 
     args.push(item.url);
+    this.resourcesReady.then(() => {
+      const child = spawn(this.ytdlPath, args);
+      onStart();
 
-    const child = spawn(this.ytdlPath, args);
-    onStart();
+      this.ongoing.push({ url: item.url, pid: child.pid });
 
-    this.ongoing.push({ url: item.url, pid: child.pid });
-
-    // Send download progress info
-    child.stdout.on('data', data => {
-      console.log(data.toString());
-      onDownload(item.url, {
-        progress: this._extractProgress(data.toString()),
-        filepath: this._getFilepath(data.toString()),
-        isPostprocessing: this._isPostprocessing(data.toString())
+      // Send download progress info
+      child.stdout.on('data', data => {
+        console.log(data.toString());
+        onDownload(item.url, {
+          progress: this._extractProgress(data.toString()),
+          filepath: this._getFilepath(data.toString()),
+          isPostprocessing: this._isPostprocessing(data.toString())
+        });
       });
-    });
-    // Log errors
-    child.stderr.on('data', data => console.error(data.toString()));
+      // Log errors
+      child.stderr.on('data', data => console.error(data.toString()));
 
-    // Remove completed download from ongoing list
-    child.on('close', () => {
-      const indexOfCompleted = this.ongoing.findIndex(x => x.url === item.url);
-      this.ongoing.splice(indexOfCompleted, 1);
+      // Remove completed download from ongoing list
+      child.on('close', () => {
+        const indexOfCompleted = this.ongoing.findIndex(x => x.url === item.url);
+        this.ongoing.splice(indexOfCompleted, 1);
 
-      onComplete(item.url);
+        onComplete(item.url);
+      });
     });
   }
 
@@ -212,23 +231,25 @@ class YTDL {
 
   /* Updates youtube-dl binary */
   update(setMessage) {
-    const child = spawn(this.ytdlPath, ['--update']);
+    this.resourcesReady.then(() => {
+      const child = spawn(this.ytdlPath, ['--update']);
 
-    child.stdout.on('data', data => {
-      const message = data.toString();
-      console.log(message);
-      let match;
-      if (/youtube-dl\sis\sup-to-date/.exec(message)) {
-        setMessage('No updates available', 0);
-      } else if ((match = /Updating\sto\sversion\s([\d.]+)/.exec(message)) != null) {
-        setMessage(`Updating to version ${match[1]}`, 1);
-      } else if (/Updated\syoutube-dl/.exec(message)) {
-        setMessage('Updated successfully', 0);
-      } else if (/ERROR:\sno\swrite\spermissions/) {
-        setMessage('ERROR: Unable to update', 0);
-      } else {
-        setMessage(message);
-      }
+      child.stdout.on('data', data => {
+        const message = data.toString();
+        console.log(message);
+        let match;
+        if (/youtube-dl\sis\sup-to-date/.exec(message)) {
+          setMessage('No updates available', 0);
+        } else if ((match = /Updating\sto\sversion\s([\d.]+)/.exec(message)) != null) {
+          setMessage(`Updating to version ${match[1]}`, 1);
+        } else if (/Updated\syoutube-dl/.exec(message)) {
+          setMessage('Updated successfully', 0);
+        } else if (/ERROR:\sno\swrite\spermissions/) {
+          setMessage('ERROR: Unable to update', 0);
+        } else {
+          setMessage(message);
+        }
+      });
     });
   }
 }
