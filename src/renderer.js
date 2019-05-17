@@ -50,7 +50,10 @@ const vm = new Vue({
     activeTab: 'settings',
     newVersionMessage: '',
     ytdlUpdateMessage: '',
-    ytdlDownloading: false
+    ytdlDownloading: false,
+    undo: {
+      downloadables: undefined
+    }
   },
   computed: {
     chosenItems() { // Returns selected items if any, otherwise all items, that are not yet complete
@@ -293,14 +296,22 @@ const vm = new Vue({
       this.downloadables.splice(index, 1);
     },
     clearCompleted() {
+      this.undo.downloadables = this.downloadables.slice();
+
       this.downloadables
         .filter(x => x.state === 'completed')
         .forEach(x => this.clear(x.url));
     },
     clearMany() {
+      this.undo.downloadables = this.downloadables.slice();
+
       this.downloadables
         .filter(x => x.isChosen || !this.anyChosen)
         .forEach(x => this.clear(x.url));
+    },
+    undoClear() {
+      this.downloadables = this.undo.downloadables;
+      this.undo.downloadables = undefined;
     },
     toggleShowMore() {
       this.showMoreOptions = !this.showMoreOptions;
