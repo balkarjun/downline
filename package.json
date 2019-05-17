@@ -6,7 +6,7 @@
   "homepage": "https://github.com/jarbun/downline",
   "main": "./src/main.js",
   "scripts": {
-    "dev": "NODE_ENV=DEV electron .",
+    "dev": "cross-env NODE_ENV=dev electron .",
     "prebuild:all": "rm -rf dist && rm -rf releases/*",
     "build:all": "npm run build:win & npm run build:linux & npm run build:mac & wait",
     "build:win": "build --win",
@@ -20,7 +20,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^3.0.10",
-    "electron-builder": "^20.36.2"
+    "electron-builder": "^20.36.2",
+    "cross-env": "^5.2.0"
   },
   "build": {
     "appId": "com.jarbun.downline",
