@@ -193,6 +193,11 @@
   color: white;
 }
 
+#bottom .undo-button {
+  height: initial;
+  width: initial;
+}
+
 .rotate-arrow{
   transform: rotate(180deg);
 }

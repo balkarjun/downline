@@ -117,6 +117,7 @@
             </span>
           </div>
           <div id="buttons">
+            <button data-tooltip="Undo Clear" v-if="this.undo.downloadables" @click="undoClear" class="undo-button">Undo</button>
             <span data-tooltip="Clear Completed" :class="{'hidden': !anyCompleted}" class="fas fa-minus-circle" @click="clearCompleted"></span>
             <span data-tooltip="Clear All" v-if="existsItems && !anyChosen" class="fas fa-times-circle" @click="clearMany"></span>
             <span data-tooltip="Clear Selected" v-if="existsItems && anyChosen" class="fas fa-times-circle" @click="clearMany"></span>

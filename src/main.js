@@ -17,7 +17,10 @@ app.on('ready', () => {
     minHeight: 500,
     frame: false,
     show: false,
-    icon: path.join(__dirname, '../static/images/icon.png')
+    icon: path.join(__dirname, '../static/images/icon.png'),
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
   mainWindow.loadURL(url);
 
