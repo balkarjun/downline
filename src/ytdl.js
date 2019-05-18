@@ -16,10 +16,11 @@ class YTDL {
         ? path.join(process.cwd(), 'resources', 'youtube-dl')
         :  path.join(__dirname, '../../', 'youtube-dl');
 
-      if (fse.existsSync(this.ytdlPath)) {
+      const targetPath = path.join(userDataPath, 'resources', 'youtube-dl');
+      if (fse.existsSync(targetPath)) {
         resolve();
       } else {
-        fse.copy(resourcesSourcePath, path.join(userDataPath, 'resources', 'youtube-dl'))
+        fse.copy(resourcesSourcePath, targetPath)
           .then(() => resolve(), (reason) => reject(reason));
       }
     });
