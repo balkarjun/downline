@@ -1,3 +1,13 @@
+## v1.3.1 (2019-06-03)
+This updates fixes a few (major) bugs, and adds a few features
+
+### Added
+- Undo button to restore deleted items (thanks to [@stefnotch](https://github.com/stefnotch))
+- Minor visual improvements
+
+### Fixed
+- youtube-dl update issue on windows and mac (thanks to [@stefnotch](https://github.com/stefnotch))
+
 ## v1.3.0 (2019-02-02)
 
 This update introduces format conversion for audio and video among other features and has a significantly better 
