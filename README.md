@@ -35,9 +35,12 @@ resources
 └ youtube-dl
   └ youtube-dl.exe
 ```
-Install dependencies (`electron` and `electron-builder`) and run the app (on port 5500):
+Install dependencies:
 ```
 npm install
+```
+Running the app in development mode (so you can edit without having to restart the app everytime) requires `src/index.html` to be served from a local server on port 5500 (Ex:`http://127.0.0.1:5500/src/index.html`). You can use any program of your choice to serve the files or use the `vscode live server` extension if you're developing the app on VSCode. Once you've set up the server:
+```
 npm run dev
 ```
 
