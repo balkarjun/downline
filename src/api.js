@@ -13,3 +13,13 @@ function createDownloadable(data) {
   const metadata = JSON.parse(data.toString())
   console.log(metadata);
 }
+
+function getMediaType(format) {
+  const { vcodec, acodec, height, width } = format;
+
+  if (height !== undefined || width !== undefined) {
+    return (vcodec !== 'none' && acodec === 'none') ? 'video' : 'both';
+  } else {
+    return 'audio';
+  }
+}
