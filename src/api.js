@@ -3,12 +3,6 @@ const { spawn } = require('child_process');
 const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
 const ytdlPath = '../../resources/youtube-dl';
 
-const MediaType = {
-  VIDEO_ONLY: 'video-only',
-  AUDIO: 'audio',
-  VIDEO: 'video'
-}
-
 function fetchInfo(link) {
   const child = spawn(ytdlPath, [...args, link]);
 
@@ -17,7 +11,7 @@ function fetchInfo(link) {
 
 function createDownloadable(data) {
   const metadata = JSON.parse(data.toString())
-  console.log(metadata);
+  console.log(getFormats(metadata.formats));
 }
 
 function getFormats(rawFormats) {
@@ -26,38 +20,32 @@ function getFormats(rawFormats) {
   let videoSeen = new Set();
 
   rawFormats.forEach(format => {
-    const type = getMediaType(format);
-    const { abr, height, format_id } = format;
+    const { acodec, vcodec, abr, width, height, format_id } = format;
+    let quality = null, code = null;
 
-    if (type === MediaType.AUDIO && abr && !audioSeen.has(abr)) {
-      formats.audio.push({
-        quality: abr,
-        code: `bestaudio[abr<=${abr}]`
-      })
-      audioSeen.add(abr);
-    } else if (type === MediaType.VIDEO_ONLY && height && !videoSeen.has(height)) {
-      formats.video.push({
-        quality: height,
-        code: `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]`
-      })
-      videoSeen.add(height);
-    } else if (type === MediaType.VIDEO && !videoSeen.has(height || format_id)) {
-      formats.video.push({
-        quality: height || format_id,
-        code: format_id
-      })
-      videoSeen.add(height || format_id);
+    if (height === undefined && width === undefined) {
+      // Format has audio only
+      quality = abr;
+      code = `bestaudio[abr<=${abr}]`;
+      if (quality && !audioSeen.has(quality)) {
+        formats.audio.push({ quality, code });
+        audioSeen.add(quality);
+      }
+    } else {
+      if (vcodec !== 'none' && acodec === 'none') {
+        // Format has video only
+        quality = height;
+        code = `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]`;
+      } else {
+        // Format has both audio and video
+        quality = height || format_id;
+        code = format_id;
+      }
+      if (quality && !videoSeen.has(quality)) {
+        formats.video.push({ quality, code });
+        videoSeen.add(quality);
+      }
     }
   });
   return formats;
-}
-
-function getMediaType(format) {
-  const { vcodec, acodec, height, width } = format;
-
-  if (height !== undefined || width !== undefined) {
-    return (vcodec !== 'none' && acodec === 'none') ? MediaType.VIDEO_ONLY : MediaType.VIDEO;
-  } else {
-    return MediaType.AUDIO;
-  }
 }
