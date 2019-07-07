@@ -11,7 +11,7 @@ function fetchInfo(link) {
 
 function createDownloadable(data) {
   const metadata = JSON.parse(data.toString())
-  console.log(getFormats(metadata.formats));
+  console.log(getSubtitles(metadata.requested_subtitles));
 }
 
 function getFormats(rawFormats) {
@@ -48,4 +48,8 @@ function getFormats(rawFormats) {
     }
   });
   return formats;
+}
+
+function getSubtitles(subtitles) {
+  return subtitles === null ? [] : Object.keys(subtitles);
 }
