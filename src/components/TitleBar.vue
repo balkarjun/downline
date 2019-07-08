@@ -32,7 +32,7 @@ export default {};
 #left img {
   width: 22px;
   height: 22px;
-  padding: 0 8px;
+  padding-left: 16px;
   align-self: center;
   cursor: pointer;
 }
