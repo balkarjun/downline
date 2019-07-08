@@ -20,22 +20,21 @@ export default {};
   height: 36px;
   display: flex;
   justify-content: space-between;
+  -webkit-app-region: drag;
 }
 
-#left {
-  display: flex;
-  padding-left: 16px;
-}
-#left img {
-  align-self: center;
-  width: 22px;
-  height: 22px;
-  padding-right: 16px;
-  cursor: pointer;
-}
-
+#left,
 #right {
   display: flex;
+  -webkit-app-region: no-drag;
+}
+
+#left img {
+  width: 22px;
+  height: 22px;
+  padding: 0 8px;
+  align-self: center;
+  cursor: pointer;
 }
 
 #right span {

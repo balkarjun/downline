@@ -7,7 +7,9 @@ let url = 'http://localhost:8080/';
 app.on('ready', () => {
   win = new BrowserWindow({
     width: 600,
-    height: 550
+    height: 550,
+    frame: false,
+    show: false
   });
 
   win.loadURL(url);
