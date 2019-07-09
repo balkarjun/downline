@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import TitleBar from "./components/TitleBar.vue";
+import TitleBar from './components/TitleBar.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     TitleBar
   }

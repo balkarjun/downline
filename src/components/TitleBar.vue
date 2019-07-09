@@ -12,10 +12,10 @@
 </template>
 
 <script>
-const { remote } = window.require("electron");
+const { remote } = window.require('electron');
 
 export default {
-  name: "title-bar",
+  name: 'title-bar',
   methods: {
     close() {
       remote.getCurrentWindow().close();
