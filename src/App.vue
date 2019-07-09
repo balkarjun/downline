@@ -24,4 +24,12 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+button {
+  border: 0;
+  background: lightgray;
+  outline: none;
+  font-size: 15px;
+  cursor: pointer;
+}
 </style>
