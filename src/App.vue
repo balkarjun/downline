@@ -1,14 +1,19 @@
 <template>
-  <TitleBar />
+  <div>
+    <TitleBar />
+    <InputBar />
+  </div>
 </template>
 
 <script>
 import TitleBar from './components/TitleBar.vue';
+import InputBar from './components/InputBar.vue';
 
 export default {
   name: 'app',
   components: {
-    TitleBar
+    TitleBar,
+    InputBar
   }
 };
 </script>
