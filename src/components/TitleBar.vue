@@ -5,14 +5,26 @@
       <img src="../assets/icons/info.svg" />
     </div>
     <div id="right">
-      <span>&minus;</span>
-      <span>&times;</span>
+      <span @click="minimize">&minus;</span>
+      <span @click="close">&times;</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+const { remote } = window.require("electron");
+
+export default {
+  name: "title-bar",
+  methods: {
+    close() {
+      remote.getCurrentWindow().close();
+    },
+    minimize() {
+      remote.getCurrentWindow().minimize();
+    }
+  }
+};
 </script>
 
 <style scoped>
