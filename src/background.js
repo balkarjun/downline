@@ -9,7 +9,10 @@ app.on('ready', () => {
     width: 600,
     height: 550,
     frame: false,
-    show: false
+    show: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   win.loadURL(url);
