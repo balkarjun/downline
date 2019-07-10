@@ -1,11 +1,14 @@
 <template>
   <div>
-    <div id="single-link">
+    <!-- <div id="single-link">
       <input type="text" placeholder="Type or paste a link">
       <div class="swap-button">
         <img src="../assets/icons/swap_horiz.svg">
       </div>
       <button>Add Link</button>
+    </div> -->
+    <div id="multiple-links">
+      <textarea placeholder="Type or paste one link per line"></textarea>
     </div>
   </div>
 </template>
@@ -21,6 +24,29 @@ input {
   box-sizing: border-box;
   font-size: 15px;
   font-family: Rubik;
+}
+
+textarea {
+  height: 100px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 12px 0 0 16px;
+  box-sizing: border-box;
+  font-family: Rubik;
+  font-size: 15px;
+  white-space: nowrap;
+  resize: none;
+  border: 1px solid lightgray;
+}
+/* Width */
+textarea::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+/* Handle */
+textarea::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 5px;
 }
 
 .swap-button {
@@ -58,5 +84,10 @@ input {
 #single-link button {
   padding: 0 16px;
   border-radius: 0 5px 5px 0;
+}
+
+#multiple-links {
+  display: flex;
+  margin: 0 16px;
 }
 </style>
