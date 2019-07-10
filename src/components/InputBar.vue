@@ -14,7 +14,7 @@
           <img src="../assets/icons/swap_horiz.svg">
         </div>
         <button class="add-links">
-          &plus;
+          <img src="../assets/icons/add.svg">
         </button>
       </div>
     </div>
@@ -135,5 +135,15 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 5px;
   margin-bottom: 8px;
   margin-right: 8px;
+}
+
+#multiple-links .add-links {
+  display: flex;
+  justify-content: center;
+}
+
+#multiple-links .add-links img {
+  width: 30px;
+  height: 30px;
 }
 </style>
