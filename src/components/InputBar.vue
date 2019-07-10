@@ -126,7 +126,8 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 #multiple-links .swap-button {
-  margin-top: 8px;
+  margin: 8px 8px 0 0;
+  align-self: flex-end;
 }
 
 #multiple-links .add-links {
