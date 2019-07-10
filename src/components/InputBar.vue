@@ -32,11 +32,12 @@ input {
   border-radius: 50%;
   position: absolute;
   right: 116px;
+  cursor: pointer;
 }
 
 .swap-button img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   align-self: center;
   margin: 0 auto;
 }
@@ -48,7 +49,7 @@ input {
 
 #single-link input {
   height: 44px;
-  padding: 16px;
+  padding: 0 36px 0 16px;
   flex-grow: 1;
   border-radius: 5px 0 0 5px;
   border: 1px solid lightgray;
