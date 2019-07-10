@@ -3,18 +3,14 @@
     <div v-if="activeInput===0" id="single-link">
       <input type="text" placeholder="Type or paste a link">
       <div class="buttons">
-        <div @click="nextInput" class="swap-button">
-          <img src="../assets/icons/swap_horiz.svg">
-        </div>
+        <SwapButton @next="nextInput" />
       </div>
       <button>Add Link</button>
     </div>
     <div v-else-if="activeInput===1" id="multiple-links">
       <textarea placeholder="Type or paste one link per line"></textarea>
       <div class="buttons">
-        <div @click="nextInput" class="swap-button">
-          <img src="../assets/icons/swap_horiz.svg">
-        </div>
+        <SwapButton class="swap-button" @next="nextInput" />
         <button class="add-links">
           <img src="../assets/icons/add.svg">
         </button>
@@ -25,8 +21,13 @@
 </template>
 
 <script>
+import SwapButton from './SwapButton.vue';
+
 export default {
   name: 'input-bar',
+  components: {
+    SwapButton
+  },
   data() {
     return {
       activeInput: 1
@@ -69,23 +70,6 @@ textarea::-webkit-scrollbar {
 textarea::-webkit-scrollbar-thumb {
   background: lightgray;
   border-radius: 5px;
-}
-
-.swap-button {
-  background-color: lightgray;
-  display: flex;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
-  align-self: center;
-}
-
-.swap-button img {
-  width: 18px;
-  height: 18px;
-  align-self: center;
-  margin: 0 auto;
 }
 
 .buttons {
