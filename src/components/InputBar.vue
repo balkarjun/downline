@@ -2,8 +2,10 @@
   <div>
     <div v-if="activeInput===0" id="single-link">
       <input type="text" placeholder="Type or paste a link">
-      <div @click="nextInput" class="swap-button">
-        <img src="../assets/icons/swap_horiz.svg">
+      <div class="buttons">
+        <div @click="nextInput" class="swap-button">
+          <img src="../assets/icons/swap_horiz.svg">
+        </div>
       </div>
       <button>Add Link</button>
     </div>
@@ -72,11 +74,11 @@ textarea::-webkit-scrollbar-thumb {
 .swap-button {
   background-color: lightgray;
   display: flex;
-  align-self: center;
   width: 24px;
   height: 24px;
   border-radius: 50%;
   cursor: pointer;
+  align-self: center;
 }
 
 .swap-button img {
@@ -86,9 +88,8 @@ textarea::-webkit-scrollbar-thumb {
   margin: 0 auto;
 }
 
-#single-link .swap-button {
-  position: absolute;
-  right: 116px;
+.buttons {
+  display: flex;
 }
 
 #single-link {
@@ -96,12 +97,20 @@ textarea::-webkit-scrollbar-thumb {
   margin: 0 16px;
 }
 
+#single-link .buttons {
+  padding: 0 8px;
+  border: 1px solid lightgray;
+  border-left: none;
+  border-right: none;
+}
+
 #single-link input {
   height: 44px;
-  padding: 0 36px 0 16px;
+  padding-left: 16px;
   flex-grow: 1;
   border-radius: 5px 0 0 5px;
   border: 1px solid lightgray;
+  border-right: none;
 }
 
 #single-link button {
@@ -117,9 +126,8 @@ textarea::-webkit-scrollbar-thumb {
 #multiple-links .buttons {
   width: 52px;
   border: 1px solid lightgray;
-  border-radius: 0 5px 5px 0;
   border-left: none;
-  display: flex;
+  border-radius: 0 5px 5px 0;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
@@ -134,11 +142,7 @@ textarea::-webkit-scrollbar-thumb {
   width: 44px;
   height: 44px;
   border-radius: 5px;
-  margin-bottom: 8px;
-  margin-right: 8px;
-}
-
-#multiple-links .add-links {
+  margin: 0 8px 8px 0;
   display: flex;
   justify-content: center;
 }
