@@ -20,6 +20,7 @@ export default {
 input {
   box-sizing: border-box;
   font-size: 15px;
+  font-family: Rubik;
 }
 
 .swap-button {
