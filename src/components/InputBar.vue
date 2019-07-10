@@ -1,21 +1,40 @@
 <template>
   <div>
-    <!-- <div id="single-link">
+    <div v-if="activeInput===0" id="single-link">
       <input type="text" placeholder="Type or paste a link">
-      <div class="swap-button">
+      <div @click="nextInput" class="swap-button">
         <img src="../assets/icons/swap_horiz.svg">
       </div>
       <button>Add Link</button>
-    </div> -->
-    <div id="multiple-links">
-      <textarea placeholder="Type or paste one link per line"></textarea>
     </div>
+    <div v-else-if="activeInput===1" id="multiple-links">
+      <textarea placeholder="Type or paste one link per line"></textarea>
+      <div class="buttons">
+        <div @click="nextInput" class="swap-button">
+          <img src="../assets/icons/swap_horiz.svg">
+        </div>
+        <button class="add-links">
+          &plus;
+        </button>
+      </div>
+    </div>
+    <div v-else></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'input-bar'
+  name: 'input-bar',
+  data() {
+    return {
+      activeInput: 1
+    }
+  },
+  methods: {
+    nextInput() {
+      this.activeInput = (this.activeInput + 1) % 2;
+    }
+  }
 };
 </script>
 
@@ -29,7 +48,7 @@ input {
 textarea {
   height: 100px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
   padding: 12px 0 0 16px;
   box-sizing: border-box;
   font-family: Rubik;
@@ -37,6 +56,7 @@ textarea {
   white-space: nowrap;
   resize: none;
   border: 1px solid lightgray;
+  border-right: none;
 }
 /* Width */
 textarea::-webkit-scrollbar {
@@ -56,8 +76,6 @@ textarea::-webkit-scrollbar-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  position: absolute;
-  right: 116px;
   cursor: pointer;
 }
 
@@ -66,6 +84,11 @@ textarea::-webkit-scrollbar-thumb {
   height: 18px;
   align-self: center;
   margin: 0 auto;
+}
+
+#single-link .swap-button {
+  position: absolute;
+  right: 116px;
 }
 
 #single-link {
@@ -89,5 +112,28 @@ textarea::-webkit-scrollbar-thumb {
 #multiple-links {
   display: flex;
   margin: 0 16px;
+}
+
+#multiple-links .buttons {
+  width: 52px;
+  border: 1px solid lightgray;
+  border-radius: 0 5px 5px 0;
+  border-left: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+#multiple-links .swap-button {
+  margin-top: 8px;
+}
+
+#multiple-links .add-links {
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  margin-right: 8px;
 }
 </style>
