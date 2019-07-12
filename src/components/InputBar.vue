@@ -8,7 +8,7 @@
       <button @click="addSingleLink">Add Link</button>
     </div>
     <div v-else-if="activeInput===1" id="multiple-links">
-      <textarea v-model="inputs.multiple" placeholder="Type or paste one link per line"></textarea>
+      <textarea @keyup.ctrl.86="addNewLine" v-model="inputs.multiple" placeholder="Type or paste one link per line"></textarea>
       <div class="buttons">
         <SwapButton class="swap-button" @next="nextInput" />
         <button @click="addMultipleLinks" class="add-links">
@@ -42,7 +42,6 @@ export default {
       this.activeInput = (this.activeInput + 1) % 2;
     },
     addSingleLink() {
-      // https://www.youtube.com/watch?v=Ro8DpfEwLcM
       if (this.inputs.single.trim() !== '') {
         console.log(this.inputs.single);
       }
@@ -53,6 +52,9 @@ export default {
         console.log(this.inputs.multiple.split('\n'));
       }
       this.inputs.multiple = '';
+    },
+    addNewLine() {
+      this.inputs.multiple += '\n';
     }
   }
 };
