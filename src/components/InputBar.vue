@@ -1,17 +1,17 @@
 <template>
   <div>
     <div v-if="activeInput===0" id="single-link">
-      <input type="text" placeholder="Type or paste a link">
+      <input type="text" v-model="inputs.single" placeholder="Type or paste a link">
       <div class="buttons">
         <SwapButton @next="nextInput" />
       </div>
-      <button>Add Link</button>
+      <button @click="addSingleLink">Add Link</button>
     </div>
     <div v-else-if="activeInput===1" id="multiple-links">
-      <textarea placeholder="Type or paste one link per line"></textarea>
+      <textarea v-model="inputs.multiple" placeholder="Type or paste one link per line"></textarea>
       <div class="buttons">
         <SwapButton class="swap-button" @next="nextInput" />
-        <button class="add-links">
+        <button @click="addMultipleLinks" class="add-links">
           <img src="../assets/icons/add.svg">
         </button>
       </div>
@@ -30,12 +30,29 @@ export default {
   },
   data() {
     return {
-      activeInput: 1
+      activeInput: 1,
+      inputs: {
+        single: '',
+        multiple: ''
+      }
     }
   },
   methods: {
     nextInput() {
       this.activeInput = (this.activeInput + 1) % 2;
+    },
+    addSingleLink() {
+      // https://www.youtube.com/watch?v=Ro8DpfEwLcM
+      if (this.inputs.single.trim() !== '') {
+        console.log(this.inputs.single);
+      }
+      this.inputs.single = '';
+    },
+    addMultipleLinks() {
+      if (this.inputs.multiple.trim() !== '') {
+        console.log(this.inputs.multiple.split('\n'));
+      }
+      this.inputs.multiple = '';
     }
   }
 };
