@@ -43,13 +43,13 @@ export default {
     },
     addSingleLink() {
       if (this.inputs.single.trim() !== '') {
-        console.log(this.inputs.single);
+        console.log(this.inputs.single.trim());
       }
       this.inputs.single = '';
     },
     addMultipleLinks() {
       if (this.inputs.multiple.trim() !== '') {
-        console.log(this.inputs.multiple.split('\n'));
+        console.log(this.inputs.multiple.trim().split('\n'));
       }
       this.inputs.multiple = '';
     },
