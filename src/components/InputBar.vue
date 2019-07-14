@@ -8,7 +8,7 @@
       <button @click="addSingleLink">Add Link</button>
     </div>
     <div v-else-if="activeInput===1" id="multiple-links">
-      <textarea @keyup.ctrl.86="addNewLine" v-model="inputs.multiple" placeholder="Type or paste one link per line"></textarea>
+      <textarea ref="textarea" @keydown.ctrl.86="isPasted = true" @input="updateValue($event)" placeholder="Type or paste one link per line"></textarea>
       <div class="buttons">
         <SwapButton class="swap-button" @next="nextInput" />
         <button @click="addMultipleLinks" class="add-links">
@@ -34,10 +34,16 @@ export default {
       inputs: {
         single: '',
         multiple: ''
-      }
+      },
+      isPasted: false
     }
   },
   methods: {
+    updateValue(event) {
+      const newValue = this.isPasted ? event.target.value + '\n' : event.target.value;
+      this.isPasted = false;
+      event.target.value = newValue;
+    },
     nextInput() {
       this.activeInput = (this.activeInput + 1) % 2;
     },
@@ -48,13 +54,11 @@ export default {
       this.inputs.single = '';
     },
     addMultipleLinks() {
-      if (this.inputs.multiple.trim() !== '') {
-        console.log(this.inputs.multiple.trim().split('\n'));
+      const value = this.$refs.textarea.value.trim();
+      if (value !== '') {
+        console.log(value.split('\n'));
       }
-      this.inputs.multiple = '';
-    },
-    addNewLine() {
-      this.inputs.multiple += '\n';
+      this.$refs.textarea.value = '';
     }
   }
 };
