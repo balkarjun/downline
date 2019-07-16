@@ -5,8 +5,12 @@
       <img src="../assets/icons/info.svg" />
     </div>
     <div id="right">
-      <span @click="minimize">&minus;</span>
-      <span @click="close">&times;</span>
+      <span @click="minimize">
+        <img id="minimize" src="../assets/icons/minimize.svg">
+      </span>
+      <span @click="close">
+        <img id="close" src="../assets/icons/close.svg">
+      </span>
     </div>
   </div>
 </template>
@@ -49,10 +53,23 @@ export default {
   cursor: pointer;
 }
 
-#right span {
-  font-size: 26px;
-  padding: 0 12px;
+#minimize {
   align-self: center;
+  position: relative;
+  bottom: 8px;
+}
+
+#close {
+  width: 22px;
+  height: 22px;
+  align-self: center;
+}
+
+#right span {
+  padding: 0 12px;
+  height: 36px;
+  align-self: center;
+  display: flex;
   cursor: pointer;
 }
 </style>
