@@ -17,15 +17,14 @@ export default {
   name: 'input-bar',
   data() {
     return {
-      value: '',
+      value: [],
       isPasted: false
     }
   },
   methods: {
     updateValue(event) {
-      const newValue = this.isPasted ? event.target.value + '\n' : event.target.value;
+      event.target.value += this.isPasted ? '\n' : '';
       this.isPasted = false;
-      event.target.value = newValue;
     },
     addLinks() {
       const value = this.$refs.textarea.value.trim();
