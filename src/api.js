@@ -10,8 +10,18 @@ function fetchInfo(link) {
 }
 
 function createDownloadable(data) {
-  const metadata = JSON.parse(data.toString())
-  console.log(getSubtitles(metadata.requested_subtitles));
+  const metadata = JSON.parse(data.toString());
+  const { webpage_url, title, thumbnail, duration, formats, requested_subtitles} = metadata;
+  
+  const downloadable = {
+    url: webpage_url,
+    title: title,
+    thumbnail: thumbnail,
+    duration: duration,
+    formats: getFormats(formats),
+    subtitles: getSubtitles(requested_subtitles),
+  };
+  console.log(downloadable, downloadable.formats);
 }
 
 function getFormats(rawFormats) {
