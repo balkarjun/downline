@@ -2,18 +2,21 @@
   <div>
     <TitleBar />
     <InputBar />
+    <Downloadable />
   </div>
 </template>
 
 <script>
 import TitleBar from './components/TitleBar.vue';
 import InputBar from './components/InputBar.vue';
+import Downloadable from './components/Downloadable.vue';
 
 export default {
   name: 'app',
   components: {
     TitleBar,
-    InputBar
+    InputBar,
+    Downloadable
   }
 };
 </script>
@@ -29,6 +32,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: Rubik;
+  font-size: 15px;
 }
 
 button {
