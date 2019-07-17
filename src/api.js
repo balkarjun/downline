@@ -31,30 +31,21 @@ function getFormats(rawFormats) {
 
   rawFormats.forEach(format => {
     const { acodec, vcodec, abr, width, height, format_id } = format;
-    let quality = null, code = null;
+    const isAudioOnly = height === undefined && width === undefined;
+    const isVideoOnly = vcodec !== 'none' && acodec === 'none';
 
-    if (height === undefined && width === undefined) {
-      // Format has audio only
-      quality = abr;
-      code = `bestaudio[abr<=${abr}]`;
-      if (quality && !audioSeen.has(quality)) {
-        formats.audio.push({ quality, code });
-        audioSeen.add(quality);
-      }
-    } else {
-      if (vcodec !== 'none' && acodec === 'none') {
-        // Format has video only
-        quality = height;
-        code = `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]`;
-      } else {
-        // Format has both audio and video
-        quality = height || format_id;
-        code = format_id;
-      }
-      if (quality && !videoSeen.has(quality)) {
-        formats.video.push({ quality, code });
-        videoSeen.add(quality);
-      }
+    const quality = isAudioOnly ? abr : (height || format_id);
+    const code = isAudioOnly ? `bestaudio[abr<=${abr}]` : isVideoOnly
+      ? `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]`
+      : format_id;
+
+    if (isAudioOnly && quality && !audioSeen.has(quality)) {
+      formats.audio.push({ quality, code });
+      audioSeen.add(quality);
+    }
+    else if (!isAudioOnly && quality && !videoSeen.has(quality)) {
+      formats.video.push({ quality, code });
+      videoSeen.add(quality);
     }
   });
   return formats;
