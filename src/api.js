@@ -17,7 +17,7 @@ function createDownloadable(data) {
     url: webpage_url,
     title: title,
     thumbnail: thumbnail,
-    duration: duration,
+    duration: getDuration(duration),
     formats: getFormats(formats),
     subtitles: getSubtitles(requested_subtitles),
   };
@@ -62,4 +62,14 @@ function getFormats(rawFormats) {
 
 function getSubtitles(subtitles) {
   return subtitles === null ? [] : Object.keys(subtitles);
+}
+
+function getDuration(duration) {
+  const total = Math.floor(duration || 0);
+  const hours = Math.floor(total / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  const seconds = (total % 3600) % 60;
+
+  const pad = (num, char) => num !== 0 ? String(num).padStart(2, '0') + char : '';
+  return pad(hours, ':') + pad(minutes, ':') + pad(seconds, '');
 }
