@@ -41,6 +41,8 @@ p {
 }
 
 #thumbnail {
+  min-width: 74px;
+  min-height: 74px;
   width: 74px;
   height: 74px;
   border-radius: 50%;
