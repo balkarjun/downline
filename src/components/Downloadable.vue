@@ -1,10 +1,10 @@
 <template>
   <div id="box">
-    <img id="thumbnail" src="../assets/images/thumbnail.jpg">
+    <img id="thumbnail" :src="thumbnail">
     <div id="content">
       <div id="top">
-        <p id="duration">10:05</p>
-        <p id="title">Is Meat Bad for You? Is Meat Unhealthy?</p>
+        <p id="duration">{{ duration }}</p>
+        <p id="title">{{ title }}</p>
       </div>
       <div id="bottom">
 
@@ -16,6 +16,11 @@
 <script>
 export default {
   name: 'downloadable',
+  props: [
+    'title',
+    'thumbnail',
+    'duration'
+  ],
   data() {
     return {
 

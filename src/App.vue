@@ -2,7 +2,10 @@
   <div>
     <TitleBar />
     <InputBar />
-    <Downloadable />
+    <Downloadable 
+    title="Is Meat Bad for You? Is Meat Unhealthy?"
+    thumbnail="https://i.ytimg.com/vi/ouAccsTzlGU/maxresdefault.jpg"
+    duration="10:05" />
   </div>
 </template>
 
