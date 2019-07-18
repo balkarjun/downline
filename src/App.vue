@@ -2,10 +2,13 @@
   <div>
     <TitleBar />
     <InputBar />
-    <Downloadable 
-    title="Is Meat Bad for You? Is Meat Unhealthy?"
-    thumbnail="https://i.ytimg.com/vi/ouAccsTzlGU/maxresdefault.jpg"
-    duration="10:05" />
+    <div id="downloadable-list">
+      <Downloadable v-for="item in downloadables" :key="item.url"
+      :title="item.title"
+      :thumbnail="item.thumbnail"
+      :duration="item.duration"
+      />
+    </div>
   </div>
 </template>
 
@@ -20,6 +23,23 @@ export default {
     TitleBar,
     InputBar,
     Downloadable
+  },
+  data() {
+    return {
+      downloadables: [
+        {
+          url: 'https://www.youtube.com/watch?v=ouAccsTzlGU',
+          title: 'Is Meat Bad for You? Is Meat Unhealthy?',
+          thumbnail: 'https://i.ytimg.com/vi/ouAccsTzlGU/maxresdefault.jpg',
+          duration: '10:05',
+          formats: {
+            video: [],
+            audio: []
+          },
+          subtitles: []
+        }
+      ]
+    }
   }
 };
 </script>
