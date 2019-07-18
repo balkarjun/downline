@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 const { Transform } = require('stream');
 
 const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
-const ytdlPath = '../../resources/youtube-dl';
+const ytdlPath = './resources/youtube-dl';
 
 function fetchInfo(link) {
   const child = spawn(ytdlPath, [...args, link]);
@@ -73,3 +73,5 @@ function getDuration(duration) {
   const pad = (num, char) => num !== 0 ? String(num).padStart(2, '0') + char : '';
   return pad(hours, ':') + pad(minutes, ':') + pad(seconds, '');
 }
+
+module.exports = { fetchInfo };
