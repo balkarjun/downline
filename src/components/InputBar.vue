@@ -32,7 +32,7 @@ export default {
         this.value = value.split('\n');
       }
       this.$refs.textarea.value = '';
-      console.log(this.value);
+      this.$emit('output', this.value);
     }
   }
 };

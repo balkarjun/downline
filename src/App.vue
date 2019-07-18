@@ -1,7 +1,7 @@
 <template>
   <div>
     <TitleBar />
-    <InputBar />
+    <InputBar @output="addDownloadables" />
     <div id="downloadable-list">
       <Downloadable v-for="item in downloadables" :key="item.url"
       :title="item.title"
@@ -16,6 +16,9 @@
 import TitleBar from './components/TitleBar.vue';
 import InputBar from './components/InputBar.vue';
 import Downloadable from './components/Downloadable.vue';
+
+const { remote } = window.require('electron');
+const api = remote.require('./api');
 
 export default {
   name: 'app',
@@ -39,6 +42,15 @@ export default {
           subtitles: []
         }
       ]
+    }
+  },
+  methods: {
+    addDownloadables(links) {
+      console.log('entered method', links);
+      links.forEach(link => {
+        api.fetchInfo(link)
+        .on('data', data => this.downloadables.push(data));
+      });
     }
   }
 };
