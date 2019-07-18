@@ -1,4 +1,5 @@
 const { spawn } = require('child_process');
+const { Transform } = require('stream');
 
 const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
 const ytdlPath = '../../resources/youtube-dl';
@@ -6,7 +7,15 @@ const ytdlPath = '../../resources/youtube-dl';
 function fetchInfo(link) {
   const child = spawn(ytdlPath, [...args, link]);
 
-  child.stdout.on('data', createDownloadable);
+  const tStream = new Transform({
+    readableObjectMode: true,
+    transform(chunk, encoding, callback) {
+      this.push(createDownloadable(chunk));
+      callback();
+    }
+  });
+
+  return child.stdout.pipe(tStream);
 }
 
 function createDownloadable(data) {
@@ -21,7 +30,7 @@ function createDownloadable(data) {
     formats: getFormats(formats),
     subtitles: getSubtitles(requested_subtitles),
   };
-  console.log(downloadable, downloadable.formats);
+  return downloadable;
 }
 
 function getFormats(rawFormats) {
