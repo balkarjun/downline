@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app-content">
     <div id="app-top">
       <TitleBar />
       <InputBar @output="addDownloadables" />
@@ -81,7 +81,17 @@ button {
   font-family: Rubik;
 }
 
+#app-content {
+  display: flex;
+  flex-direction: column;
+  height: 550px;
+}
+
 #app-top {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+#downloadable-list {
+  overflow-y: scroll;
 }
 </style>
