@@ -62,15 +62,8 @@ textarea {
 textarea:focus {
   border: 1px solid lightblue;
 }
-/* Width */
 textarea::-webkit-scrollbar {
   width: 3px;
-  height: 0;
-}
-/* Handle */
-textarea::-webkit-scrollbar-thumb {
-  background: lightgray;
-  border-radius: 5px;
 }
 
 button {

@@ -68,6 +68,15 @@ export default {
   src: url(./assets/fonts/rubik_regular.ttf);
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: lightgray;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -92,7 +101,7 @@ button {
 }
 
 #downloadable-list {
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 .shadow {
