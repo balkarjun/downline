@@ -5,8 +5,8 @@ const path = require('path');
 const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
 const ytdlPath = path.join(process.cwd(), '../resources', 'youtube-dl');
 
-function fetchInfo(link) {
-  const child = spawn(ytdlPath, [...args, link]);
+function fetchInfo(links) {
+  const child = spawn(ytdlPath, [...args, ...links]);
 
   const tStream = new Transform({
     readableObjectMode: true,

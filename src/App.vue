@@ -46,11 +46,8 @@ export default {
   },
   methods: {
     addDownloadables(links) {
-      console.log('entered method', links);
-      links.forEach(link => {
-        api.fetchInfo(link)
-        .on('data', data => this.downloadables.push(data));
-      });
+      api.fetchInfo(links)
+      .on('data', data => this.downloadables.push(data));
     }
   }
 };
