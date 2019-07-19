@@ -14,7 +14,8 @@ export default {
 div {
   height: 30px;
   width: calc(100% - 32px);
-  margin: 12px 16px;
+  margin: 0 16px;
+  padding: 12px 0;
 }
 
 button {

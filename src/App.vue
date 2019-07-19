@@ -1,8 +1,10 @@
 <template>
   <div>
-    <TitleBar />
-    <InputBar @output="addDownloadables" />
-    <OptionBar />
+    <div id="app-top">
+      <TitleBar />
+      <InputBar @output="addDownloadables" />
+      <OptionBar />
+    </div>
     <div id="downloadable-list">
       <Downloadable v-for="item in downloadables" :key="item.url"
       :title="item.title"
@@ -77,5 +79,9 @@ button {
   font-size: 15px;
   cursor: pointer;
   font-family: Rubik;
+}
+
+#app-top {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
