@@ -1,11 +1,11 @@
 <template>
   <div id="app-content">
-    <div id="app-top">
+    <div id="app-top" :class="{ shadow: scrolled }">
       <TitleBar />
       <InputBar @output="addDownloadables" />
       <OptionBar />
     </div>
-    <div id="downloadable-list">
+    <div @scroll="handleScroll" id="downloadable-list">
       <Downloadable v-for="item in downloadables" :key="item.url"
       :title="item.title"
       :thumbnail="item.thumbnail"
@@ -34,6 +34,7 @@ export default {
   },
   data() {
     return {
+      scrolled: false,
       downloadables: [
         {
           url: 'https://www.youtube.com/watch?v=ouAccsTzlGU',
@@ -53,6 +54,9 @@ export default {
     addDownloadables(links) {
       api.fetchInfo(links)
       .on('data', data => this.downloadables.push(data));
+    },
+    handleScroll(event) {
+      this.scrolled = event.srcElement.scrollTop !== 0;
     }
   }
 };
@@ -87,11 +91,11 @@ button {
   height: 550px;
 }
 
-#app-top {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
-
 #downloadable-list {
   overflow-y: scroll;
+}
+
+.shadow {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
