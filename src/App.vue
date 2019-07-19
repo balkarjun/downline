@@ -2,6 +2,7 @@
   <div>
     <TitleBar />
     <InputBar @output="addDownloadables" />
+    <OptionBar />
     <div id="downloadable-list">
       <Downloadable v-for="item in downloadables" :key="item.url"
       :title="item.title"
@@ -15,6 +16,7 @@
 <script>
 import TitleBar from './components/TitleBar.vue';
 import InputBar from './components/InputBar.vue';
+import OptionBar from './components/OptionBar.vue';
 import Downloadable from './components/Downloadable.vue';
 
 const { remote } = window.require('electron');
@@ -25,6 +27,7 @@ export default {
   components: {
     TitleBar,
     InputBar,
+    OptionBar,
     Downloadable
   },
   data() {
