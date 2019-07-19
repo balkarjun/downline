@@ -39,6 +39,12 @@ export default {
 </script>
 
 <style scoped>
+div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
 textarea {
   font-family: Rubik;
   font-size: 15px;
@@ -73,9 +79,9 @@ button {
   border-radius: 50%;
   display: flex;
   justify-content: center;
-  margin: 0 auto;
-  position: relative;
-  bottom: 26px;
+  position: absolute;
+  bottom: -22px;
+  left: calc(50% - 22px);
 }
 
 button img {
