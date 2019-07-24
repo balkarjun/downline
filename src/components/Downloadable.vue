@@ -68,6 +68,8 @@ p {
 
 #top {
   display: block;
+  width: calc(100% - 12px - 74px - 12px);
+  overflow: scroll;
 }
 
 #bottom {
@@ -82,5 +84,6 @@ p {
 #title {
   display: inline;
   margin-left: 4px;
+  white-space: nowrap;
 }
 </style>

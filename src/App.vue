@@ -102,6 +102,7 @@ button {
 
 #downloadable-list {
   overflow: scroll;
+  overflow-x: hidden;
 }
 
 .shadow {
