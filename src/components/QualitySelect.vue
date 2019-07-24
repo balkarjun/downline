@@ -1,22 +1,29 @@
 <template>
-  <div class="container">
-    <div v-if="isOpen" class="dialog">
-      <p 
-        v-for="format in formats" 
-        :key="format" 
-        :class="{active: format === value}"
-        @click="select(format)"
-      >{{ format }}<span v-if="format === value" class="light">p</span></p>
+  <OnClickOutside :do="close">
+    <div class="container">
+      <div v-if="isOpen" class="dialog">
+        <p 
+          v-for="format in formats" 
+          :key="format" 
+          :class="{active: format === value}"
+          @click="select(format)"
+        >{{ format }}<span v-if="format === value" class="light">p</span></p>
+      </div>
+      <div @click="open" class="active-quality">
+        {{ value }}<span class="light">p</span>
+      </div>
     </div>
-    <div @click="open" class="active-quality">
-      {{ value }}<span class="light">p</span>
-    </div>
-  </div>
+  </OnClickOutside>
 </template>
 
 <script>
+import OnClickOutside from './OnClickOutside.vue';
+
 export default {
   name: 'quality-select',
+  components: {
+    OnClickOutside
+  },
   data() {
     return {
       isOpen: false,
