@@ -9,6 +9,7 @@
     "electron:serve": "run-p serve electron"
   },
   "dependencies": {
+    "popper.js": "^1.15.0",
     "vue": "^2.6.10"
   },
   "devDependencies": {
