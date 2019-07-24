@@ -7,15 +7,20 @@
         <p id="title">{{ title }}</p>
       </div>
       <div id="bottom">
-
+        <QualitySelect />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import QualitySelect from './QualitySelect.vue';
+
 export default {
   name: 'downloadable',
+  components: {
+    QualitySelect
+  },
   props: [
     'title',
     'thumbnail',
@@ -67,7 +72,6 @@ p {
 
 #bottom {
   display: flex;
-  height: 20px;
 }
 
 #duration {
