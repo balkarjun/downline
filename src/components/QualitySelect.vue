@@ -1,7 +1,11 @@
 <template>
   <OnClickOutside :do="close">
     <div class="container">
-      <div v-if="isOpen" class="dialog">
+      <div ref="reference"></div>
+      <div @click="open" class="active-quality">
+        {{ value }}<span class="light">p</span>
+      </div>
+      <div ref="dialog" v-if="isOpen" class="dialog">
         <p 
           v-for="format in formats" 
           :key="format" 
@@ -9,15 +13,13 @@
           @click="select(format)"
         >{{ format }}<span v-if="format === value" class="light">p</span></p>
       </div>
-      <div @click="open" class="active-quality">
-        {{ value }}<span class="light">p</span>
-      </div>
     </div>
   </OnClickOutside>
 </template>
 
 <script>
 import OnClickOutside from './OnClickOutside.vue';
+import Popper from 'popper.js';
 
 export default {
   name: 'quality-select',
@@ -43,6 +45,22 @@ export default {
     },
     open() {
       this.isOpen = true;
+      this.$nextTick(() => {
+        this.setupPopper();
+      });
+    },
+    setupPopper() {
+      new Popper(this.$refs.reference, this.$refs.dialog, {
+        placement: 'bottom-start',
+        modifiers: {
+          flip: {
+            enabled: false
+          },
+          computeStyle: {
+            gpuAcceleration: false
+          }
+        }
+      });
     }
   }
 }
@@ -61,7 +79,6 @@ export default {
 
 .dialog {
   background-color: white;
-  position: absolute;
   border: none;
   border-radius: 5px;
   padding: 8px 0;
