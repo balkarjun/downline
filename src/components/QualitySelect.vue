@@ -3,7 +3,7 @@
     <div class="container">
       <div ref="reference"></div>
       <div @click="open" class="active-quality">
-        {{ value }}<span class="light">p</span>
+        <p>{{ value }}<span class="light">p</span></p>
       </div>
       <div ref="dialog" v-if="isOpen" class="dialog">
         <p 
@@ -67,14 +67,22 @@ export default {
 </script>
 
 <style scoped>
-
 .active-quality {
+  display: flex;
   line-height: 28px;
   height: 28px;
   padding: 0 12px;
   border: 1px solid lightgray;
   border-radius: 5px;
   cursor: pointer;
+  box-sizing: border-box;
+}
+
+.active-quality p {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  align-self: center;
 }
 
 .dialog {
