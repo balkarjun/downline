@@ -1,15 +1,17 @@
 <template>
   <div id="box">
-    <img id="thumbnail" :src="thumbnail">
-    <div id="content">
-      <div id="top">
-        <p id="duration">{{ duration }}</p>
-        <p id="title">{{ title }}</p>
+    <section id="left">
+      <img id="thumbnail" :src="thumbnail">
+      <div id="duration">
+        <p>{{ duration }}</p>
       </div>
+    </section>
+    <section id="middle">
+      <p id="title">{{ title }}</p>
       <div id="bottom">
         <QualitySelect />
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -41,49 +43,58 @@ p {
 }
 
 #box {
-  height: 86px;
+  height: 82px;
   display: flex;
+}
+
+#left {
+  display: flex;
+  position: relative;
+  margin-left: 16px;
 }
 
 #thumbnail {
-  min-width: 74px;
-  min-height: 74px;
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
+  min-width: 120px;
+  min-height: 70px;
+  width: 120px;
+  height: 70px;
+  border-radius: 5px;
   object-fit: cover;
-  margin-left: 12px;
   align-self: center;
+  position: relative;
 }
 
-#content {
+#duration {
+  height: 16px;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 5px;
+  position: absolute;
+  right: 2px;
+  bottom: 8px;
+}
+
+#duration p{
+  font-size: 12px;
+  color: lightgray;
+  padding: 0 8px;
+  line-height: 16px;
+}
+
+#middle {
   display: flex;
   flex-direction: column;
-  height: 66px;
   width: 100%;
-  margin-left: 12px;
-  align-self: center;
+  margin: 10px 0 10px 12px;
   justify-content: space-between;
+  width: calc(100% - 16px - 120px - 12px);
 }
 
-#top {
-  display: block;
-  width: calc(100% - 12px - 74px - 12px);
+#title {
   overflow: scroll;
+  white-space: nowrap;
 }
 
 #bottom {
   display: flex;
-}
-
-#duration {
-  display: inline;
-  font-size: 14px;
-}
-
-#title {
-  display: inline;
-  margin-left: 4px;
-  white-space: nowrap;
 }
 </style>
