@@ -89,11 +89,12 @@ export default {
   background-color: white;
   border: none;
   border-radius: 5px;
-  padding: 8px 0;
+  padding: 4px 0;
   width: 110px;
-  max-height: 140px;
+  max-height: 148px;
   overflow: scroll;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+  box-sizing: border-box;
 }
 
 .dialog::-webkit-scrollbar {
