@@ -67,12 +67,17 @@ function getSubtitles(subtitles) {
 
 function getDuration(duration) {
   const total = Math.floor(duration || 0);
+  if (total === 0) return '-';
+  
+  const pad = num => String(num).padStart(2, '0');
+
   const hours = Math.floor(total / 3600);
   const minutes = Math.floor((total % 3600) / 60);
   const seconds = (total % 3600) % 60;
 
-  const pad = (num, char) => num !== 0 ? String(num).padStart(2, '0') + char : '';
-  return pad(hours, ':') + pad(minutes, ':') + pad(seconds, '');
+  if (hours !== 0) return `${hours}:${pad(minutes)}:${pad(seconds)}`;
+  else if (minutes !== 0) return `${pad(minutes)}:${pad(seconds)}`; 
+  else return `0:${pad(seconds)}`;
 }
 
 module.exports = { fetchInfo };
