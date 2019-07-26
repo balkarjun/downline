@@ -21,8 +21,8 @@ function fetchInfo(links) {
 
 function createDownloadable(data) {
   const metadata = JSON.parse(data.toString());
-  const { webpage_url, title, thumbnail, duration, formats, requested_subtitles} = metadata;
-  
+  const { webpage_url, title, thumbnail, duration, formats, requested_subtitles } = metadata;
+
   const downloadable = {
     url: webpage_url,
     title: title,
@@ -35,27 +35,29 @@ function createDownloadable(data) {
 }
 
 function getFormats(rawFormats) {
-  let formats = { video: [], audio: [] };
-  let audioSeen = new Set();
-  let videoSeen = new Set();
+  let formats = [];
+  let seen = new Set();
 
   rawFormats.forEach(format => {
     const { acodec, vcodec, abr, width, height, format_id } = format;
     const isAudioOnly = height === undefined && width === undefined;
     const isVideoOnly = vcodec !== 'none' && acodec === 'none';
 
+    const type = isAudioOnly ? 'audio' : 'video';
     const quality = isAudioOnly ? abr : (height || format_id);
-    const code = isAudioOnly ? `bestaudio[abr<=${abr}]` : isVideoOnly
+    const suffix = isAudioOnly ? 'kbps' : (isVideoOnly
+      ? 'p'
+      : (Number.isInteger(quality) ? 'p' : '')
+    );
+    const code = isAudioOnly ? `bestaudio[abr<=${abr}]` : (isVideoOnly
       ? `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]`
-      : format_id;
+      : format_id
+    );
 
-    if (isAudioOnly && quality && !audioSeen.has(quality)) {
-      formats.audio.push({ quality, code });
-      audioSeen.add(quality);
-    }
-    else if (!isAudioOnly && quality && !videoSeen.has(quality)) {
-      formats.video.push({ quality, code });
-      videoSeen.add(quality);
+    const key = type + quality;
+    if (quality && !seen.has(key)) {
+      formats.push({ type, quality, suffix, code });
+      seen.add(key);
     }
   });
   return formats;
@@ -68,7 +70,7 @@ function getSubtitles(subtitles) {
 function getDuration(duration) {
   const total = Math.floor(duration || 0);
   if (total === 0) return '-';
-  
+
   const pad = num => String(num).padStart(2, '0');
 
   const hours = Math.floor(total / 3600);
@@ -76,7 +78,7 @@ function getDuration(duration) {
   const seconds = (total % 3600) % 60;
 
   if (hours !== 0) return `${hours}:${pad(minutes)}:${pad(seconds)}`;
-  else if (minutes !== 0) return `${pad(minutes)}:${pad(seconds)}`; 
+  else if (minutes !== 0) return `${pad(minutes)}:${pad(seconds)}`;
   else return `0:${pad(seconds)}`;
 }
 
