@@ -28,17 +28,26 @@ function createDownloadable(data) {
     title: title,
     thumbnail: thumbnail,
     duration: getDuration(duration),
-    formats: getFormats(formats),
+    formats: getFormats(formats || metadata.format_id),
     subtitles: getSubtitles(requested_subtitles),
   };
   return downloadable;
 }
 
-function getFormats(rawFormats) {
+function getFormats(data) {
+  if (!Array.isArray(data)) {
+    return [{
+      type: 'video',
+      quality: data,
+      suffix: '',
+      code: data
+    }];
+  }
+
   let formats = [];
   let seen = new Set();
 
-  rawFormats.forEach(format => {
+  data.forEach(format => {
     const { acodec, vcodec, abr, width, height, format_id } = format;
     const isAudioOnly = height === undefined && width === undefined;
     const isVideoOnly = vcodec !== 'none' && acodec === 'none';
