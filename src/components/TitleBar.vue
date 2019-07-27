@@ -9,7 +9,7 @@
         <img id="minimize" src="../assets/icons/minimize.svg">
       </span>
       <span @click="close">
-        <img id="close" src="../assets/icons/close.svg">
+        <img src="../assets/icons/close.svg">
       </span>
     </div>
   </div>
@@ -39,36 +39,29 @@ export default {
   -webkit-app-region: drag;
 }
 
-#left,
-#right {
+#titlebar img {
+  width: 22px;
+  height: 22px;
+  align-self: center;
+}
+
+#left, #right {
   display: flex;
   -webkit-app-region: no-drag;
 }
 
 #left img {
-  width: 22px;
-  height: 22px;
   padding-left: 16px;
-  align-self: center;
   cursor: pointer;
 }
 
 #minimize {
-  align-self: center;
   position: relative;
   bottom: 8px;
 }
 
-#close {
-  width: 22px;
-  height: 22px;
-  align-self: center;
-}
-
 #right span {
   padding: 0 12px;
-  height: 36px;
-  align-self: center;
   display: flex;
   cursor: pointer;
 }
