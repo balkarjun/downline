@@ -1,13 +1,13 @@
 <template>
   <div id="box">
     <section id="left">
-      <img id="thumbnail" :src="thumbnail">
+      <img id="thumbnail" :src="data.thumbnail">
       <div id="duration">
-        <p>{{ duration }}</p>
+        <p>{{ data.duration }}</p>
       </div>
     </section>
     <section id="middle">
-      <p id="title">{{ title }}</p>
+      <p id="title">{{ data.title }}</p>
       <div id="bottom">
         <QualitySelect />
       </div>
@@ -23,11 +23,7 @@ export default {
   components: {
     QualitySelect
   },
-  props: [
-    'title',
-    'thumbnail',
-    'duration'
-  ],
+  props: ['data'],
   data() {
     return {
 

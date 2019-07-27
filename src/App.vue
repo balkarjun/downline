@@ -6,10 +6,9 @@
       <OptionBar />
     </div>
     <div @scroll="handleScroll" id="downloadable-list">
-      <Downloadable v-for="item in downloadables" :key="item.url"
-      :title="item.title"
-      :thumbnail="item.thumbnail"
-      :duration="item.duration"
+      <Downloadable v-for="item in downloadables" 
+        :key="item.url"
+        :data="item"
       />
     </div>
   </div>
