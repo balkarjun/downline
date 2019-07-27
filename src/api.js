@@ -37,6 +37,7 @@ function createDownloadable(data) {
 function getFormats(data) {
   if (!Array.isArray(data)) {
     return [{
+      id: 0,
       type: 'video',
       quality: data,
       suffix: '',
@@ -46,6 +47,7 @@ function getFormats(data) {
 
   let formats = [];
   let seen = new Set();
+  let id = 0;
 
   data.forEach(format => {
     const { acodec, vcodec, abr, width, height, format_id } = format;
@@ -65,8 +67,9 @@ function getFormats(data) {
 
     const key = type + quality;
     if (quality && !seen.has(key)) {
-      formats.push({ type, quality, suffix, code });
+      formats.push({ id, type, quality, suffix, code });
       seen.add(key);
+      id++;
     }
   });
   return formats;
