@@ -15,7 +15,8 @@ div {
   height: 30px;
   width: calc(100% - 32px);
   margin: 0 16px;
-  padding: 12px 0;
+  padding-top: 12px;
+  padding-bottom: 6px;
 }
 
 button {

@@ -181,6 +181,10 @@ button {
   height: 100%;
 }
 
+#downloadable-list:last-child {
+  margin-bottom: 4px;
+}
+
 .shadow {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
