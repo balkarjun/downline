@@ -9,7 +9,7 @@
     <section id="middle">
       <p id="title">{{ data.title }}</p>
       <div id="bottom">
-        <QualitySelect />
+        <QualitySelect :formats="data.formats" />
       </div>
     </section>
   </div>

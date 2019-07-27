@@ -3,15 +3,15 @@
     <div class="container">
       <div ref="reference"></div>
       <div @click="open" class="active-quality">
-        <p>{{ value }}<span class="light">p</span></p>
+        <p>{{ activeQuality }}<span class="light">{{ activeSuffix }}</span></p>
       </div>
       <div ref="dialog" v-if="isOpen" class="dialog">
         <p 
           v-for="format in formats" 
-          :key="format" 
-          :class="{active: format === value}"
-          @click="select(format)"
-        >{{ format }}<span v-if="format === value" class="light">p</span></p>
+          :key="format.id" 
+          :class="{active: format.id === activeId}"
+          @click="select(format.id)"
+        >{{ format.quality }}<span v-if="format.id === activeId" class="light">{{ format.suffix }}</span></p>
       </div>
     </div>
   </OnClickOutside>
@@ -26,18 +26,24 @@ export default {
   components: {
     OnClickOutside
   },
+  props: ['formats'],
   data() {
     return {
       isOpen: false,
-      value: 1080,
-      formats: [
-        1440, 1080, 720, 480, 360, 240, 144
-      ]
+      activeId: 0
+    }
+  },
+  computed: {
+    activeQuality() {
+      return this.formats[this.activeId].quality;
+    },
+    activeSuffix() {
+      return this.formats[this.activeId].suffix;
     }
   },
   methods: {
-    select(format) {
-      this.value = format;
+    select(id) {
+      this.activeId = id;
       this.close();
     },
     close() {
