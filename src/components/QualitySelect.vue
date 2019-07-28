@@ -53,6 +53,8 @@ export default {
       this.isOpen = true;
       this.$nextTick(() => {
         this.setupPopper();
+        const activeElement = this.$refs.dialog.querySelector('.active');
+        activeElement.scrollIntoView({ block: 'center' });
       });
     },
     setupPopper() {
