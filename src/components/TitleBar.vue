@@ -1,15 +1,14 @@
 <template>
   <div id="titlebar">
     <div id="left">
-      <img src="../assets/icons/settings.svg" />
-      <img src="../assets/icons/info.svg" />
+      <img src="../assets/icons/more_horizontal.svg">
     </div>
     <div id="right">
       <span @click="minimize">
         <img id="minimize" src="../assets/icons/minimize.svg">
       </span>
       <span @click="close">
-        <img src="../assets/icons/close.svg">
+        <img id="close" src="../assets/icons/close.svg">
       </span>
     </div>
   </div>
@@ -33,15 +32,13 @@ export default {
 
 <style scoped>
 #titlebar {
-  height: 36px;
+  height: 32px;
   display: flex;
   justify-content: space-between;
   -webkit-app-region: drag;
 }
 
 #titlebar img {
-  width: 22px;
-  height: 22px;
   align-self: center;
 }
 
@@ -51,18 +48,27 @@ export default {
 }
 
 #left img {
+  width: 26px;
+  height: 26px;
   padding-left: 16px;
   cursor: pointer;
-}
-
-#minimize {
-  position: relative;
-  bottom: 8px;
 }
 
 #right span {
   padding: 0 12px;
   display: flex;
   cursor: pointer;
+}
+
+#minimize {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  bottom: 7px;
+}
+
+#close {
+  width: 20px;
+  height: 20px;
 }
 </style>
