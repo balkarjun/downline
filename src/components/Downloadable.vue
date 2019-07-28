@@ -10,6 +10,9 @@
       <p id="title">{{ data.title }}</p>
       <div id="bottom">
         <QualitySelect :formats="data.formats" />
+        <button @click="isAudioChosen = !isAudioChosen" :class="{active: isAudioChosen}">
+          <img src="../assets/icons/music_note.svg">
+        </button>
       </div>
     </section>
   </div>
@@ -26,7 +29,7 @@ export default {
   props: ['data'],
   data() {
     return {
-
+      isAudioChosen: false
     }
   }
 }
@@ -92,5 +95,29 @@ p {
 
 #bottom {
   display: flex;
+  justify-content: space-between;
+  margin-right: 50px;
+}
+
+#bottom button {
+  width: 64px;
+  height: 28px;
+  display: flex;
+  border-radius: 5px;
+  justify-content: center;
+  background-color: white;
+}
+
+#bottom button img {
+  width: 22px;
+  height: 22px;
+}
+
+#bottom button:hover {
+  background-color: whitesmoke;
+}
+
+#bottom button.active {
+  background-color: lightgray;
 }
 </style>
