@@ -80,7 +80,7 @@ p {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 10px 0 10px 12px;
+  margin: 8px 0 8px 12px;
   justify-content: space-between;
   width: calc(100% - 16px - 120px - 12px);
 }
