@@ -42,70 +42,60 @@ export default {
           duration: '10:05',
           formats: [
             {
-              id: 0,
               type: 'audio',
               quality: 50,
               suffix: 'kbps',
               code: 'bestaudio[abr<=50]'
             },
             {
-              id: 1,
               type: 'audio',
               quality: 70,
               suffix: 'kbps',
               code: 'bestaudio[abr<=70]'
             },
             {
-              id: 2,
               type: 'audio',
               quality: 128,
               suffix: 'kbps',
               code: 'bestaudio[abr<=128]'
             },
             {
-              id: 3,
               type: 'audio',
               quality: 160,
               suffix: 'kbps',
               code: 'bestaudio[abr<=160]'
             },
             {
-              id: 4,
               type: 'video',
               quality: 144,
               suffix: 'p',
               code: 'bestvideo[height<=144]+bestaudio/best[height<=144]'
             },
             {
-              id: 5,
               type: 'video',
               quality: 240,
               suffix: 'p',
               code: 'bestvideo[height<=240]+bestaudio/best[height<=240]'
             },
             {
-              id: 6,
               type: 'video',
               quality: 360,
               suffix: 'p',
               code: 'bestvideo[height<=360]+bestaudio/best[height<=360]'
             },
             {
-              id: 7,
               type: 'video',
               quality: 480,
               suffix: 'p',
               code: 'bestvideo[height<=480]+bestaudio/best[height<=480]'
             },
             {
-              id: 8,
               type: 'video',
               quality: 720,
               suffix: 'p',
               code: 'bestvideo[height<=720]+bestaudio/best[height<=720]'
             },
             {
-              id: 9,
               type: 'video',
               quality: 1080,
               suffix: 'p',
