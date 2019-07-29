@@ -68,6 +68,7 @@ function getFormats(data) {
       seen.add(key);
     }
   });
+  formats.reverse();
   return formats;
 }
 
