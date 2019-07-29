@@ -34,11 +34,7 @@ export default {
   },
   computed: {
     filteredFormats() {
-      if (this.isAudioChosen) {
-        return this.data.formats.filter(x => x.type === 'audio');
-      } else {
-        return this.data.formats.filter(x => x.type !== 'audio');
-      }
+      return this.data.formats.filter(x => x.isAudioOnly === this.isAudioChosen);
     }
   }
 }

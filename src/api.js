@@ -37,7 +37,7 @@ function createDownloadable(data) {
 function getFormats(data) {
   if (!Array.isArray(data)) {
     return [{
-      type: 'video',
+      isAudioOnly: false,
       quality: data,
       suffix: '',
       code: data
@@ -52,7 +52,6 @@ function getFormats(data) {
     const isAudioOnly = height === undefined && width === undefined;
     const isVideoOnly = vcodec !== 'none' && acodec === 'none';
 
-    const type = isAudioOnly ? 'audio' : 'video';
     const quality = isAudioOnly ? abr : (height || format_id);
     const suffix = isAudioOnly ? 'kbps' : (isVideoOnly
       ? 'p'
@@ -63,9 +62,9 @@ function getFormats(data) {
       : format_id
     );
 
-    const key = type + quality;
+    const key = (isAudioOnly ? 'a' : 'v') + quality;
     if (quality && !seen.has(key)) {
-      formats.push({ type, quality, suffix, code });
+      formats.push({ isAudioOnly, quality, suffix, code });
       seen.add(key);
     }
   });

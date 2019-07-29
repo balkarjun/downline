@@ -42,61 +42,61 @@ export default {
           duration: '10:05',
           formats: [
             {
-              type: 'audio',
+              isAudioOnly: true,
               quality: 50,
               suffix: 'kbps',
               code: 'bestaudio[abr<=50]'
             },
             {
-              type: 'audio',
+              isAudioOnly: true,
               quality: 70,
               suffix: 'kbps',
               code: 'bestaudio[abr<=70]'
             },
             {
-              type: 'audio',
+              isAudioOnly: true,
               quality: 128,
               suffix: 'kbps',
               code: 'bestaudio[abr<=128]'
             },
             {
-              type: 'audio',
+              isAudioOnly: true,
               quality: 160,
               suffix: 'kbps',
               code: 'bestaudio[abr<=160]'
             },
             {
-              type: 'video',
+              isAudioOnly: false,
               quality: 144,
               suffix: 'p',
               code: 'bestvideo[height<=144]+bestaudio/best[height<=144]'
             },
             {
-              type: 'video',
+              isAudioOnly: false,
               quality: 240,
               suffix: 'p',
               code: 'bestvideo[height<=240]+bestaudio/best[height<=240]'
             },
             {
-              type: 'video',
+              isAudioOnly: false,
               quality: 360,
               suffix: 'p',
               code: 'bestvideo[height<=360]+bestaudio/best[height<=360]'
             },
             {
-              type: 'video',
+              isAudioOnly: false,
               quality: 480,
               suffix: 'p',
               code: 'bestvideo[height<=480]+bestaudio/best[height<=480]'
             },
             {
-              type: 'video',
+              isAudioOnly: false,
               quality: 720,
               suffix: 'p',
               code: 'bestvideo[height<=720]+bestaudio/best[height<=720]'
             },
             {
-              type: 'video',
+              isAudioOnly: false,
               quality: 1080,
               suffix: 'p',
               code: 'bestvideo[height<=1080]+bestaudio/best[height<=1080]'
