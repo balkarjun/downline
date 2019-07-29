@@ -7,11 +7,11 @@
       </div>
       <div ref="dialog" v-if="isOpen" class="dialog">
         <p 
-          v-for="format in formats" 
-          :key="format.id" 
-          :class="{active: format.id === activeId}"
-          @click="select(format.id)"
-        >{{ format.quality }}<span v-if="format.id === activeId" class="light">{{ format.suffix }}</span></p>
+          v-for="(format, index) in formats" 
+          :key="index" 
+          :class="{active: index === activeIndex}"
+          @click="select(index)"
+        >{{ format.quality }}<span v-if="index === activeIndex" class="light">{{ format.suffix }}</span></p>
       </div>
     </div>
   </OnClickOutside>
@@ -30,20 +30,25 @@ export default {
   data() {
     return {
       isOpen: false,
-      activeId: 0
+      activeIndex: 0
+    }
+  },
+  watch: {
+    formats() {
+      this.activeIndex = 0;
     }
   },
   computed: {
     activeQuality() {
-      return this.formats[this.activeId].quality;
+      return this.formats[this.activeIndex].quality;
     },
     activeSuffix() {
-      return this.formats[this.activeId].suffix;
+      return this.formats[this.activeIndex].suffix;
     }
   },
   methods: {
-    select(id) {
-      this.activeId = id;
+    select(index) {
+      this.activeIndex = index;
       this.close();
     },
     close() {
@@ -53,7 +58,7 @@ export default {
       this.isOpen = true;
       this.$nextTick(() => {
         this.setupPopper();
-        const activeElement = this.$refs.dialog.querySelector('.active');
+        const activeElement = this.$refs.dialog.children[this.activeIndex];
         activeElement.scrollIntoView({ block: 'center' });
       });
     },

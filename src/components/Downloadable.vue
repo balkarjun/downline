@@ -9,7 +9,7 @@
     <section id="middle">
       <p id="title">{{ data.title }}</p>
       <div id="bottom">
-        <QualitySelect :formats="data.formats" />
+        <QualitySelect :formats="filteredFormats" />
         <button @click="isAudioChosen = !isAudioChosen" :class="{active: isAudioChosen}">
           <img src="../assets/icons/music_note.svg">
         </button>
@@ -30,6 +30,15 @@ export default {
   data() {
     return {
       isAudioChosen: false
+    }
+  },
+  computed: {
+    filteredFormats() {
+      if (this.isAudioChosen) {
+        return this.data.formats.filter(x => x.type === 'audio');
+      } else {
+        return this.data.formats.filter(x => x.type !== 'audio');
+      }
     }
   }
 }
