@@ -108,11 +108,6 @@ p {
   background-color: white;
 }
 
-#bottom button img {
-  width: 22px;
-  height: 22px;
-}
-
 #bottom button:hover {
   background-color: whitesmoke;
 }

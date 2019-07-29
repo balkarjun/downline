@@ -76,9 +76,4 @@ button {
   bottom: -22px;
   left: calc(50% - 22px);
 }
-
-button img {
-  width: 28px;
-  height: 28px;
-}
 </style>

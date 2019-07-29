@@ -1,11 +1,11 @@
 <template>
   <div id="titlebar">
     <div id="left">
-      <img src="../assets/icons/more_horizontal.svg">
+      <img src="../assets/icons/more_horiz.svg">
     </div>
     <div id="right">
       <span @click="minimize">
-        <img id="minimize" src="../assets/icons/minimize.svg">
+        <img src="../assets/icons/minimize.svg">
       </span>
       <span @click="close">
         <img id="close" src="../assets/icons/close.svg">
@@ -48,8 +48,6 @@ export default {
 }
 
 #left img {
-  width: 26px;
-  height: 26px;
   padding-left: 16px;
   cursor: pointer;
 }
@@ -60,15 +58,7 @@ export default {
   cursor: pointer;
 }
 
-#minimize {
-  width: 22px;
-  height: 22px;
-  position: relative;
-  bottom: 7px;
-}
-
 #close {
-  width: 20px;
-  height: 20px;
+  width: 23px;
 }
 </style>
