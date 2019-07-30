@@ -1,8 +1,8 @@
 <template>
   <div id="box">
     <section id="left">
-      <img id="thumbnail" :src="data.thumbnail">
-      <div id="duration" :class="{hide: isOverlayFixed}">
+      <img class="thumbnail" :src="data.thumbnail">
+      <div class="duration" :class="{hide: isOverlayFixed}">
         <p>{{ data.duration }}</p>
       </div>
       <div class="overlay" :class="{fixed: isOverlayFixed}">
@@ -12,7 +12,7 @@
       </div>
     </section>
     <section id="middle">
-      <p id="title">{{ data.title }}</p>
+      <p class="title">{{ data.title }}</p>
       <div id="bottom">
         <QualitySelect :formats="filteredFormats" />
         <button @click="isAudioChosen = !isAudioChosen" :class="{active: isAudioChosen}">
@@ -82,11 +82,6 @@ export default {
 </script>
 
 <style scoped>
-p {
-  margin: 0;
-  padding: 0;
-}
-
 #box {
   height: 82px;
   display: flex;
@@ -98,7 +93,7 @@ p {
   margin-left: 16px;
 }
 
-#thumbnail {
+.thumbnail {
   min-width: 120px;
   min-height: 70px;
   width: 120px;
@@ -106,39 +101,32 @@ p {
   border-radius: 5px;
   object-fit: cover;
   align-self: center;
-  position: relative;
 }
 
-#duration {
-  height: 16px;
+.duration {
   background-color: rgba(0, 0, 0, 0.85);
   border-radius: 5px;
   position: absolute;
   right: 2px;
   bottom: 8px;
   opacity: 1;
+  padding: 1px 8px;
 }
 
-#duration p{
+.duration p{
   font-size: 12px;
   color: lightgray;
-  padding: 0 8px;
-  line-height: 16px;
 }
 
-#duration.hide {
+.duration.hide {
   opacity: 0;
 }
 
-#box:hover #duration{
+#box:hover .duration{
   opacity: 0;
 }
 
-#box:hover #left .overlay {
-  opacity: 1;
-}
-
-#left .overlay {
+.overlay {
   height: 70px;
   width: 120px;
   position: absolute;
@@ -149,7 +137,11 @@ p {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-#left .overlay.fixed {
+.overlay.fixed {
+  opacity: 1;
+}
+
+#box:hover .overlay {
   opacity: 1;
 }
 
@@ -161,7 +153,6 @@ p {
   border-radius: 50%;
   display: flex;
   justify-content: center;
-  cursor: pointer;
 }
 
 #middle {
@@ -173,7 +164,7 @@ p {
   width: calc(100% - 16px - 120px - 12px);
 }
 
-#title {
+.title {
   overflow: scroll;
   white-space: nowrap;
 }

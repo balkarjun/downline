@@ -93,8 +93,6 @@ export default {
 }
 
 .active-quality p {
-  margin: 0;
-  padding: 0;
   display: inline;
   align-self: center;
 }
@@ -116,9 +114,7 @@ export default {
 }
 
 .dialog p {
-  padding: 0;
   padding-left: 16px;
-  margin: 0;
   line-height: 28px;
   cursor: pointer;
 }

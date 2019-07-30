@@ -150,6 +150,11 @@ body {
   font-size: 15px;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 button {
   border: 0;
   background: lightgray;
