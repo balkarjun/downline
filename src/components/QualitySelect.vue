@@ -86,6 +86,7 @@ export default {
   height: 28px;
   padding: 0 12px;
   border: 1px solid lightgray;
+  background-color: white;
   border-radius: 5px;
   cursor: pointer;
   box-sizing: border-box;

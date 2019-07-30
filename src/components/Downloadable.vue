@@ -5,6 +5,11 @@
       <div id="duration">
         <p>{{ data.duration }}</p>
       </div>
+      <div class="overlay">
+        <div class="circle">
+          <img src="../assets/icons/download.svg">
+        </div>
+      </div>
     </section>
     <section id="middle">
       <p id="title">{{ data.title }}</p>
@@ -75,6 +80,7 @@ p {
   position: absolute;
   right: 2px;
   bottom: 8px;
+  opacity: 1;
 }
 
 #duration p{
@@ -82,6 +88,36 @@ p {
   color: lightgray;
   padding: 0 8px;
   line-height: 16px;
+}
+
+#box:hover #duration{
+  opacity: 0;
+}
+
+#box:hover #left .overlay {
+  opacity: 1;
+}
+
+#left .overlay {
+  height: 70px;
+  width: 120px;
+  position: absolute;
+  top: 6px;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  align-self: center;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 }
 
 #middle {
