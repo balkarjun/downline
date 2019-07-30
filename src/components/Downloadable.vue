@@ -2,10 +2,10 @@
   <div id="box">
     <section id="left">
       <img id="thumbnail" :src="data.thumbnail">
-      <div id="duration">
+      <div id="duration" :class="{hide: isOverlayFixed}">
         <p>{{ data.duration }}</p>
       </div>
-      <div class="overlay">
+      <div class="overlay" :class="{fixed: isOverlayFixed}">
         <button @click="handleClick" class="circle">
           <img :src="stateIcon">
         </button>
@@ -44,7 +44,8 @@ export default {
     return {
       isAudioChosen: false,
       state: State.STOPPED,
-      stateIcon: require('../assets/icons/download.svg')
+      stateIcon: require('../assets/icons/download.svg'),
+      isOverlayFixed: false
     }
   },
   methods: {
@@ -53,16 +54,19 @@ export default {
       if (this.state === State.STOPPED) {
         this.state = State.DOWNLOADING;
         icon = 'pause';
+        this.isOverlayFixed = true;
         console.log('stopped -> downloading');
       } 
       else if (this.state === State.DOWNLOADING) {
         this.state = State.PAUSED;
         icon = 'download';
+        this.isOverlayFixed = true;
         console.log('downloading -> paused');
       } 
       else if (this.state === State.PAUSED) {
         this.state = State.DOWNLOADING;
         icon = 'pause';
+        this.isOverlayFixed = true;
         console.log('paused -> downloading');
       }
 
@@ -122,6 +126,10 @@ p {
   line-height: 16px;
 }
 
+#duration.hide {
+  opacity: 0;
+}
+
 #box:hover #duration{
   opacity: 0;
 }
@@ -139,6 +147,10 @@ p {
   display: flex;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+#left .overlay.fixed {
+  opacity: 1;
 }
 
 .circle {
