@@ -6,9 +6,9 @@
         <p>{{ data.duration }}</p>
       </div>
       <div class="overlay">
-        <div class="circle">
-          <img src="../assets/icons/download.svg">
-        </div>
+        <button @click="handleClick" class="circle">
+          <img :src="stateIcon">
+        </button>
       </div>
     </section>
     <section id="middle">
@@ -26,6 +26,14 @@
 <script>
 import QualitySelect from './QualitySelect.vue';
 
+const State = {
+  STOPPED: 0,
+  DOWNLOADING: 1,
+  QUEUED: 2,
+  PAUSED: 3,
+  COMPLETED: 4
+};
+
 export default {
   name: 'downloadable',
   components: {
@@ -34,7 +42,31 @@ export default {
   props: ['data'],
   data() {
     return {
-      isAudioChosen: false
+      isAudioChosen: false,
+      state: State.STOPPED,
+      stateIcon: require('../assets/icons/download.svg')
+    }
+  },
+  methods: {
+    handleClick() {
+      let icon = ''
+      if (this.state === State.STOPPED) {
+        this.state = State.DOWNLOADING;
+        icon = 'pause';
+        console.log('stopped -> downloading');
+      } 
+      else if (this.state === State.DOWNLOADING) {
+        this.state = State.PAUSED;
+        icon = 'download';
+        console.log('downloading -> paused');
+      } 
+      else if (this.state === State.PAUSED) {
+        this.state = State.DOWNLOADING;
+        icon = 'pause';
+        console.log('paused -> downloading');
+      }
+
+      this.stateIcon = require(`../assets/icons/${icon}.svg`);
     }
   },
   computed: {
