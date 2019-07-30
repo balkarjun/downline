@@ -13,7 +13,13 @@
     </section>
     <section id="middle">
       <p class="title">{{ data.title }}</p>
-      <div id="bottom">
+      <div v-if="isProgressVisible" class="progress">
+        <div class="info">Starting Download</div>
+        <div class="back">
+          <div class="front indeterminate"></div>
+        </div>
+      </div>
+      <div v-else class="options">
         <QualitySelect :formats="filteredFormats" />
         <button @click="isAudioChosen = !isAudioChosen" :class="{active: isAudioChosen}">
           <img src="../assets/icons/music_note.svg">
@@ -76,6 +82,9 @@ export default {
   computed: {
     filteredFormats() {
       return this.data.formats.filter(x => x.isAudioOnly === this.isAudioChosen);
+    },
+    isProgressVisible() {
+      return this.state !== State.STOPPED && this.state !== State.COMPLETED;
     }
   }
 }
@@ -169,13 +178,13 @@ export default {
   white-space: nowrap;
 }
 
-#bottom {
+.options {
   display: flex;
   justify-content: space-between;
   margin-right: 50px;
 }
 
-#bottom button {
+.options button {
   width: 64px;
   height: 28px;
   display: flex;
@@ -184,11 +193,74 @@ export default {
   background-color: white;
 }
 
-#bottom button:hover {
+.options button:hover {
   background-color: whitesmoke;
 }
 
-#bottom button.active {
+.options button.active {
   background-color: lightgray;
+}
+
+/* Progess */
+.progress {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 2px;
+}
+
+.back {
+  height: 6px;
+  width: 450px;
+  background-color: lightgray;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.front {
+  height: 6px;
+  width: 200px;
+  background-color: gray;
+  border-radius: 2px;
+}
+
+.front.indeterminate {
+  position: relative;
+  width: 20%;
+  top: 0;
+  left: 0%;
+  will-change: left, right;
+  animation: indeterminate 1.5s linear infinite;
+}
+
+@keyframes indeterminate {
+  0% {
+    transform: translate(-50%, 0%);
+    animation-timing-function: linear;
+  }
+  20% {
+    transform: translate(50%, 0%);
+    animation-timing-function: linear;
+  }
+  40% {
+    transform: translate(150%, 0%);
+    animation-timing-function: linear;
+  }
+  60% {
+    transform: translate(250%, 0%);
+    animation-timing-function: linear;
+  }
+  80% {
+    transform: translate(350%, 0%);
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: translate(450%, 0%);
+    animation-timing-function: linear;
+  }
 }
 </style>
