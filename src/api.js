@@ -124,4 +124,18 @@ function getProgress(data) {
   return '';
 }
 
+function getETA(eta) {
+  const hRegex = /(?<hr>\d+):(?<min>\d+):(?<sec>\d+)/;
+  const mRegex = /(?<min>\d+):(?<sec>\d+)/;
+  let { hr, min, sec } = (hRegex.exec(eta) || mRegex.exec(eta)).groups;
+
+  hr = hr ? Number(hr) : 0;
+  min = Number(min);
+  sec = Number(sec);
+
+  return (hr !== 0) ? `${min >= 30 ? hr + 1 : hr}h left`
+    : (min !== 0) ? `${sec >= 30 ? min + 1 : min}min left`
+      : `${sec}s left`;
+}
+
 module.exports = { fetchInfo, download };
