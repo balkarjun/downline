@@ -2,8 +2,8 @@ const { spawn } = require('child_process');
 const { Transform } = require('stream');
 const path = require('path');
 
-const ytdlPath = path.join('./resources', 'youtube-dl');
-const ffmpegPath = path.join('./resources', 'ffmpeg');
+const ytdlPath = path.join(process.cwd(), '../resources', 'youtube-dl');
+const ffmpegPath = path.join(process.cwd(), '../resources', 'ffmpeg');
 
 function fetchInfo(links) {
   const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];

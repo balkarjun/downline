@@ -61,6 +61,7 @@ export default {
         this.state = State.DOWNLOADING;
         icon = 'pause';
         this.isOverlayFixed = true;
+        this.download();
         console.log('stopped -> downloading');
       } 
       else if (this.state === State.DOWNLOADING) {
@@ -73,10 +74,17 @@ export default {
         this.state = State.DOWNLOADING;
         icon = 'pause';
         this.isOverlayFixed = true;
+        this.download();
         console.log('paused -> downloading');
       }
 
       this.stateIcon = require(`../assets/icons/${icon}.svg`);
+    },
+    download() {
+      this.$emit('download', {
+        url: this.data.url,
+        formatCode: 'bestaudio[abr<=160]'
+      });
     }
   },
   computed: {
