@@ -107,4 +107,21 @@ function download({url, formatCode}) {
   return child.stdout.pipe(tStream);
 }
 
+function getProgress(data) {
+  const regex = /(?<percent>\d+\.\d+)\D+(?<size>\d+\.\d+)(?<unit>\w+)\D+(?<speed>\d+\.\d+\w+\/s)\D+(?<eta>[\d:]+)/;
+  const match = regex.exec(data.toString());
+
+  if (match) {
+    const { percent, size, unit, speed, eta } = match.groups;
+    const progress = {
+      downloaded: ((percent / 100) * size).toFixed(2),
+      size: size + unit,
+      speed: speed,
+      remaining: getETA(eta)
+    };
+    return progress;
+  }
+  return '';
+}
+
 module.exports = { fetchInfo, download };
