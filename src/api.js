@@ -2,10 +2,11 @@ const { spawn } = require('child_process');
 const { Transform } = require('stream');
 const path = require('path');
 
-const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
-const ytdlPath = path.join(process.cwd(), '../resources', 'youtube-dl');
+const ytdlPath = path.join('./resources', 'youtube-dl');
+const ffmpegPath = path.join('./resources', 'ffmpeg');
 
 function fetchInfo(links) {
+  const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
   const child = spawn(ytdlPath, [...args, ...links]);
 
   const tStream = new Transform({
@@ -91,4 +92,19 @@ function getDuration(duration) {
   else return `0:${pad(seconds)}`;
 }
 
-module.exports = { fetchInfo };
+function download({url, formatCode}) {
+  const args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, url];
+  const child = spawn(ytdlPath, args);
+
+  const tStream = new Transform({
+    readableObjectMode: true,
+    transform(chunk, encoding, callback) {
+      this.push(getProgress(chunk));
+      callback();
+    }
+  });
+
+  return child.stdout.pipe(tStream);
+}
+
+module.exports = { fetchInfo, download };
