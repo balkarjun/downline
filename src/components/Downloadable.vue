@@ -89,10 +89,10 @@ export default {
       this.activeIndex = 0;
     },
     download() {
-      const { formatCode } = this.filteredFormats[this.activeIndex];
+      const { code } = this.filteredFormats[this.activeIndex];
       this.$emit('download', {
         url: this.data.url,
-        formatCode: formatCode
+        formatCode: code
       });
     }
   },
