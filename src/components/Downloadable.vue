@@ -20,8 +20,11 @@
         </div>
       </div>
       <div v-else class="options">
-        <QualitySelect :formats="filteredFormats" />
-        <button @click="isAudioChosen = !isAudioChosen" :class="{active: isAudioChosen}">
+        <QualitySelect 
+          :formats="filteredFormats"
+          v-model="activeIndex"
+        />
+        <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
           <img src="../assets/icons/music_note.svg">
         </button>
       </div>
@@ -51,7 +54,8 @@ export default {
       isAudioChosen: false,
       state: State.STOPPED,
       stateIcon: require('../assets/icons/download.svg'),
-      isOverlayFixed: false
+      isOverlayFixed: false,
+      activeIndex: 0
     }
   },
   methods: {
@@ -80,10 +84,15 @@ export default {
 
       this.stateIcon = require(`../assets/icons/${icon}.svg`);
     },
+    toggleAudioChosen() {
+      this.isAudioChosen = !this.isAudioChosen;
+      this.activeIndex = 0;
+    },
     download() {
+      const { formatCode } = this.filteredFormats[this.activeIndex];
       this.$emit('download', {
         url: this.data.url,
-        formatCode: 'bestaudio[abr<=160]'
+        formatCode: formatCode
       });
     }
   },

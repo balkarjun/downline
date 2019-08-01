@@ -9,9 +9,9 @@
         <p 
           v-for="(format, index) in formats" 
           :key="index" 
-          :class="{active: index === activeIndex}"
+          :class="{active: index === value}"
           @click="select(index)"
-        >{{ format.quality }}<span v-if="index === activeIndex" class="light">{{ format.suffix }}</span></p>
+        >{{ format.quality }}<span v-if="index === value" class="light">{{ format.suffix }}</span></p>
       </div>
     </div>
   </OnClickOutside>
@@ -26,29 +26,23 @@ export default {
   components: {
     OnClickOutside
   },
-  props: ['formats'],
+  props: ['formats', 'value'],
   data() {
     return {
-      isOpen: false,
-      activeIndex: 0
-    }
-  },
-  watch: {
-    formats() {
-      this.activeIndex = 0;
+      isOpen: false
     }
   },
   computed: {
     activeQuality() {
-      return this.formats[this.activeIndex].quality;
+      return this.formats[this.value].quality;
     },
     activeSuffix() {
-      return this.formats[this.activeIndex].suffix;
+      return this.formats[this.value].suffix;
     }
   },
   methods: {
     select(index) {
-      this.activeIndex = index;
+      this.$emit('input', index);
       this.close();
     },
     close() {
@@ -58,7 +52,7 @@ export default {
       this.isOpen = true;
       this.$nextTick(() => {
         this.setupPopper();
-        const activeElement = this.$refs.dialog.children[this.activeIndex];
+        const activeElement = this.$refs.dialog.children[this.value];
         activeElement.scrollIntoView({ block: 'center' });
       });
     },
