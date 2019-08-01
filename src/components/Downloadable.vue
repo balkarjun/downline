@@ -16,7 +16,7 @@
       <div v-if="isProgressVisible" class="progress">
         <div class="info">Starting Download</div>
         <div class="back">
-          <div class="front indeterminate"></div>
+          <div class="front" :class="{indeterminate: isIndeterminate}" :style="{width: width}"></div>
         </div>
       </div>
       <div v-else class="options">
@@ -58,6 +58,8 @@ export default {
       activeIndex: 0,
       state: State.STOPPED,
       isOverlayFixed: false,
+      isIndeterminate: false,
+      width: '0%',
       stateIcon: require('../assets/icons/download.svg')
     }
   },
@@ -77,6 +79,7 @@ export default {
     download() {
       this.state = State.DOWNLOADING;
       this.isOverlayFixed = true;
+      this.isIndeterminate = true;
       this.setStateIcon('pause');
       
       const url = this.data.url;
@@ -85,10 +88,15 @@ export default {
       const process = api.download({ url, formatCode });
       process.on('data', data => {
         if (data !== '') {
+          this.isIndeterminate = false;
+          this.width = `${data.percent}%`;
           console.log(`[data] ${data.downloaded}/${data.size} | ${data.speed} | ${data.remaining}`);
         }
       });
-      process.on('end', () => console.log('[end]'));
+      process.on('end', () => {
+        this.isIndeterminate = false;
+        console.log('[end]');
+      });
     },
     pause() {
       this.state = State.PAUSED;
@@ -247,20 +255,18 @@ export default {
 
 .front {
   height: 6px;
-  width: 200px;
   background-color: gray;
   border-radius: 2px;
-}
-
-.front.indeterminate {
   position: relative;
-  width: 20%;
   top: 0;
   left: 0%;
   will-change: left, right;
-  animation: indeterminate 1.5s linear infinite;
 }
 
+.front.indeterminate {
+  width: 20% !important;
+  animation: indeterminate 1.5s infinite;
+}
 @keyframes indeterminate {
   0% {
     transform: translate(-50%, 0%);

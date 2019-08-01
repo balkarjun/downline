@@ -114,6 +114,7 @@ function getProgress(data) {
   if (match) {
     const { percent, size, unit, speed, eta } = match.groups;
     const progress = {
+      percent: percent,
       downloaded: ((percent / 100) * size).toFixed(2),
       size: size + unit,
       speed: speed,
