@@ -9,7 +9,6 @@
       <Downloadable v-for="item in downloadables" 
         :key="item.url"
         :data="item"
-        @download="download"
       />
     </div>
   </div>
@@ -120,10 +119,6 @@ export default {
     addDownloadables(links) {
       api.fetchInfo(links)
       .on('data', data => this.downloadables.push(data));
-    },
-    download({ url, formatCode }) {
-      api.download({ url, formatCode })
-      .on('data', data => console.log(data));
     },
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;

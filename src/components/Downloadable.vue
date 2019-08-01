@@ -35,6 +35,9 @@
 <script>
 import QualitySelect from './QualitySelect.vue';
 
+const { remote } = window.require('electron');
+const api = remote.require('./api.js');
+
 const State = {
   STOPPED: 0,
   DOWNLOADING: 1,
@@ -75,12 +78,17 @@ export default {
       this.state = State.DOWNLOADING;
       this.isOverlayFixed = true;
       this.setStateIcon('pause');
-        
-      const { code } = this.filteredFormats[this.activeIndex];
-      this.$emit('download', {
-        url: this.data.url,
-        formatCode: code
+      
+      const url = this.data.url;
+      const formatCode = this.filteredFormats[this.activeIndex].code;
+      
+      const process = api.download({ url, formatCode });
+      process.on('data', data => {
+        if (data !== '') {
+          console.log(`[data] ${data.downloaded}/${data.size} | ${data.speed} | ${data.remaining}`);
+        }
       });
+      process.on('end', () => console.log('[end]'));
     },
     pause() {
       this.state = State.PAUSED;
