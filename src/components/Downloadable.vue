@@ -52,48 +52,47 @@ export default {
   data() {
     return {
       isAudioChosen: false,
+      activeIndex: 0,
       state: State.STOPPED,
-      stateIcon: require('../assets/icons/download.svg'),
       isOverlayFixed: false,
-      activeIndex: 0
+      stateIcon: require('../assets/icons/download.svg')
     }
   },
   methods: {
     handleClick() {
-      let icon = ''
       if (this.state === State.STOPPED) {
-        this.state = State.DOWNLOADING;
-        icon = 'pause';
-        this.isOverlayFixed = true;
         this.download();
         console.log('stopped -> downloading');
-      } 
-      else if (this.state === State.DOWNLOADING) {
-        this.state = State.PAUSED;
-        icon = 'download';
-        this.isOverlayFixed = true;
+      } else if (this.state === State.DOWNLOADING) {
+        this.pause();
         console.log('downloading -> paused');
-      } 
-      else if (this.state === State.PAUSED) {
-        this.state = State.DOWNLOADING;
-        icon = 'pause';
-        this.isOverlayFixed = true;
+      } else if (this.state === State.PAUSED) {
         this.download();
         console.log('paused -> downloading');
       }
-
-      this.stateIcon = require(`../assets/icons/${icon}.svg`);
-    },
-    toggleAudioChosen() {
-      this.isAudioChosen = !this.isAudioChosen;
-      this.activeIndex = 0;
     },
     download() {
+      this.state = State.DOWNLOADING;
+      this.isOverlayFixed = true;
+      this.setStateIcon('pause');
+        
       const { code } = this.filteredFormats[this.activeIndex];
       this.$emit('download', {
         url: this.data.url,
         formatCode: code
       });
+    },
+    pause() {
+      this.state = State.PAUSED;
+      this.isOverlayFixed = true;
+      this.setStateIcon('download');
+    },
+    toggleAudioChosen() {
+      this.isAudioChosen = !this.isAudioChosen;
+      this.activeIndex = 0;
+    },
+    setStateIcon(icon) {
+      this.stateIcon = require(`../assets/icons/${icon}.svg`);
     }
   },
   computed: {
