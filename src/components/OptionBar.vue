@@ -21,7 +21,7 @@ div {
 
 button {
   height: 30px;
-  padding: 0 16px;
+  width: 120px;
   border-radius: 5px;
 }
 </style>

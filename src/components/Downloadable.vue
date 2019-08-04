@@ -128,6 +128,10 @@ export default {
   display: flex;
 }
 
+#box:hover {
+  background-color: whitesmoke;
+}
+
 #left {
   display: flex;
   position: relative;
@@ -222,15 +226,15 @@ export default {
   display: flex;
   border-radius: 5px;
   justify-content: center;
-  background-color: white;
+  background-color: transparent;
 }
 
 .options button:hover {
-  background-color: whitesmoke;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .options button.active {
-  background-color: lightgray;
+  background-color: rgba(0, 0, 0, 0.25);
 }
 
 /* Progess */
