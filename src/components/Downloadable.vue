@@ -14,9 +14,20 @@
     <section id="middle">
       <p class="title">{{ data.title }}</p>
       <div v-if="isProgressVisible" class="progress">
-        <div class="info">Starting Download</div>
+        <div class="info">
+          <p v-if="isDownloading && !hasDownloadStarted">
+            Starting Download
+          </p>
+          <p v-else-if="hasDownloadStarted">
+            {{ progress.downloaded}} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
+          </p>
+          <p v-else-if="isCompleted">
+            Completed
+          </p>
+        </div>
         <div class="back">
-          <div class="front" :class="{indeterminate: isIndeterminate}" :style="{width: width}"></div>
+          <div v-if="isIndeterminate" class="front indeterminate"></div>
+          <div v-else-if="hasDownloadStarted" class="front" :style="{ width: progress.percent + '%'}"></div>
         </div>
       </div>
       <div v-else class="options">
@@ -59,8 +70,8 @@ export default {
       state: State.STOPPED,
       isOverlayFixed: false,
       isIndeterminate: false,
-      width: '0%',
-      stateIcon: require('../assets/icons/download.svg')
+      stateIcon: require('../assets/icons/download.svg'),
+      progress: null
     }
   },
   methods: {
@@ -84,12 +95,12 @@ export default {
       
       const url = this.data.url;
       const formatCode = this.filteredFormats[this.activeIndex].code;
-      
+
       const process = api.download({ url, formatCode });
       process.on('data', data => {
         if (data !== '') {
           this.isIndeterminate = false;
-          this.width = `${data.percent}%`;
+          this.progress = data;
           console.log(`[data] ${data.downloaded}/${data.size} | ${data.speed} | ${data.remaining}`);
         }
       });
@@ -112,11 +123,23 @@ export default {
     }
   },
   computed: {
+    isDownloading() {
+      return this.state === State.DOWNLOADING;
+    },
+    isStopped() {
+      return this.state === State.STOPPED;
+    },
+    isCompleted() {
+      return this.state === State.COMPLETED;
+    },
+    hasDownloadStarted() {
+      return this.isDownloading && this.progress != null;
+    },
     filteredFormats() {
       return this.data.formats.filter(x => x.isAudioOnly === this.isAudioChosen);
     },
     isProgressVisible() {
-      return this.state !== State.STOPPED && this.state !== State.COMPLETED;
+      return !this.isStopped && !this.isCompleted;
     }
   }
 }
