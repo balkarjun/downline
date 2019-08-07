@@ -106,12 +106,15 @@ export default {
         }
       });
       process.on('end', () => {
-        this.state = State.COMPLETED;
+        if (!this.isPaused) {
+          this.state = State.COMPLETED;
+        }
         console.log('[end]');
       });
     },
     pause() {
       this.state = State.PAUSED;
+      api.pause(this.data.url);
     },
     toggleAudioChosen() {
       this.isAudioChosen = !this.isAudioChosen;
