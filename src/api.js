@@ -140,7 +140,7 @@ function getETA(eta) {
 
   return (hr !== 0) ? `${min >= 30 ? hr + 1 : hr}h left`
     : (min !== 0) ? `${sec >= 30 ? min + 1 : min}min left`
-      : `${sec}s left`;
+      : `${sec + 1}s left`;
 }
 
 function pause(url) {

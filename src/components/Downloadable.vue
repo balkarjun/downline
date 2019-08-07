@@ -29,19 +29,25 @@
       </div>
       <div v-else class="progress">
         <div class="info">
-          <p v-if="isStarting">
+          <p v-if="isStarting && progress">
+            {{ progress.downloaded }} of {{ progress.size }} &centerdot; Resuming
+          </p>
+          <p v-else-if="isStarting">
             Starting Download
           </p>
           <p v-else-if="isDownloading">
-            {{ progress.downloaded}} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
+            {{ progress.downloaded }} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
           </p>
           <p v-else-if="isCompleted">
             Completed
           </p>
+          <p v-else-if="isPaused">
+            {{ progress.downloaded }} of {{ progress.size }} &centerdot; Paused
+          </p>
         </div>
         <div class="back">
           <div v-if="isStarting || isProcessing" class="front indeterminate"></div>
-          <div v-else-if="isDownloading" class="front" :style="{ width: progress.percent + '%'}"></div>
+          <div v-else class="front" :style="{ width: progress.percent + '%' }"></div>
         </div>
       </div>
     </section>
