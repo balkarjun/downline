@@ -2,35 +2,20 @@
   <div id="box">
     <section id="left">
       <img class="thumbnail" :src="data.thumbnail">
-      <div class="duration" :class="{hide: isOverlayFixed}">
+      <div class="duration" :class="{hide: !isStopped}">
         <p>{{ data.duration }}</p>
       </div>
-      <div class="overlay" :class="{fixed: isOverlayFixed}">
+      <div class="overlay" :class="{fixed: !isStopped}">
         <button @click="handleClick" class="circle">
-          <img :src="stateIcon">
+          <img v-if="isCompleted" src="../assets/icons/done.svg">
+          <img v-else-if="isStopped || isPaused" src="../assets/icons/download.svg">
+          <img v-else src="../assets/icons/pause.svg">
         </button>
       </div>
     </section>
     <section id="middle">
       <p class="title">{{ data.title }}</p>
-      <div v-if="isProgressVisible" class="progress">
-        <div class="info">
-          <p v-if="isDownloading && !hasDownloadStarted">
-            Starting Download
-          </p>
-          <p v-else-if="hasDownloadStarted">
-            {{ progress.downloaded}} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
-          </p>
-          <p v-else-if="isCompleted">
-            Completed
-          </p>
-        </div>
-        <div class="back">
-          <div v-if="isIndeterminate" class="front indeterminate"></div>
-          <div v-else-if="hasDownloadStarted" class="front" :style="{ width: progress.percent + '%'}"></div>
-        </div>
-      </div>
-      <div v-else class="options">
+      <div v-if="isStopped" class="options">
         <QualitySelect 
           :formats="filteredFormats"
           v-model="activeIndex"
@@ -38,6 +23,26 @@
         <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
           <img src="../assets/icons/music_note.svg">
         </button>
+      </div>
+      <div v-else-if="isCompleted">
+        Show in Folder
+      </div>
+      <div v-else class="progress">
+        <div class="info">
+          <p v-if="isStarting">
+            Starting Download
+          </p>
+          <p v-else-if="isDownloading">
+            {{ progress.downloaded}} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
+          </p>
+          <p v-else-if="isCompleted">
+            Completed
+          </p>
+        </div>
+        <div class="back">
+          <div v-if="isStarting || isProcessing" class="front indeterminate"></div>
+          <div v-else-if="isDownloading" class="front" :style="{ width: progress.percent + '%'}"></div>
+        </div>
       </div>
     </section>
   </div>
@@ -51,11 +56,13 @@ const api = remote.require('./api.js');
 
 const State = {
   STOPPED: 0,
-  DOWNLOADING: 1,
-  QUEUED: 2,
-  PAUSED: 3,
-  COMPLETED: 4
-};
+  STARTING: 1,
+  DOWNLOADING: 2,
+  PROCESSING: 3,
+  PAUSED: 4,
+  QUEUED: 5,
+  COMPLETED: 6
+}
 
 export default {
   name: 'downloadable',
@@ -68,9 +75,6 @@ export default {
       isAudioChosen: false,
       activeIndex: 0,
       state: State.STOPPED,
-      isOverlayFixed: false,
-      isIndeterminate: false,
-      stateIcon: require('../assets/icons/download.svg'),
       progress: null
     }
   },
@@ -88,10 +92,7 @@ export default {
       }
     },
     download() {
-      this.state = State.DOWNLOADING;
-      this.isOverlayFixed = true;
-      this.isIndeterminate = true;
-      this.setStateIcon('pause');
+      this.state = State.STARTING;
       
       const url = this.data.url;
       const formatCode = this.filteredFormats[this.activeIndex].code;
@@ -99,47 +100,48 @@ export default {
       const process = api.download({ url, formatCode });
       process.on('data', data => {
         if (data !== '') {
-          this.isIndeterminate = false;
           this.progress = data;
+          this.state = State.DOWNLOADING;
           console.log(`[data] ${data.downloaded}/${data.size} | ${data.speed} | ${data.remaining}`);
         }
       });
       process.on('end', () => {
-        this.isIndeterminate = false;
+        this.state = State.COMPLETED;
         console.log('[end]');
       });
     },
     pause() {
       this.state = State.PAUSED;
-      this.isOverlayFixed = true;
-      this.setStateIcon('download');
     },
     toggleAudioChosen() {
       this.isAudioChosen = !this.isAudioChosen;
       this.activeIndex = 0;
-    },
-    setStateIcon(icon) {
-      this.stateIcon = require(`../assets/icons/${icon}.svg`);
     }
   },
   computed: {
+    isStopped() {
+      return this.state === State.STOPPED;
+    },
+    isStarting() {
+      return this.state === State.STARTING;
+    },
     isDownloading() {
       return this.state === State.DOWNLOADING;
     },
-    isStopped() {
-      return this.state === State.STOPPED;
+    isProcessing() {
+      return this.state === State.PROCESSING;
+    },
+    isPaused() {
+      return this.state === State.PAUSED;
+    },
+    isQueued() {
+      return this.state === State.QUEUED;
     },
     isCompleted() {
       return this.state === State.COMPLETED;
     },
-    hasDownloadStarted() {
-      return this.isDownloading && this.progress != null;
-    },
     filteredFormats() {
       return this.data.formats.filter(x => x.isAudioOnly === this.isAudioChosen);
-    },
-    isProgressVisible() {
-      return !this.isStopped && !this.isCompleted;
     }
   }
 }
