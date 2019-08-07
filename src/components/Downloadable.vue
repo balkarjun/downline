@@ -42,12 +42,16 @@
             Completed
           </p>
           <p v-else-if="isPaused">
-            {{ progress.downloaded }} of {{ progress.size }} &centerdot; Paused
+            <span v-if="progress">
+              {{ progress.downloaded }} of {{ progress.size }} &centerdot;
+            </span>
+            Paused
           </p>
         </div>
         <div class="back">
           <div v-if="isStarting || isProcessing" class="front indeterminate"></div>
-          <div v-else class="front" :style="{ width: progress.percent + '%' }"></div>
+          <div v-else-if="progress" class="front" :style="{ width: progress.percent + '%' }"></div>
+          <div v-else class="front"></div>
         </div>
       </div>
     </section>
@@ -86,16 +90,8 @@ export default {
   },
   methods: {
     handleClick() {
-      if (this.state === State.STOPPED) {
-        this.download();
-        console.log('stopped -> downloading');
-      } else if (this.state === State.DOWNLOADING) {
-        this.pause();
-        console.log('downloading -> paused');
-      } else if (this.state === State.PAUSED) {
-        this.download();
-        console.log('paused -> downloading');
-      }
+      if (this.isStopped || this.isPaused) this.download();
+      else if (!this.isCompleted) this.pause();
     },
     download() {
       this.state = State.STARTING;
@@ -293,6 +289,7 @@ export default {
 
 .front {
   height: 6px;
+  width: 0px;
   background-color: gray;
   border-radius: 2px;
   position: relative;
