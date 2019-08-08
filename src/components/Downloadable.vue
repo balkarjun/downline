@@ -56,7 +56,7 @@
       </div>
     </section>
     <section id="right">
-      <img src="../assets/icons/reload.svg">
+      <img v-if="isPaused || isCompleted" src="../assets/icons/reload.svg">
       <img src="../assets/icons/delete.svg">
     </section>
   </div>
@@ -240,7 +240,7 @@ export default {
   width: 100%;
   margin: 8px 0 8px 12px;
   justify-content: space-between;
-  width: calc(100% - 16px - 120px - 12px);
+  width: calc(100% - 16px - 120px - 12px - 60px);
 }
 
 .title {
@@ -335,6 +335,8 @@ export default {
 
 #right {
   display: flex;
+  width: 60px;
+  justify-content: flex-end;
 }
 
 #right img {
