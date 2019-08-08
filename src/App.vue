@@ -119,7 +119,13 @@ export default {
   methods: {
     addDownloadables(links) {
       api.fetchInfo(links)
-      .on('data', data => this.downloadables.push(data));
+      .on('data', data => {
+        if (this.downloadables.findIndex(x => x.url === data.url) === -1) {
+          this.downloadables.push(data);
+        } else {
+          console.log('Already exists');
+        }
+      });
     },
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
