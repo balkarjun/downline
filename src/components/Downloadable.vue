@@ -56,7 +56,7 @@
       </div>
     </section>
     <section id="right">
-      <img v-if="isPaused || isCompleted" src="../assets/icons/reload.svg">
+      <img @click="reload" v-if="isPaused || isCompleted" src="../assets/icons/reload.svg">
       <img @click="remove" src="../assets/icons/delete.svg">
     </section>
   </div>
@@ -124,6 +124,10 @@ export default {
     },
     remove() {
       this.$emit('remove', this.data.url);
+    },
+    reload() {
+      this.state = State.STOPPED;
+      this.progress = null;
     },
     toggleAudioChosen() {
       this.isAudioChosen = !this.isAudioChosen;
