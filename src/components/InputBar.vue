@@ -17,7 +17,7 @@ export default {
   name: 'input-bar',
   data() {
     return {
-      value: [],
+      value: null,
       isPasted: false
     }
   },
@@ -30,9 +30,9 @@ export default {
       const value = this.$refs.textarea.value.trim();
       if (value !== '') {
         this.value = value.split('\n');
+        this.$emit('output', this.value);
       }
       this.$refs.textarea.value = '';
-      this.$emit('output', this.value);
     }
   }
 };
