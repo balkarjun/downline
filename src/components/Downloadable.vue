@@ -55,6 +55,10 @@
         </div>
       </div>
     </section>
+    <section id="right">
+      <img src="../assets/icons/reload.svg">
+      <img src="../assets/icons/delete.svg">
+    </section>
   </div>
 </template>
 
@@ -247,7 +251,7 @@ export default {
 .options {
   display: flex;
   justify-content: space-between;
-  margin-right: 50px;
+  margin-right: 30px;
 }
 
 .options button {
@@ -327,5 +331,15 @@ export default {
     transform: translate(450%, 0%);
     animation-timing-function: linear;
   }
+}
+
+#right {
+  display: flex;
+}
+
+#right img {
+  padding: 2px;
+  align-self: flex-start;
+  margin: 5px 5px 0 0;
 }
 </style>
