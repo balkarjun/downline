@@ -6,9 +6,10 @@
       <OptionBar />
     </div>
     <div @scroll="handleScroll" id="downloadable-list">
-      <Downloadable v-for="item in downloadables" 
-        :key="item.url"
+      <Downloadable 
+        v-for="item in downloadables" :key="item.url"
         :data="item"
+        @remove="remove"
       />
     </div>
   </div>
@@ -122,6 +123,12 @@ export default {
     },
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
+    },
+    remove(url) {
+      const index = this.downloadables.findIndex(x => x.url === url);
+      if (index !== -1) {
+        this.downloadables.splice(index, 1);
+      }
     }
   }
 };
