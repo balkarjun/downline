@@ -3,7 +3,7 @@
     <div id="app-top" :class="{ shadow: scrolled }">
       <TitleBar />
       <InputBar @output="addDownloadables" />
-      <OptionBar />
+      <OptionBar :count="downloadables.length" />
     </div>
     <div @scroll="handleScroll" id="downloadable-list">
       <Downloadable 
