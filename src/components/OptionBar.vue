@@ -1,7 +1,7 @@
 <template>
   <div>
     <button>Download All</button>
-    <p v-if="count > 0" id="item-count">
+    <p v-if="count > 0" class="count">
       {{ count }}
       <span class="light">{{ `Item${count > 1 ? 's': ''}` }}</span>
     </p>
@@ -25,17 +25,12 @@ div {
 }
 
 button {
-  height: 30px;
   width: 120px;
   border-radius: 5px;
 }
 
-#item-count {
+.count {
   align-self: center;
   margin-right: 16px;
-}
-
-.light {
-  color: gray;
 }
 </style>

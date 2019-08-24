@@ -190,13 +190,15 @@ export default {
 }
 
 .duration {
-  background-color: rgba(0, 0, 0, 0.85);
-  border-radius: 5px;
+  height: 16px;
   position: absolute;
+  border-radius: 2px;
   right: 2px;
   bottom: 8px;
   opacity: 1;
-  padding: 1px 8px;
+  padding: 0 7px;
+  line-height: 16px;
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .duration p{

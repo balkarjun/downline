@@ -76,7 +76,7 @@ export default {
 <style scoped>
 .active-quality {
   display: flex;
-  line-height: 28px;
+  align-items: center;
   height: 28px;
   padding: 0 12px;
   border: 1px solid lightgray;
@@ -84,11 +84,6 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   box-sizing: border-box;
-}
-
-.active-quality p {
-  display: inline;
-  align-self: center;
 }
 
 .dialog {
@@ -119,9 +114,5 @@ export default {
 
 .dialog p.active {
   background-color: lightgray;
-}
-
-.light {
-  color: gray;
 }
 </style>

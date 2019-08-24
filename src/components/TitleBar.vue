@@ -1,14 +1,14 @@
 <template>
   <div id="titlebar">
-    <div id="left">
+    <div class="left">
       <img src="../assets/icons/more_horiz.svg">
     </div>
-    <div id="right">
+    <div class="right">
       <span @click="minimize">
         <img src="../assets/icons/minimize.svg">
       </span>
       <span @click="close">
-        <img id="close" src="../assets/icons/close.svg">
+        <img src="../assets/icons/close.svg">
       </span>
     </div>
   </div>
@@ -35,30 +35,23 @@ export default {
   height: 32px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   -webkit-app-region: drag;
 }
 
-#titlebar img {
-  align-self: center;
-}
-
-#left, #right {
+.left, .right {
   display: flex;
   -webkit-app-region: no-drag;
 }
 
-#left img {
+.left img {
   padding-left: 16px;
   cursor: pointer;
 }
 
-#right span {
+.right span {
   padding: 0 12px;
   display: flex;
   cursor: pointer;
-}
-
-#close {
-  width: 23px;
 }
 </style>
