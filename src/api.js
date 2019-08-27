@@ -108,6 +108,8 @@ function download({url, formatCode}) {
     }
   });
 
+  child.on('close', () => ongoing.delete(url));
+
   return child.stdout.pipe(tStream);
 }
 
