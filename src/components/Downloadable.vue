@@ -57,7 +57,7 @@
     </section>
     <section id="right">
       <img @click="reload" v-if="isPaused || isCompleted" src="../assets/icons/reload.svg">
-      <img class="remove" @click="remove" src="../assets/icons/delete.svg">
+      <img @click="remove" src="../assets/icons/delete.svg">
     </section>
   </div>
 </template>
@@ -352,13 +352,11 @@ export default {
   padding: 2px;
   align-self: flex-start;
   margin: 5px 5px 0 0;
-}
-
-.remove {
   opacity: 0;
+  cursor: pointer;
 }
 
-#box:hover .remove {
+#box:hover #right img {
   opacity: 1;
 }
 </style>
