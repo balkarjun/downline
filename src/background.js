@@ -6,7 +6,7 @@ let url = 'http://localhost:8080/';
 
 app.on('ready', () => {
   win = new BrowserWindow({
-    width: 650,
+    width: 900,
     height: 550,
     frame: false,
     show: false,
@@ -15,6 +15,7 @@ app.on('ready', () => {
     }
   });
 
+  win.webContents.openDevTools();
   win.loadURL(url);
   win.once('ready-to-show', () => win.show());
   win.on('closed', () => win = null);
