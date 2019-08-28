@@ -9,6 +9,7 @@
         </div>
       </div>
     </OnClickOutside>
+    <span class="spacer" :class="{draggable: !isOpen}"></span>
     <div class="right">
       <span @click="minimize">
         <img src="../assets/icons/minimize.svg">
@@ -58,12 +59,19 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.spacer {
+  height: 100%;
+  width: 100%;
+}
+
+.draggable {
   -webkit-app-region: drag;
 }
 
 .left, .right {
   display: flex;
-  -webkit-app-region: no-drag;
 }
 
 .left img {
