@@ -6,6 +6,7 @@ const ytdlPath = path.join(process.cwd(), '../resources', 'youtube-dl');
 const ffmpegPath = path.join(process.cwd(), '../resources', 'ffmpeg');
 
 const active = new Map();
+let queue = [];
 
 function fetchInfo(links) {
   const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
@@ -156,4 +157,17 @@ function removeFromActive(url) {
   active.delete(url);
 }
 
-module.exports = { fetchInfo, download, pause, getActiveCount, removeFromActive };
+function enqueue(url) {
+  queue.push(url);
+}
+
+function dequeue() {
+  return queue.shift();
+}
+
+function removeFromQueue(url) {
+  const index = queue.indexOf(url);
+  queue.splice(index, 1);
+}
+
+module.exports = { fetchInfo, download, pause, getActiveCount, removeFromActive, enqueue, dequeue, removeFromQueue };

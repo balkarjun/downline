@@ -86,10 +86,10 @@ export default {
   },
   props: ['data'],
   mounted() {
-    EventBus.$on('download', this.queueHandler);
+    EventBus.$on('dequeue', this.queueHandler);
   },
   beforeDestroy() {
-    EventBus.$off('download', this.queueHandler);
+    EventBus.$off('dequeue', this.queueHandler);
   },
   data() {
     return {
@@ -117,7 +117,7 @@ export default {
       const maxSimultaneous = 1;
       if (api.getActiveCount() >= maxSimultaneous) {
         this.state = State.QUEUED;
-        EventBus.$emit('enqueue', url);
+        api.enqueue(url);
         return
       }
       
@@ -137,13 +137,13 @@ export default {
         }
         api.removeFromActive(url);
         
-        EventBus.$emit('dequeue');
+        EventBus.$emit('dequeue', api.dequeue());
         console.log('[end]');
       });
     },
     pause() {
       if (this.isQueued) {
-        EventBus.$emit('remove', url);
+        api.removeFromQueue(url);
       }
       this.state = State.PAUSED;
       api.pause(this.data.url);
