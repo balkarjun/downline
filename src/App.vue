@@ -20,6 +20,7 @@ import TitleBar from './components/TitleBar.vue';
 import InputBar from './components/InputBar.vue';
 import OptionBar from './components/OptionBar.vue';
 import Downloadable from './components/Downloadable.vue';
+import EventBus from './bus.js';
 
 const { remote } = window.require('electron');
 const api = remote.require('./api');
@@ -32,9 +33,22 @@ export default {
     OptionBar,
     Downloadable
   },
+  mounted() {
+    EventBus.$on('enqueue', url => {
+      this.queue.push(url);
+    });
+    EventBus.$on('dequeue', () => {
+      EventBus.$emit('download', this.queue.shift());
+    });
+    EventBus.$on('remove', url => {
+      const index = this.queue.indexOf(url);
+      this.queue.splice(index, 1);
+    });
+  },
   data() {
     return {
       scrolled: false,
+      queue: [],
       downloadables: [
         {
           url: 'https://www.youtube.com/watch?v=ouAccsTzlGU',
