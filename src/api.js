@@ -5,7 +5,7 @@ const path = require('path');
 const ytdlPath = path.join(process.cwd(), '../resources', 'youtube-dl');
 const ffmpegPath = path.join(process.cwd(), '../resources', 'ffmpeg');
 
-const ongoing = new Map();
+const active = new Map();
 
 function fetchInfo(links) {
   const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
@@ -98,7 +98,7 @@ function download({url, formatCode}) {
   const args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, url];
   const child = spawn(ytdlPath, args);
 
-  ongoing.set(url, child.pid);
+  active.set(url, child.pid);
 
   const tStream = new Transform({
     readableObjectMode: true,
@@ -107,8 +107,6 @@ function download({url, formatCode}) {
       callback();
     }
   });
-
-  child.on('close', () => ongoing.delete(url));
 
   return child.stdout.pipe(tStream);
 }
@@ -146,8 +144,16 @@ function getETA(eta) {
 }
 
 function pause(url) {
-  const pid = ongoing.get(url);
+  const pid = active.get(url);
   if (pid) process.kill(pid);
 }
 
-module.exports = { fetchInfo, download, pause };
+function getActiveCount() {
+  return active.size;
+}
+
+function removeFromActive(url) {
+  active.delete(url);
+}
+
+module.exports = { fetchInfo, download, pause, getActiveCount, removeFromActive };
