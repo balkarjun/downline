@@ -41,11 +41,11 @@
           <p v-else-if="isCompleted">
             Completed
           </p>
-          <p v-else-if="isPaused">
+          <p v-else-if="isPaused || isQueued">
             <span v-if="progress">
               {{ progress.downloaded }} of {{ progress.size }} &centerdot;
             </span>
-            Paused
+            {{ isPaused ? 'Paused' : 'Queued' }}
           </p>
         </div>
         <div class="back">
