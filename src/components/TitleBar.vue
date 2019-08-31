@@ -1,14 +1,20 @@
 <template>
   <div id="titlebar">
-    <OnClickOutside :do="closeDialog">
+    <OnClickOutside :do="closeDialog" v-if="value === 'main'">
       <div class="left">
         <img @click="openDialog" src="../assets/icons/more_horiz.svg">
         <div class="dialog" v-if="isOpen">
-          <p>Settings</p>
-          <p>About</p>
+          <p @click="setPage('settings')">Settings</p>
+          <p @click="setPage('about')">About</p>
         </div>
       </div>
     </OnClickOutside>
+    <div v-else-if="value === 'settings'">
+      <button @click="setPage('main')">Back</button> Settings
+    </div>
+    <div v-else>
+      <button @click="setPage('main')">Back</button> About
+    </div>
     <span class="spacer" :class="{draggable: !isOpen}"></span>
     <div class="right">
       <span @click="minimize">
@@ -31,12 +37,16 @@ export default {
   components: {
     OnClickOutside,
   },
+  props: ['value'],
   data() {
     return {
       isOpen: false
     }
   },
   methods: {
+    setPage(newPage) {
+      this.$emit('input', newPage);
+    },
     openDialog() {
       this.isOpen = true;
     },

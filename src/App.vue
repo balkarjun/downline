@@ -1,18 +1,26 @@
 <template>
-  <div id="app-content">
-    <div id="app-top" :class="{ shadow: scrolled }">
-      <TitleBar />
-      <InputBar @output="addDownloadables" />
-      <OptionBar :count="downloadables.length" />
-    </div>
-    <div @scroll="handleScroll" id="downloadable-list">
-      <Downloadable 
-        v-for="item in downloadables" :key="item.url"
-        :data="item"
-        @remove="remove"
-      />
-    </div>
-  </div>
+  <main>
+    <TitleBar v-model="page" />
+    <section v-if="page === 'main'">
+      <div id="app-top" :class="{ shadow: scrolled }">
+        <InputBar @output="addDownloadables" />
+        <OptionBar :count="downloadables.length" />
+      </div>
+      <div @scroll="handleScroll" id="downloadable-list">
+        <Downloadable 
+          v-for="item in downloadables" :key="item.url"
+          :data="item"
+          @remove="remove"
+        />
+      </div>
+    </section>
+    <section v-else-if="page === 'settings'">
+      Settings Page
+    </section>
+    <section v-else>
+      About Page
+    </section>
+  </main>
 </template>
 
 <script>
@@ -35,6 +43,7 @@ export default {
   data() {
     return {
       scrolled: false,
+      page: 'main',
       downloadables: [
         {
           url: 'https://www.youtube.com/watch?v=ouAccsTzlGU',
@@ -177,7 +186,7 @@ button {
   font-family: Rubik;
 }
 
-#app-content {
+main {
   display: flex;
   flex-direction: column;
   height: 550px;
