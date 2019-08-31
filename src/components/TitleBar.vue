@@ -1,5 +1,5 @@
 <template>
-  <div id="titlebar">
+  <div id="titlebar" :class="{highlight: value !== 'main'}">
     <OnClickOutside :do="closeDialog" v-if="value === 'main'">
       <div class="left">
         <img @click="openDialog" src="../assets/icons/more_horiz.svg">
@@ -9,11 +9,13 @@
         </div>
       </div>
     </OnClickOutside>
-    <div v-else-if="value === 'settings'">
-      <button @click="setPage('main')">Back</button> Settings
+    <div class="left" v-else-if="value === 'settings'">
+      <img @click="setPage('main')" src="../assets/icons/back.svg">
+      <p>Settings</p>
     </div>
-    <div v-else>
-      <button @click="setPage('main')">Back</button> About
+    <div class="left" v-else>
+      <img @click="setPage('main')" src="../assets/icons/back.svg">
+      <p>About</p>
     </div>
     <span class="spacer" :class="{draggable: !isOpen}"></span>
     <div class="right">
@@ -45,6 +47,7 @@ export default {
   },
   methods: {
     setPage(newPage) {
+      this.closeDialog();
       this.$emit('input', newPage);
     },
     openDialog() {
@@ -71,6 +74,10 @@ export default {
   align-items: center;
 }
 
+.highlight {
+  background-color: whitesmoke;
+}
+
 .spacer {
   height: 100%;
   width: 100%;
@@ -87,6 +94,11 @@ export default {
 .left img {
   padding-left: 16px;
   cursor: pointer;
+}
+
+.left p {
+  padding-left: 8px;
+  align-self: center;
 }
 
 .right span {
