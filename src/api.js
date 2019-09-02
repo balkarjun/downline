@@ -2,6 +2,9 @@ const { spawn } = require('child_process');
 const { Transform } = require('stream');
 const path = require('path');
 
+const EventEmitter = require('events');
+const queueEvent = new EventEmitter();
+
 const ytdlPath = path.join(process.cwd(), '../resources', 'youtube-dl');
 const ffmpegPath = path.join(process.cwd(), '../resources', 'ffmpeg');
 
@@ -96,6 +99,11 @@ function getDuration(duration) {
 }
 
 function download({url, formatCode}) {
+  const maxSimultaneous = 1;
+  if (active.size >= maxSimultaneous) {
+    queue.push(url);
+    return null;
+  }
   const args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, url];
   const child = spawn(ytdlPath, args);
 
@@ -107,6 +115,11 @@ function download({url, formatCode}) {
       this.push(getProgress(chunk));
       callback();
     }
+  });
+
+  child.stdout.on('end', () => {
+    active.delete(url);
+    queueEvent.emit('dequeue', queue.shift());
   });
 
   return child.stdout.pipe(tStream);
@@ -145,29 +158,12 @@ function getETA(eta) {
 }
 
 function pause(url) {
+  // If queued, remove from queue
+  const index = queue.indexOf(url);
+  if (index) queue.splice(index, 1);
+  // If active, kill process
   const pid = active.get(url);
   if (pid) process.kill(pid);
 }
 
-function getActiveCount() {
-  return active.size;
-}
-
-function removeFromActive(url) {
-  active.delete(url);
-}
-
-function enqueue(url) {
-  queue.push(url);
-}
-
-function dequeue() {
-  return queue.shift();
-}
-
-function removeFromQueue(url) {
-  const index = queue.indexOf(url);
-  queue.splice(index, 1);
-}
-
-module.exports = { fetchInfo, download, pause, getActiveCount, removeFromActive, enqueue, dequeue, removeFromQueue };
+module.exports = { fetchInfo, download, pause, queueEvent };

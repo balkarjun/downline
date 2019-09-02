@@ -64,7 +64,6 @@
 
 <script>
 import QualitySelect from './QualitySelect.vue';
-import EventBus from '../bus.js';
 
 const { remote } = window.require('electron');
 const api = remote.require('./api.js');
@@ -86,10 +85,10 @@ export default {
   },
   props: ['data'],
   mounted() {
-    EventBus.$on('dequeue', this.queueHandler);
+    api.queueEvent.on('dequeue', this.queueHandler);
   },
   beforeDestroy() {
-    EventBus.$off('dequeue', this.queueHandler);
+    api.queueEvent.removeListener('dequeue', this.queueHandler);
   },
   data() {
     return {
@@ -102,7 +101,6 @@ export default {
   methods: {
     queueHandler(url) {
       if (this.data.url === url && this.isQueued) {
-        console.log(api.getActiveCount());
         this.download();
       }
     },
@@ -113,17 +111,14 @@ export default {
     download() {
       const url = this.data.url;
       const formatCode = this.filteredFormats[this.activeIndex].code;
-
-      const maxSimultaneous = 1;
-      if (api.getActiveCount() >= maxSimultaneous) {
+   
+      const process = api.download({ url, formatCode });
+      if (process === null) {
         this.state = State.QUEUED;
-        api.enqueue(url);
-        return
+        return;
       }
       
       this.state = State.STARTING;
-
-      const process = api.download({ url, formatCode });
       process.on('data', data => {
         if (data !== '') {
           this.progress = data;
@@ -134,17 +129,11 @@ export default {
       process.on('end', () => {
         if (!this.isPaused) {
           this.state = State.COMPLETED;
-        }
-        api.removeFromActive(url);
-        
-        EventBus.$emit('dequeue', api.dequeue());
+        }        
         console.log('[end]');
       });
     },
     pause() {
-      if (this.isQueued) {
-        api.removeFromQueue(url);
-      }
       this.state = State.PAUSED;
       api.pause(this.data.url);
     },
