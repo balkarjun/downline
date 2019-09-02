@@ -69,6 +69,7 @@ export default {
 <style scoped>
 #titlebar {
   height: 32px;
+  min-height: 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;

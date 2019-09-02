@@ -1,8 +1,8 @@
 <template>
   <main>
     <TitleBar v-model="page" />
-    <section v-show="page === 'main'">
-      <div id="app-top" :class="{ shadow: scrolled }">
+    <section class="page-main" v-show="page === 'main'">
+      <div :class="{ shadow: scrolled }">
         <InputBar @output="addDownloadables" />
         <OptionBar :count="downloadables.length" />
       </div>
@@ -189,7 +189,12 @@ button {
 main {
   display: flex;
   flex-direction: column;
-  height: 550px;
+  height: 100vh;
+}
+
+.page-main {
+  display: flex;
+  flex-direction: column;
 }
 
 #downloadable-list {
@@ -203,7 +208,7 @@ main {
 }
 
 .shadow {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .light {
