@@ -1,4 +1,9 @@
-<svg id="round-done-24px" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
-  <path id="Path_17" data-name="Path 17" d="M0,0H36V36H0Z" fill="none"/>
-  <path id="Path_18" data-name="Path 18" d="M11.6,21.3l-5.25-5.25a1.485,1.485,0,1,0-2.1,2.1l6.285,6.285a1.494,1.494,0,0,0,2.115,0l15.9-15.885a1.485,1.485,0,0,0-2.1-2.1Z" transform="translate(1.904 3.004)" fill="#212121" stroke="#212121" stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="Group_255" data-name="Group 255" transform="translate(-17855 568)">
+    <circle id="Ellipse_5" data-name="Ellipse 5" cx="25" cy="25" r="25" transform="translate(17855 -568)" fill="#fff"/>
+    <g id="round-done-24px" transform="translate(17862 -561)">
+      <path id="Path_17" data-name="Path 17" d="M0,0H36V36H0Z" fill="none"/>
+      <path id="Path_18" data-name="Path 18" d="M11.6,21.3l-5.25-5.25a1.485,1.485,0,1,0-2.1,2.1l6.285,6.285a1.494,1.494,0,0,0,2.115,0l15.9-15.885a1.485,1.485,0,0,0-2.1-2.1Z" transform="translate(1.904 3.004)" fill="#212121" stroke="#212121" stroke-width="1"/>
+    </g>
+  </g>
 </svg>

@@ -1,3 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="19" height="23" viewBox="0 0 19 23">
-  <path id="round-pause-24px" d="M9,27a3.083,3.083,0,0,0,3-3.143V8.143A3.083,3.083,0,0,0,9,5,3.083,3.083,0,0,0,6,8.143V23.857A3.083,3.083,0,0,0,9,27ZM18,8.143V23.857a3,3,0,1,0,6,0V8.143a3,3,0,1,0-6,0Z" transform="translate(-5.5 -4.5)" fill="#212121" stroke="#fff" stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="Group_256" data-name="Group 256" transform="translate(-18005 568)">
+    <circle id="Ellipse_25" data-name="Ellipse 25" cx="25" cy="25" r="25" transform="translate(18005 -568)" fill="#fff"/>
+    <path id="round-pause-24px" d="M9,27a3.083,3.083,0,0,0,3-3.143V8.143A3.083,3.083,0,0,0,9,5,3.083,3.083,0,0,0,6,8.143V23.857A3.083,3.083,0,0,0,9,27ZM18,8.143V23.857a3,3,0,1,0,6,0V8.143a3,3,0,1,0-6,0Z" transform="translate(18015 -559)" fill="#212121" stroke="#fff" stroke-width="1"/>
+  </g>
 </svg>
