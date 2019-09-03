@@ -44,6 +44,7 @@ export default {
     return {
       scrolled: false,
       page: 'main',
+      nLoading: 0,
       downloadables: [
         {
           url: 'https://www.youtube.com/watch?v=ouAccsTzlGU',
@@ -127,12 +128,18 @@ export default {
   },
   methods: {
     addDownloadables(links) {
-      api.fetchInfo(links)
-      .on('data', data => {
-        if (this.downloadables.findIndex(x => x.url === data.url) === -1) {
+      this.nLoading += links.length;
+      console.log(`[snackbar] Loading ${this.nLoading} ${'link' + (this.nLoading > 1 ? 's': '')}`);
+
+      api.fetchInfo(links).on('data', data => {
+        this.nLoading--;
+        if (this.nLoading > 0) {
+          console.log(`[snackbar] Loading ${this.nLoading} ${'link' + (this.nLoading > 1 ? 's': '')}`);
+        }
+
+        const index = this.downloadables.findIndex(x => x.url === data.url);
+        if (index === -1) {
           this.downloadables.push(data);
-        } else {
-          console.log('Already exists');
         }
       });
     },

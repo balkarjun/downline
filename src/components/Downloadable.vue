@@ -123,14 +123,12 @@ export default {
         if (data !== '') {
           this.progress = data;
           this.state = State.DOWNLOADING;
-          console.log(`[data] ${data.downloaded}/${data.size} | ${data.speed} | ${data.remaining}`);
         }
       });
       process.on('end', () => {
         if (!this.isPaused) {
           this.state = State.COMPLETED;
-        }        
-        console.log('[end]');
+        }
       });
     },
     pause() {
