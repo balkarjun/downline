@@ -2,9 +2,11 @@
   <OnClickOutside :do="close">
     <div class="container">
       <div ref="reference"></div>
+
       <div @click="open" class="active-quality">
         <p>{{ activeQuality }}<span class="light">{{ activeSuffix }}</span></p>
       </div>
+      
       <div ref="dialog" v-if="isOpen" class="dialog">
         <p 
           v-for="(format, index) in formats" 

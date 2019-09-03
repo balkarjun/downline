@@ -1,11 +1,13 @@
 <template>
   <main>
     <TitleBar v-model="page" />
+
     <section class="page-main" v-show="page === 'main'">
       <div :class="{ shadow: scrolled }">
         <InputBar @output="addDownloadables" />
         <OptionBar :count="downloadables.length" />
       </div>
+
       <div @scroll="handleScroll" id="downloadable-list">
         <Downloadable 
           v-for="item in downloadables" :key="item.url"
@@ -14,12 +16,15 @@
         />
       </div>
     </section>
+
     <section v-show="page === 'settings'">
       Settings Page
     </section>
+
     <section v-show="page === 'about'">
       About Page
     </section>
+    
     <Snackbar v-show="nLoading > 0">
       <p class="slot">Loading {{ nLoading }} Link{{ nLoading > 1 ? 's' : '' }}</p>
     </Snackbar>

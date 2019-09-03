@@ -1,6 +1,7 @@
 <template>
   <div>
     <button>Download All</button>
+    
     <p v-if="count > 0" class="count">
       {{ count }}
       <span class="light">{{ `Item${count > 1 ? 's': ''}` }}</span>

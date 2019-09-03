@@ -6,6 +6,7 @@
       @input="updateValue($event)" 
       placeholder="Enter one link per line"
     ></textarea>
+    
     <button @click="addLinks">
       <img src="../assets/icons/add.svg">
     </button>

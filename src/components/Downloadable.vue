@@ -2,9 +2,11 @@
   <div id="box">
     <section id="left">
       <img class="thumbnail" :src="data.thumbnail">
+
       <div class="duration" :class="{hide: !isStopped}">
         <p>{{ data.duration }}</p>
       </div>
+
       <div class="overlay" :class="{fixed: !isStopped}">
         <button @click="handleClick" class="circle">
           <img v-if="isCompleted" src="../assets/icons/done.svg">
@@ -13,34 +15,43 @@
         </button>
       </div>
     </section>
+
     <section id="middle">
       <p class="title">{{ data.title }}</p>
+
       <div v-if="isStopped" class="options">
         <QualitySelect 
           :formats="filteredFormats"
           v-model="activeIndex"
         />
+
         <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
           <img src="../assets/icons/music_note.svg">
         </button>
       </div>
+
       <div v-else-if="isCompleted">
         Show in Folder
       </div>
+
       <div v-else class="progress">
         <div class="info">
           <p v-if="isStarting && progress">
             {{ progress.downloaded }} of {{ progress.size }} &centerdot; Resuming
           </p>
+
           <p v-else-if="isStarting">
             Starting Download
           </p>
+
           <p v-else-if="isDownloading">
             {{ progress.downloaded }} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
           </p>
+
           <p v-else-if="isCompleted">
             Completed
           </p>
+
           <p v-else-if="isPaused || isQueued">
             <span v-if="progress">
               {{ progress.downloaded }} of {{ progress.size }} &centerdot;
@@ -48,6 +59,7 @@
             {{ isPaused ? 'Paused' : 'Queued' }}
           </p>
         </div>
+
         <div class="back">
           <div v-if="isStarting || isProcessing" class="front indeterminate"></div>
           <div v-else-if="progress" class="front" :style="{ width: progress.percent + '%' }"></div>
@@ -55,6 +67,7 @@
         </div>
       </div>
     </section>
+    
     <section id="right">
       <img @click="reload" v-if="isPaused || isCompleted" src="../assets/icons/reload.svg">
       <img @click="remove" src="../assets/icons/delete.svg">

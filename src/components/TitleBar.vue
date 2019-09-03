@@ -3,21 +3,26 @@
     <OnClickOutside :do="closeDialog" v-if="value === 'main'">
       <div class="left">
         <img @click="openDialog" src="../assets/icons/more_horiz.svg">
+
         <div class="dialog" v-if="isOpen">
           <p @click="setPage('settings')">Settings</p>
           <p @click="setPage('about')">About</p>
         </div>
       </div>
     </OnClickOutside>
+
     <div class="left" v-else-if="value === 'settings'">
       <img @click="setPage('main')" src="../assets/icons/back.svg">
       <p>Settings</p>
     </div>
+
     <div class="left" v-else>
       <img @click="setPage('main')" src="../assets/icons/back.svg">
       <p>About</p>
     </div>
+
     <span class="spacer" :class="{draggable: !isOpen}"></span>
+    
     <div class="right">
       <span @click="minimize">
         <img src="../assets/icons/minimize.svg">
