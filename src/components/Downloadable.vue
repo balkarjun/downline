@@ -3,16 +3,12 @@
     <section id="left">
       <img class="thumbnail" :src="data.thumbnail">
 
-      <div class="duration" :class="{hide: !isStopped}">
-        <p>{{ data.duration }}</p>
-      </div>
+      <p class="duration" :class="{hide: !isStopped}">{{ data.duration }}</p>
 
       <div class="overlay" :class="{fixed: !isStopped}">
-        <button @click="handleClick" class="circle">
-          <img v-if="isCompleted" src="../assets/icons/done.svg">
-          <img v-else-if="isStopped || isPaused" src="../assets/icons/download.svg">
-          <img v-else src="../assets/icons/pause.svg">
-        </button>
+        <img v-if="isCompleted" src="../assets/icons/done.svg">
+        <img v-else-if="isStopped || isPaused" @click="download" src="../assets/icons/download.svg" class="pointer">
+        <img v-else @click="pause" src="../assets/icons/pause.svg" class="pointer">
       </div>
     </section>
 
@@ -20,10 +16,7 @@
       <p class="title">{{ data.title }}</p>
 
       <div v-if="isStopped" class="options">
-        <QualitySelect 
-          :formats="filteredFormats"
-          v-model="activeIndex"
-        />
+        <QualitySelect :formats="filteredFormats" v-model="activeIndex"/>
 
         <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
           <img src="../assets/icons/music_note.svg">
@@ -40,16 +33,10 @@
             {{ progress.downloaded }} of {{ progress.size }} &centerdot; Resuming
           </p>
 
-          <p v-else-if="isStarting">
-            Starting Download
-          </p>
+          <p v-else-if="isStarting">Starting Download</p>
 
           <p v-else-if="isDownloading">
             {{ progress.downloaded }} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
-          </p>
-
-          <p v-else-if="isCompleted">
-            Completed
           </p>
 
           <p v-else-if="isPaused || isQueued">
@@ -61,9 +48,11 @@
         </div>
 
         <div class="back">
-          <div v-if="isStarting || isProcessing" class="front indeterminate"></div>
-          <div v-else-if="progress" class="front" :style="{ width: progress.percent + '%' }"></div>
-          <div v-else class="front"></div>
+          <div 
+            class="front" 
+            :class="{indeterminate: isStarting || isProcessing}"
+            :style="[progress ? { width: progress.percent + '%' } : '']"
+          ></div>
         </div>
       </div>
     </section>
@@ -116,10 +105,6 @@ export default {
       if (this.data.url === url && this.isQueued) {
         this.download();
       }
-    },
-    handleClick() {
-      if (this.isStopped || this.isPaused) this.download();
-      else if (!this.isCompleted) this.pause();
     },
     download() {
       const url = this.data.url;
@@ -210,26 +195,23 @@ export default {
   min-height: 70px;
   width: 120px;
   height: 70px;
-  border-radius: 5px;
+  border-radius: 4px;
   object-fit: cover;
   align-self: center;
 }
 
 .duration {
   height: 16px;
+  line-height: 16px;
   position: absolute;
-  border-radius: 2px;
   right: 2px;
   bottom: 8px;
-  opacity: 1;
   padding: 0 7px;
-  line-height: 16px;
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-.duration p{
+  border-radius: 2px;
   font-size: 12px;
   color: lightgray;
+  background-color: rgba(0, 0, 0, 0.85);
+  opacity: 1;
 }
 
 .duration.hide {
@@ -248,6 +230,7 @@ export default {
   opacity: 0;
   display: flex;
   justify-content: center;
+  border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -259,14 +242,8 @@ export default {
   opacity: 1;
 }
 
-.circle {
-  width: 50px;
-  height: 50px;
-  background-color: white;
-  align-self: center;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
+.pointer {
+  cursor: pointer;
 }
 
 #middle {
