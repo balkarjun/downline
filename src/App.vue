@@ -20,6 +20,9 @@
     <section v-show="page === 'about'">
       About Page
     </section>
+    <Snackbar v-show="nLoading > 0">
+      <p class="slot">Loading {{ nLoading }} Link{{ nLoading > 1 ? 's' : '' }}</p>
+    </Snackbar>
   </main>
 </template>
 
@@ -28,6 +31,7 @@ import TitleBar from './components/TitleBar.vue';
 import InputBar from './components/InputBar.vue';
 import OptionBar from './components/OptionBar.vue';
 import Downloadable from './components/Downloadable.vue';
+import Snackbar from './components/Snackbar.vue';
 
 const { remote } = window.require('electron');
 const api = remote.require('./api');
@@ -38,7 +42,8 @@ export default {
     TitleBar,
     InputBar,
     OptionBar,
-    Downloadable
+    Downloadable,
+    Snackbar
   },
   data() {
     return {
@@ -129,13 +134,9 @@ export default {
   methods: {
     addDownloadables(links) {
       this.nLoading += links.length;
-      console.log(`[snackbar] Loading ${this.nLoading} ${'link' + (this.nLoading > 1 ? 's': '')}`);
 
       api.fetchInfo(links).on('data', data => {
         this.nLoading--;
-        if (this.nLoading > 0) {
-          console.log(`[snackbar] Loading ${this.nLoading} ${'link' + (this.nLoading > 1 ? 's': '')}`);
-        }
 
         const index = this.downloadables.findIndex(x => x.url === data.url);
         if (index === -1) {
