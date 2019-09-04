@@ -201,14 +201,13 @@ export default {
 }
 
 .duration {
-  height: 16px;
+  font-size: 12px;
   line-height: 16px;
   position: absolute;
   right: 2px;
   bottom: 8px;
   padding: 0 7px;
-  border-radius: 2px;
-  font-size: 12px;
+  border-radius: 4px;
   color: lightgray;
   background-color: rgba(0, 0, 0, 0.85);
   opacity: 1;
@@ -263,14 +262,14 @@ export default {
 .options {
   display: flex;
   justify-content: space-between;
-  margin-right: 30px;
+  margin-right: 10px;
 }
 
 .options button {
   width: 64px;
   height: 28px;
   display: flex;
-  border-radius: 5px;
+  border-radius: 4px;
   justify-content: center;
   background-color: transparent;
 }

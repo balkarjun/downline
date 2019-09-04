@@ -83,7 +83,7 @@ export default {
   padding: 0 12px;
   border: 1px solid lightgray;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
   box-sizing: border-box;
 }
@@ -91,7 +91,7 @@ export default {
 .dialog {
   background-color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   padding: 4px 0;
   width: 110px;
   max-height: 148px;

@@ -109,7 +109,7 @@ export default {
   left: 16px;
   top: 12px;
   z-index: 1;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: white;
   padding: 4px 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .2);

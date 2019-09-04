@@ -52,7 +52,7 @@ textarea {
   height: 100px;
   width: calc(100% - 32px);
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 4px;
   margin: 0 16px;
   padding: 12px 0 0 16px;
   border: 1px solid lightgray;
