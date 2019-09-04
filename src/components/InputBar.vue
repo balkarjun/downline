@@ -18,21 +18,19 @@ export default {
   name: 'input-bar',
   data() {
     return {
-      value: null,
       isPasted: false
     }
   },
   methods: {
     updateValue(event) {
-      event.target.value += this.isPasted ? '\n' : '';
+      if (this.isPasted) event.target.value += '\n';
       this.isPasted = false;
     },
     addLinks() {
-      const value = this.$refs.textarea.value.trim();
-      if (value !== '') {
-        this.value = value.split('\n');
-        this.$emit('output', this.value);
-      }
+      const value = this.$refs.textarea.value.split('\n')
+      .map(x => x.trim()).filter(x => x.length > 0);
+
+      if (value.length > 0) this.$emit('output', value);
       this.$refs.textarea.value = '';
     }
   }
@@ -50,7 +48,6 @@ textarea {
   font-family: Rubik;
   font-size: 15px;
   height: 100px;
-  width: calc(100% - 32px);
   box-sizing: border-box;
   border-radius: 4px;
   margin: 0 16px;
