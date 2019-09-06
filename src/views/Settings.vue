@@ -2,10 +2,18 @@
   <div id="settings-page">
     <section class="general">
       <label>General</label>
-      <div class="download-location">
+      <div class="item download-location">
         <p>Download Location</p>
         <p class="value">C:\Users\Anon\Downloads</p>
         <button>Browse</button>
+      </div>
+      <div class="item simultaneous-downloads">
+        <p>Simultaneous Downloads</p>
+        <div class="value">
+          <button>-</button>
+          <p>5</p>
+          <button>+</button>
+        </div>
       </div>
     </section>
   </div>
@@ -27,7 +35,8 @@ label {
   color: gray;
 }
 
-.download-location {
+.item {
+  height: 36px;
   display: flex;
   align-items: center;
 }
@@ -45,4 +54,19 @@ label {
   margin-right: 40px;
 }
 
+.simultaneous-downloads .value {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+}
+
+.simultaneous-downloads .value button {
+  height: 25px;
+  width: 25px;
+  border-radius: 4px;
+}
+
+.simultaneous-downloads .value p {
+  padding: 0 8px;
+}
 </style>
