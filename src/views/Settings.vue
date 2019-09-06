@@ -10,9 +10,13 @@
       <div class="item simultaneous-downloads">
         <p>Simultaneous Downloads</p>
         <div class="value">
-          <button>-</button>
-          <p>5</p>
-          <button>+</button>
+          <button @click="updateSimultaneous(-1)">
+            <img src="../assets/icons/decrement.svg">
+          </button>
+          <p>{{ simultaneous }}</p>
+          <button @click="updateSimultaneous(1)">
+            <img src="../assets/icons/increment.svg">
+          </button>
         </div>
       </div>
     </section>
@@ -21,7 +25,19 @@
 
 <script>
 export default {
-  name: 'settings'
+  name: 'settings',
+  data() {
+    return {
+      simultaneous: 5
+    }
+  },
+  methods: {
+    updateSimultaneous(count) {
+      const newValue = this.simultaneous + count;
+      if (newValue < 1 || newValue > 5) return;
+      this.simultaneous = newValue;
+    }
+  }
 }
 </script>
 
@@ -64,9 +80,12 @@ label {
   height: 25px;
   width: 25px;
   border-radius: 4px;
+  display: flex;
+  justify-content: center;
 }
 
 .simultaneous-downloads .value p {
-  padding: 0 8px;
+  width: 25px;
+  text-align: center;
 }
 </style>
