@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       scrolled: false,
-      page: 'main',
+      page: 'settings',
       nLoading: 0,
       downloadables: [
         {
