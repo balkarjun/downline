@@ -1,6 +1,6 @@
 <template>
   <div id="settings-page">
-    <section class="general">
+    <section>
       <label>General</label>
       <div class="item download-location">
         <p>Download Location</p>
@@ -20,6 +20,20 @@
         </div>
       </div>
     </section>
+    <section class="filename">
+      <label>Filename</label>
+      <div class="item format">
+        <p>Format</p>
+        <div class="value">
+          <button 
+            v-for="(item, index) in filenameFormats" 
+            :key="index" 
+            :class="{active: item.active}"
+            @click="setActiveFilenameFormat(index)"
+          >{{ item.name }}</button>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -28,10 +42,19 @@ export default {
   name: 'settings',
   data() {
     return {
-      simultaneous: 5
+      simultaneous: 5,
+      filenameFormats: [
+        { key: '%(title)s.%(ext)s', name: 'Title', active: true },
+        { key: '%(id)s.%(ext)s', name: 'ID', active: false },
+        { key: '%(title)s-%(id)s.%(ext)s', name: 'Title + ID', active: false },
+      ]
     }
   },
   methods: {
+    setActiveFilenameFormat(index) {
+      this.filenameFormats.forEach(x => x.active = false);
+      this.filenameFormats[index].active = true;
+    },
     updateSimultaneous(count) {
       const newValue = this.simultaneous + count;
       if (newValue < 1 || newValue > 5) return;
@@ -87,5 +110,27 @@ label {
 .simultaneous-downloads .value p {
   width: 25px;
   text-align: center;
+}
+
+.filename {
+  margin-top: 24px;
+}
+
+.format .value {
+  padding-left: 16px;
+}
+
+.format .value button {
+  background-color: white;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 4px;
+  border: 1px solid lightgray;
+  margin-right: 8px;
+}
+
+.format .value button.active {
+  background-color: lightgray;
+  border-color: transparent;
 }
 </style>
