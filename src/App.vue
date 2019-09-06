@@ -17,9 +17,7 @@
       </div>
     </section>
 
-    <section v-show="page === 'settings'">
-      Settings Page
-    </section>
+    <Settings v-show="page === 'settings'" />
 
     <section v-show="page === 'about'">
       About Page
@@ -37,6 +35,7 @@ import InputBar from './components/InputBar.vue';
 import OptionBar from './components/OptionBar.vue';
 import Downloadable from './components/Downloadable.vue';
 import Snackbar from './components/Snackbar.vue';
+import Settings from './views/Settings.vue';
 
 const { remote } = window.require('electron');
 const api = remote.require('./api');
@@ -48,7 +47,8 @@ export default {
     InputBar,
     OptionBar,
     Downloadable,
-    Snackbar
+    Snackbar,
+    Settings
   },
   data() {
     return {
