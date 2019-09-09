@@ -3,12 +3,12 @@
     <section>
       <label>General</label>
       <div class="item download-location">
-        <p>Download Location</p>
+        <p class="title">Download Location</p>
         <p class="value">C:\Users\Anon\Downloads</p>
         <button>Browse</button>
       </div>
       <div class="item simultaneous-downloads">
-        <p>Simultaneous Downloads</p>
+        <p class="title">Simultaneous Downloads</p>
         <div class="value">
           <button @click="updateSimultaneous(-1)">
             <img src="../assets/icons/decrement.svg">
@@ -23,7 +23,7 @@
     <section class="filename">
       <label>Filename</label>
       <div class="item format">
-        <p>Format</p>
+        <p class="title">Format</p>
         <div class="value">
           <button 
             v-for="(item, index) in filenameFormats" 
@@ -33,13 +33,22 @@
           >{{ item.name }}</button>
         </div>
       </div>
+      <div class="item ascii">
+        <p class="title">Restrict filenames to ASCII</p>
+        <Checkbox v-model="isAscii"/>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
+import Checkbox from '../components/Checkbox.vue';
+
 export default {
   name: 'settings',
+  components: {
+   Checkbox 
+  },
   data() {
     return {
       simultaneous: 5,
@@ -47,7 +56,8 @@ export default {
         { key: '%(title)s.%(ext)s', name: 'Title', active: true },
         { key: '%(id)s.%(ext)s', name: 'ID', active: false },
         { key: '%(title)s-%(id)s.%(ext)s', name: 'Title + ID', active: false },
-      ]
+      ],
+      isAscii: false
     }
   },
   methods: {
@@ -80,8 +90,11 @@ label {
   align-items: center;
 }
 
+.title {
+  padding-right: 16px;
+}
+
 .download-location .value {
-  padding-left: 16px;
   color: gray;
 }
 
@@ -96,7 +109,6 @@ label {
 .simultaneous-downloads .value {
   display: flex;
   align-items: center;
-  padding-left: 16px;
 }
 
 .simultaneous-downloads .value button {
@@ -114,10 +126,6 @@ label {
 
 .filename {
   margin-top: 24px;
-}
-
-.format .value {
-  padding-left: 16px;
 }
 
 .format .value button {
