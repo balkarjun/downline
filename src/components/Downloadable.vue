@@ -16,7 +16,7 @@
       <p class="title">{{ data.title }}</p>
 
       <div v-if="isStopped" class="options">
-        <QualitySelect :formats="filteredFormats" v-model="activeIndex"/>
+        <CustomDialog :options="filteredFormats" :isObject="true" v-model="activeIndex" />
 
         <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
           <img src="../assets/icons/music_note.svg">
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import QualitySelect from './QualitySelect.vue';
+import CustomDialog from './CustomDialog.vue';
 
 const { remote } = window.require('electron');
 const api = remote.require('./api.js');
@@ -83,7 +83,7 @@ const State = {
 export default {
   name: 'downloadable',
   components: {
-    QualitySelect
+    CustomDialog
   },
   props: ['data'],
   mounted() {
