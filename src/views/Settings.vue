@@ -37,6 +37,10 @@
         <p class="title">Restrict filenames to ASCII</p>
         <Checkbox v-model="isAscii"/>
       </div>
+      <div class="item autonumber">
+        <p class="title">Autonumber playlist items</p>
+        <Checkbox v-model="isAutonumber"/>
+      </div>
     </section>
   </div>
 </template>
@@ -57,7 +61,8 @@ export default {
         { key: '%(id)s.%(ext)s', name: 'ID', active: false },
         { key: '%(title)s-%(id)s.%(ext)s', name: 'Title + ID', active: false },
       ],
-      isAscii: false
+      isAscii: false,
+      isAutonumber: false,
     }
   },
   methods: {
