@@ -120,6 +120,8 @@ label {
 
 .download-location .value {
   color: gray;
+  max-width: calc(100% - 280px);
+  overflow: scroll;
 }
 
 .download-location button {
