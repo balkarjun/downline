@@ -4,8 +4,10 @@
       <label>General</label>
       <div class="item download-location">
         <p class="title">Download Location</p>
-        <p class="value">C:\Users\Anon\Downloads</p>
-        <button>Browse</button>
+        <div class="value">
+          <input type="text" v-model="downloadLocation">
+          <button>Browse</button>
+        </div>
       </div>
       <div class="item simultaneous-downloads">
         <p class="title">Simultaneous Downloads</p>
@@ -68,6 +70,7 @@ export default {
   },
   data() {
     return {
+      downloadLocation: 'C:\\Users\\Anon\\Downloads',
       simultaneous: 5,
       filenameFormats: [
         { key: '%(title)s.%(ext)s', name: 'Title', active: true },
@@ -119,17 +122,30 @@ label {
 }
 
 .download-location .value {
-  color: gray;
-  max-width: calc(100% - 280px);
-  overflow: scroll;
+  display: flex;
+  flex-grow: 1;
+  margin-right: 30px;
+}
+
+.download-location input {
+  font: inherit;
+  height: 26px;
+  box-sizing: border-box;
+  border: 1px solid lightgray;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  padding-left: 12px;
+  padding-right: 8px;
+  outline: none;
+  width: 100%;
 }
 
 .download-location button {
   margin-left: auto;
   height: 26px;
-  border-radius: 4px;
+  border-radius: 0 4px 4px 0;
   padding: 0 16px;
-  margin-right: 40px;
+  /* margin-right: 40px; */
 }
 
 .simultaneous-downloads .value {
