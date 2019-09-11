@@ -44,9 +44,13 @@
     </section>
     <section class="format">
       <label>Format</label>
-      <div class="item audio-format">
+      <div class="item">
         <p class="title">Audio Format</p>
         <CustomDialog :options="audioFormats" v-model="audioIndex" />
+      </div>
+      <div class="item">
+        <p class="title">Video Format</p>
+        <CustomDialog :options="videoFormats" v-model="videoIndex" />
       </div>
     </section>
   </div>
@@ -72,6 +76,8 @@ export default {
       ],
       audioFormats: ['mp3', 'wav', 'aac', 'flac', 'opus', 'vorbis'],
       audioIndex: 0,
+      videoFormats: ['default', 'mp4', 'webm', 'mkv'],
+      videoIndex: 0,
       isAscii: false,
       isAutonumber: false,
     }
