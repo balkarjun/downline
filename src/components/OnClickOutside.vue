@@ -8,9 +8,9 @@ export default {
         this.do();
       }
     }
-    document.addEventListener('click', listener);
+    document.addEventListener('mousedown', listener);
     this.$once('hook:beforeDestroy', () => {
-      document.removeEventListener('click', listener);
+      document.removeEventListener('mousedown', listener);
     });
   },
   render() {
