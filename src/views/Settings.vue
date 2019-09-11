@@ -1,61 +1,60 @@
 <template>
-  <div id="settings-page">
+  <main>
     <section>
       <label>General</label>
+
       <div class="item download-location">
-        <p class="title">Download Location</p>
-        <div class="value">
-          <input type="text" v-model="downloadLocation">
-          <button>Browse</button>
-        </div>
+        <label>Download Location</label>
+        <input type="text" v-model="downloadLocation">
+        <button>Browse</button>
       </div>
+
       <div class="item simultaneous-downloads">
-        <p class="title">Simultaneous Downloads</p>
-        <div class="value">
-          <button @click="updateSimultaneous(-1)">
-            <img src="../assets/icons/decrement.svg">
-          </button>
-          <p>{{ simultaneous }}</p>
-          <button @click="updateSimultaneous(1)">
-            <img src="../assets/icons/increment.svg">
-          </button>
-        </div>
+        <label>Simultaneous Downloads</label>
+        <button @click="updateSimultaneous(-1)">&minus;</button>
+        <p class="value">{{ simultaneous }}</p>
+        <button @click="updateSimultaneous(1)">&plus;</button>
       </div>
     </section>
-    <section class="filename">
+
+    <section>
       <label>Filename</label>
+
       <div class="item filename-format">
-        <p class="title">Format</p>
-        <div class="value">
-          <button 
-            v-for="(item, index) in filenameFormats" 
-            :key="index" 
-            :class="{active: item.active}"
-            @click="setActiveFilenameFormat(index)"
-          >{{ item.name }}</button>
-        </div>
+        <label>Format</label>
+        <button 
+          v-for="(item, index) in filenameFormats" 
+          :key="index" 
+          :class="{active: item.active}"
+          @click="setActiveFilenameFormat(index)"
+        >{{ item.name }}</button>
       </div>
-      <div class="item ascii">
-        <p class="title">Restrict filenames to ASCII</p>
+
+      <div class="item">
+        <label>Restrict filenames to ASCII</label>
         <Checkbox v-model="isAscii"/>
       </div>
-      <div class="item autonumber">
-        <p class="title">Autonumber playlist items</p>
+
+      <div class="item">
+        <label>Autonumber playlist items</label>
         <Checkbox v-model="isAutonumber"/>
       </div>
     </section>
-    <section class="format">
+
+    <section>
       <label>Format</label>
+
       <div class="item">
-        <p class="title">Audio Format</p>
+        <label>Audio Format</label>
         <CustomDialog :options="audioFormats" v-model="audioIndex" />
       </div>
+      
       <div class="item">
-        <p class="title">Video Format</p>
+        <label>Video Format</label>
         <CustomDialog :options="videoFormats" v-model="videoIndex" />
       </div>
     </section>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -100,11 +99,15 @@ export default {
 </script>
 
 <style scoped>
-#settings-page {
+main {
   padding-top: 16px;
   padding-left: 24px;
   height: 100vh;
   overflow: scroll;
+}
+
+section:not(:last-child) {
+  margin-bottom: 24px;
 }
 
 label {
@@ -117,17 +120,17 @@ label {
   align-items: center;
 }
 
+.item label {
+  padding-right: 16px;
+  color: black;
+}
+
 .title {
   padding-right: 16px;
 }
 
-.download-location .value {
-  display: flex;
-  flex-grow: 1;
-  margin-right: 30px;
-}
-
 .download-location input {
+  flex-grow: 1;
   font: inherit;
   height: 26px;
   box-sizing: border-box;
@@ -137,7 +140,6 @@ label {
   padding-left: 12px;
   padding-right: 8px;
   outline: none;
-  width: 100%;
 }
 
 .download-location button {
@@ -145,32 +147,23 @@ label {
   height: 26px;
   border-radius: 0 4px 4px 0;
   padding: 0 16px;
-  /* margin-right: 40px; */
+  margin-right: 30px;
 }
 
-.simultaneous-downloads .value {
-  display: flex;
-  align-items: center;
-}
-
-.simultaneous-downloads .value button {
+.simultaneous-downloads button {
   height: 25px;
   width: 25px;
   border-radius: 4px;
-  display: flex;
-  justify-content: center;
+  font-size: 20px;
+  color: #666;
 }
 
-.simultaneous-downloads .value p {
+.simultaneous-downloads .value {
   width: 25px;
   text-align: center;
 }
 
-.filename {
-  margin-top: 24px;
-}
-
-.filename-format .value button {
+.filename-format button {
   background-color: white;
   height: 26px;
   padding: 0 12px;
@@ -179,12 +172,8 @@ label {
   margin-right: 8px;
 }
 
-.filename-format .value button.active {
+.filename-format button.active {
   background-color: lightgray;
   border-color: transparent;
-}
-
-.format {
-  margin-top: 24px;
 }
 </style>
