@@ -5,7 +5,7 @@
 
       <div class="item download-location">
         <label>Download Location</label>
-        <input type="text" v-model="downloadLocation">
+        <p class="light">{{ downloadLocation }}</p>
         <button>Browse</button>
       </div>
 
@@ -142,27 +142,16 @@ label {
   color: black;
 }
 
-.title {
-  padding-right: 16px;
-}
-
-.download-location input {
-  flex-grow: 1;
-  font: inherit;
-  height: 26px;
-  box-sizing: border-box;
-  border: 1px solid lightgray;
-  border-right: none;
-  border-radius: 4px 0 0 4px;
-  padding-left: 12px;
-  padding-right: 8px;
-  outline: none;
+.download-location p {
+  width: calc(100% - 270px);
+  overflow-x: scroll;
+  white-space: nowrap;
 }
 
 .download-location button {
   margin-left: auto;
   height: 26px;
-  border-radius: 0 4px 4px 0;
+  border-radius: 4px;
   padding: 0 16px;
   margin-right: 30px;
 }
