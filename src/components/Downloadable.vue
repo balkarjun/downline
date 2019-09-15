@@ -296,7 +296,7 @@ export default {
 
 .back {
   height: 6px;
-  width: 450px;
+  width: 400px;
   background-color: lightgray;
   border-radius: 2px;
   overflow: hidden;
