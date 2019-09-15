@@ -83,15 +83,33 @@ export default {
       isAutonumber: store.get('isAutonumber'),
     }
   },
+  watch: {
+    audioIndex: val => {
+      store.set('audioIndex', val);
+    },
+    videoIndex: val => {
+      store.set('videoIndex', val);
+    },
+    isAscii: val => {
+      store.set('isAscii', val);
+    },
+    isAutonumber: val => {
+      store.set('isAutonumber', val);
+    }
+  },
   methods: {
     setActiveFilenameFormat(index) {
       this.filenameFormats.forEach(x => x.active = false);
       this.filenameFormats[index].active = true;
+
+      store.set('filenameFormats', this.filenameFormats);
     },
     updateSimultaneous(count) {
       const newValue = this.simultaneous + count;
       if (newValue < 1 || newValue > 5) return;
       this.simultaneous = newValue;
+
+      store.set('simultaneous', this.simultaneous);
     }
   }
 }

@@ -32,6 +32,7 @@ function get(key) {
 
 function set(key, val) {
   data[key] = val;
+  console.log(`[set] ${key}:${val}`);
 }
 
 function update() {
