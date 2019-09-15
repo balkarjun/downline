@@ -106,12 +106,7 @@ function download({ url, formatCode, isAudio }) {
     return null;
   }
   
-  let args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat()];
-
-  args.push(...getAVOptions(isAudio));
-
-  args.push(url);
-  const child = spawn(ytdlPath, args);
+  const child = spawn(ytdlPath, generateArgs({ url, formatCode, isAudio }));
 
   active.set(url, child.pid);
 
@@ -129,6 +124,14 @@ function download({ url, formatCode, isAudio }) {
   });
 
   return child.stdout.pipe(tStream);
+}
+
+function generateArgs({ url, formatCode, isAudio }) {
+  let args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat()];
+  args.push(...getAVOptions(isAudio));
+  args.push(url);
+
+  return args;
 }
 
 function getAVOptions(isAudio) {
