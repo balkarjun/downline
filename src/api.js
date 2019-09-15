@@ -100,13 +100,17 @@ function getDuration(duration) {
   else return `0:${pad(seconds)}`;
 }
 
-function download({url, formatCode}) {
+function download({ url, formatCode, isAudio }) {
   if (active.size >= store.get('simultaneous')) {
     queue.push(url);
     return null;
   }
+  
+  let args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat()];
 
-  const args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat(), url];
+  args.push(...getAVOptions(isAudio));
+
+  args.push(url);
   const child = spawn(ytdlPath, args);
 
   active.set(url, child.pid);
@@ -125,6 +129,17 @@ function download({url, formatCode}) {
   });
 
   return child.stdout.pipe(tStream);
+}
+
+function getAVOptions(isAudio) {
+  const index = store.get(isAudio ? 'audioIndex' : 'videoIndex');
+  const format = store.get(isAudio ? 'audioFormats' : 'videoFormats')[index];
+  
+  const options = isAudio
+    ? ['--extract-audio', '--audio-format', format]
+    : ['--recode-video', format];
+  
+  return format === 'default' ? [] : options;
 }
 
 function getOutputFormat() {

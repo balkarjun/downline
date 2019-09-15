@@ -109,8 +109,9 @@ export default {
     download() {
       const url = this.data.url;
       const formatCode = this.filteredFormats[this.activeIndex].code;
+      const isAudio = this.isAudioChosen;
    
-      const process = api.download({ url, formatCode });
+      const process = api.download({ url, formatCode, isAudio });
       if (process === null) {
         this.state = State.QUEUED;
         return;
