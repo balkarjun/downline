@@ -5,6 +5,8 @@ const path = require('path');
 const EventEmitter = require('events');
 const queueEvent = new EventEmitter();
 
+const store = require('./lib/store');
+
 const ytdlPath = path.join(process.cwd(), '../resources', 'youtube-dl');
 const ffmpegPath = path.join(process.cwd(), '../resources', 'ffmpeg');
 
@@ -99,8 +101,7 @@ function getDuration(duration) {
 }
 
 function download({url, formatCode}) {
-  const maxSimultaneous = 1;
-  if (active.size >= maxSimultaneous) {
+  if (active.size >= store.get('simultaneous')) {
     queue.push(url);
     return null;
   }
