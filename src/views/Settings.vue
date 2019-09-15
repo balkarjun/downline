@@ -61,6 +61,9 @@
 import Checkbox from '../components/Checkbox.vue';
 import CustomDialog from '../components/CustomDialog.vue';
 
+const { remote } = window.require('electron');
+const store = remote.require('./lib/store');
+
 export default {
   name: 'settings',
   components: {
@@ -69,19 +72,15 @@ export default {
   },
   data() {
     return {
-      downloadLocation: 'C:\\Users\\Anon\\Downloads',
-      simultaneous: 5,
-      filenameFormats: [
-        { key: '%(title)s.%(ext)s', name: 'Title', active: true },
-        { key: '%(id)s.%(ext)s', name: 'ID', active: false },
-        { key: '%(title)s-%(id)s.%(ext)s', name: 'Title + ID', active: false },
-      ],
-      audioFormats: ['mp3', 'wav', 'aac', 'flac', 'opus', 'vorbis'],
-      audioIndex: 0,
-      videoFormats: ['default', 'mp4', 'webm', 'mkv'],
-      videoIndex: 0,
-      isAscii: false,
-      isAutonumber: false,
+      downloadLocation: store.get('downloadLocation'),
+      simultaneous: store.get('simultaneous'),
+      filenameFormats: store.get('filenameFormats'),
+      audioFormats: store.get('audioFormats'),
+      audioIndex: store.get('audioIndex'),
+      videoFormats: store.get('videoFormats'),
+      videoIndex: store.get('videoIndex'),
+      isAscii: store.get('isAscii'),
+      isAutonumber: store.get('isAutonumber'),
     }
   },
   methods: {
