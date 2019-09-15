@@ -6,16 +6,17 @@ const defaults = {
   downloadLocation: '../',
   simultaneous: 5,
   filenameFormats: [
-    { key: '%(title)s.%(ext)s', name: 'Title', active: true },
-    { key: '%(id)s.%(ext)s', name: 'ID', active: false },
-    { key: '%(title)s-%(id)s.%(ext)s', name: 'Title + ID', active: false },
+    { key: '%(title)s.%(ext)s', name: 'Title' },
+    { key: '%(id)s.%(ext)s', name: 'ID' },
+    { key: '%(title)s-%(id)s.%(ext)s', name: 'Title + ID' },
   ],
+  filenameIndex: 0,
   audioFormats: ['mp3', 'wav', 'aac', 'flac', 'opus', 'vorbis'],
   audioIndex: 0,
   videoFormats: ['default', 'mp4', 'webm', 'mkv'],
   videoIndex: 0,
-  isAscii: false,
-  isAutonumber: false
+  ascii: false,
+  autonumber: false
 }
 
 const userDataPath = (electron.app || electron.remote.app).getPath('userData');

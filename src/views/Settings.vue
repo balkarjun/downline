@@ -25,19 +25,19 @@
         <button 
           v-for="(item, index) in filenameFormats" 
           :key="index" 
-          :class="{active: item.active}"
+          :class="{active: index === filenameIndex}"
           @click="setActiveFilenameFormat(index)"
         >{{ item.name }}</button>
       </div>
 
       <div class="item">
         <label>Restrict filenames to ASCII</label>
-        <Checkbox v-model="isAscii"/>
+        <Checkbox v-model="ascii"/>
       </div>
 
       <div class="item">
         <label>Autonumber playlist items</label>
-        <Checkbox v-model="isAutonumber"/>
+        <Checkbox v-model="autonumber"/>
       </div>
     </section>
 
@@ -75,12 +75,13 @@ export default {
       downloadLocation: store.get('downloadLocation'),
       simultaneous: store.get('simultaneous'),
       filenameFormats: store.get('filenameFormats'),
+      filenameIndex: store.get('filenameIndex'),
       audioFormats: store.get('audioFormats'),
       audioIndex: store.get('audioIndex'),
       videoFormats: store.get('videoFormats'),
       videoIndex: store.get('videoIndex'),
-      isAscii: store.get('isAscii'),
-      isAutonumber: store.get('isAutonumber'),
+      ascii: store.get('ascii'),
+      autonumber: store.get('autonumber'),
     }
   },
   watch: {
@@ -90,19 +91,18 @@ export default {
     videoIndex: val => {
       store.set('videoIndex', val);
     },
-    isAscii: val => {
-      store.set('isAscii', val);
+    ascii: val => {
+      store.set('ascii', val);
     },
-    isAutonumber: val => {
-      store.set('isAutonumber', val);
+    autonumber: val => {
+      store.set('autonumber', val);
     }
   },
   methods: {
     setActiveFilenameFormat(index) {
-      this.filenameFormats.forEach(x => x.active = false);
-      this.filenameFormats[index].active = true;
+      this.filenameIndex = index;
 
-      store.set('filenameFormats', this.filenameFormats);
+      store.set('filenameIndex', this.filenameIndex);
     },
     updateSimultaneous(count) {
       const newValue = this.simultaneous + count;
