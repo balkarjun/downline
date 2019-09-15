@@ -6,7 +6,7 @@
       <div class="item download-location">
         <label>Download Location</label>
         <p class="light">{{ downloadLocation }}</p>
-        <button>Browse</button>
+        <button @click="browse">Browse</button>
       </div>
 
       <div class="item simultaneous-downloads">
@@ -99,6 +99,14 @@ export default {
     }
   },
   methods: {
+    browse() {
+      remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+        properties: ['openDirectory']
+      }, paths => {
+        this.downloadLocation = paths[0];
+        store.set('downloadLocation', this.downloadLocation);
+      });
+    },
     setActiveFilenameFormat(index) {
       this.filenameIndex = index;
 
