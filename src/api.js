@@ -105,7 +105,8 @@ function download({url, formatCode}) {
     queue.push(url);
     return null;
   }
-  const args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, url];
+
+  const args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat(), url];
   const child = spawn(ytdlPath, args);
 
   active.set(url, child.pid);
@@ -124,6 +125,13 @@ function download({url, formatCode}) {
   });
 
   return child.stdout.pipe(tStream);
+}
+
+function getOutputFormat() {
+  const index = store.get('filenameIndex');
+  const format = store.get('filenameFormats')[index].key;
+
+  return path.join(store.get('downloadLocation'), format);
 }
 
 function getProgress(data) {
