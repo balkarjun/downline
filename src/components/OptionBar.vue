@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="handleClick">Download All</button>
+    <button v-if="count > 0" @click="handleClick">Download All</button>
     
     <p v-show="count > 0">
       {{ count }}
