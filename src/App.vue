@@ -138,16 +138,21 @@ export default {
   },
   methods: {
     addDownloadables(links) {
-      this.nLoading += links.length;
+      let count = links.length;
+      this.nLoading += count;
 
-      api.fetchInfo(links).on('data', data => {
+      const info = api.fetchInfo(links);
+      info.on('data', data => {
         this.nLoading--;
+        count--;
 
         const index = this.downloadables.findIndex(x => x.url === data.url);
         if (index === -1) {
           this.downloadables.push(data);
         }
       });
+
+      info.on('end', () => this.nLoading -= count);
     },
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
