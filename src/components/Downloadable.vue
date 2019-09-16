@@ -45,6 +45,10 @@
             </span>
             {{ isPaused ? 'Paused' : 'Queued' }}
           </p>
+
+          <p v-else-if="isProcessing">
+            {{ progress.size }} &centerdot; Processing
+          </p>
         </div>
 
         <div class="back">
@@ -119,11 +123,14 @@ export default {
       
       this.state = State.STARTING;
       process.on('data', data => {
-        if (data !== '') {
+        if (data === 'processing') {
+          this.state = State.PROCESSING;
+        } else if (data !== '') {
           this.progress = data;
           this.state = State.DOWNLOADING;
         }
       });
+
       process.on('end', () => {
         if (!this.isPaused) {
           this.state = State.COMPLETED;

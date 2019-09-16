@@ -113,7 +113,7 @@ function download({ url, formatCode, isAudio }) {
   const tStream = new Transform({
     readableObjectMode: true,
     transform(chunk, encoding, callback) {
-      this.push(getProgress(chunk));
+      this.push(getProgress(chunk.toString()));
       callback();
     }
   });
@@ -154,7 +154,7 @@ function getOutputFormat() {
 
 function getProgress(data) {
   const regex = /(?<percent>\d+\.\d+)\D+(?<size>\d+\.\d+)(?<unit>\w+)\D+(?<speed>\d+\.\d+\w+\/s)\D+(?<eta>[\d:]+)/;
-  const match = regex.exec(data.toString());
+  const match = regex.exec(data);
 
   if (match) {
     const { percent, size, unit, speed, eta } = match.groups;
@@ -166,6 +166,8 @@ function getProgress(data) {
       remaining: getETA(eta)
     };
     return progress;
+  } else if (data.includes('[ffmpeg]')) {
+    return 'processing';
   }
   return '';
 }
