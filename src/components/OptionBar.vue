@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button>Download All</button>
+    <button @click="handleClick">Download All</button>
     
     <p v-show="count > 0">
       {{ count }}
@@ -12,9 +12,16 @@
 </template>
 
 <script>
+import EventBus from '../lib/bus.js';
+
 export default {
   name: 'option-bar',
-  props: ['count']
+  props: ['count'],
+  methods: {
+    handleClick() {
+      EventBus.$emit('downloadMany');
+    }
+  }
 }
 </script>
 

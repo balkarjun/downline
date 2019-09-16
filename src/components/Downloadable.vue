@@ -70,6 +70,7 @@
 
 <script>
 import CustomDialog from './CustomDialog.vue';
+import EventBus from '../lib/bus.js';
 
 const { remote } = window.require('electron');
 const api = remote.require('./api.js');
@@ -92,9 +93,13 @@ export default {
   props: ['data'],
   mounted() {
     api.queueEvent.on('dequeue', this.queueHandler);
+
+    EventBus.$on('downloadMany', this.downloadManyHandler);
   },
   beforeDestroy() {
     api.queueEvent.removeListener('dequeue', this.queueHandler);
+
+    EventBus.$off('downloadMany', this.downloadManyHandler);
   },
   data() {
     return {
@@ -105,6 +110,11 @@ export default {
     }
   },
   methods: {
+    downloadManyHandler() {
+      if (this.isStopped || this.isPaused) {
+        this.download();
+      }
+    },
     queueHandler(url) {
       if (this.data.url === url && this.isQueued) {
         this.download();
