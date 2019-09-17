@@ -152,9 +152,12 @@ function getAVOptions(isAudio) {
 }
 
 function getOutputFormat(playlist) {
-  console.log(`exists: ${playlist.exists}\ntitle: ${playlist.title}\nindex: ${playlist.index}\ncount: ${playlist.count}`);
   const index = store.get('filenameIndex');
-  const format = store.get('filenameFormats')[index].key;
+  let format = store.get('filenameFormats')[index].key;
+  
+  if (playlist.exists) {
+    format = path.join(playlist.title, format);
+  }
 
   return path.join(store.get('downloadLocation'), format);
 }
