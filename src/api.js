@@ -156,6 +156,9 @@ function getOutputFormat(playlist) {
   let format = store.get('filenameFormats')[index].key;
   
   if (playlist.exists) {
+    if (store.get('autonumber')) {
+      format = `${playlist.index} - ${format}`;
+    }
     format = path.join(playlist.title, format);
   }
 
