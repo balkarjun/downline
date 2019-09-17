@@ -20,7 +20,7 @@ function fetchInfo(links) {
   const tStream = new Transform({
     readableObjectMode: true,
     transform(chunk, encoding, callback) {
-      this.push(createDownloadable(chunk));
+      this.push(createDownloadable(chunk.toString()));
       callback();
     }
   });
@@ -29,8 +29,8 @@ function fetchInfo(links) {
 }
 
 function createDownloadable(data) {
-  const metadata = JSON.parse(data.toString());
-  const { webpage_url, title, thumbnail, duration, formats, requested_subtitles } = metadata;
+  const metadata = JSON.parse(data);
+  const { webpage_url, title, thumbnail, duration, formats, requested_subtitles, playlist, playlist_title, playlist_index, n_entries } = metadata;
 
   const downloadable = {
     url: webpage_url,
@@ -39,6 +39,12 @@ function createDownloadable(data) {
     duration: getDuration(duration),
     formats: getFormats(formats || metadata.format_id),
     subtitles: getSubtitles(requested_subtitles),
+    playlist: {
+      exists: !!playlist,
+      title: playlist_title,
+      index: playlist_index,
+      count: n_entries
+    }
   };
   return downloadable;
 }
@@ -100,13 +106,13 @@ function getDuration(duration) {
   else return `0:${pad(seconds)}`;
 }
 
-function download({ url, formatCode, isAudio }) {
+function download({ url, formatCode, isAudio, playlist }) {
   if (active.size >= store.get('simultaneous')) {
     queue.push(url);
     return null;
   }
   
-  const child = spawn(ytdlPath, generateArgs({ url, formatCode, isAudio }));
+  const child = spawn(ytdlPath, generateArgs({ url, formatCode, isAudio, playlist }));
 
   active.set(url, child.pid);
 
@@ -126,8 +132,8 @@ function download({ url, formatCode, isAudio }) {
   return child.stdout.pipe(tStream);
 }
 
-function generateArgs({ url, formatCode, isAudio }) {
-  let args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat()];
+function generateArgs({ url, formatCode, isAudio, playlist }) {
+  let args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat(playlist)];
   args.push(...getAVOptions(isAudio));
   args.push(url);
 
@@ -145,7 +151,8 @@ function getAVOptions(isAudio) {
   return format === 'default' ? [] : options;
 }
 
-function getOutputFormat() {
+function getOutputFormat(playlist) {
+  console.log(`exists: ${playlist.exists}\ntitle: ${playlist.title}\nindex: ${playlist.index}\ncount: ${playlist.count}`);
   const index = store.get('filenameIndex');
   const format = store.get('filenameFormats')[index].key;
 

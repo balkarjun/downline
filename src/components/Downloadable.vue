@@ -121,11 +121,14 @@ export default {
       }
     },
     download() {
-      const url = this.data.url;
-      const formatCode = this.filteredFormats[this.activeIndex].code;
-      const isAudio = this.isAudioChosen;
+      const args = {
+        url: this.data.url,
+        formatCode: this.filteredFormats[this.activeIndex].code,
+        isAudio: this.isAudioChosen,
+        playlist: this.data.playlist
+      };
    
-      const process = api.download({ url, formatCode, isAudio });
+      const process = api.download(args);
       if (process === null) {
         this.state = State.QUEUED;
         return;
