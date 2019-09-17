@@ -9,7 +9,10 @@
 
       <OnClickOutside :do="close">
         <div class="dialog" v-show="isOpen">
-          Lorem ipsum
+          <div class="option">
+            Quality
+            <CustomDialog :options="quality" :isObject="true" v-model="qualityIndex" />
+          </div>
         </div>
       </OnClickOutside>
     </div>
@@ -26,16 +29,23 @@
 <script>
 import EventBus from '../lib/bus.js';
 import OnClickOutside from './OnClickOutside.vue';
+import CustomDialog from './CustomDialog.vue';
 
 export default {
   name: 'option-bar',
   props: ['count'],
   components: {
-    OnClickOutside
+    OnClickOutside,
+    CustomDialog
   },
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      quality: [
+        { quality: 50, suffix: 'kbps' },
+        { quality: 70, suffix: 'kbps' }
+      ],
+      qualityIndex: 0
     }
   },
   methods: {
@@ -81,13 +91,24 @@ button {
 }
 
 .dialog {
-  width: 180px;
-  height: 225px;
+  width: 170px;
+  height: 190px;
   position: absolute;
   top: 0;
   background-color: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
   box-sizing: border-box;
   border-radius: 4px;
+  padding: 4px 0;
+}
+
+.option {
+  height: 36px;
+  padding-left: 12px;
+  padding-right: 6px;
+  line-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
