@@ -135,6 +135,11 @@ function download({ url, formatCode, isAudio, playlist }) {
 function generateArgs({ url, formatCode, isAudio, playlist }) {
   let args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat(playlist)];
   args.push(...getAVOptions(isAudio));
+
+  if (store.get('ascii')) {
+    args.push('--restrict-filenames');
+  }
+
   args.push(url);
 
   return args;
@@ -157,7 +162,8 @@ function getOutputFormat(playlist) {
   
   if (playlist.exists) {
     if (store.get('autonumber')) {
-      format = `${playlist.index} - ${format}`;
+      const separator = store.get('ascii') ? '_' : ' - ';
+      format = playlist.index + separator + format;
     }
     format = path.join(playlist.title, format);
   }
