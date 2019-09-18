@@ -19,6 +19,11 @@
               <img src="../assets/icons/music_note.svg">
             </button>
           </div>
+          <hr>
+          <div class="buttons">
+            <button>Clear All</button>
+            <button>Clear Completed</button>
+          </div>
         </div>
       </OnClickOutside>
     </div>
@@ -86,6 +91,12 @@ button {
   border-radius: 4px;
 }
 
+hr {
+  border: none;
+  height: 1px;
+  background-color: lightgray;
+}
+
 .options {
   margin-left: 12px;
   margin-right: auto;
@@ -137,5 +148,17 @@ button {
 
 .option button.active {
   background-color: rgba(0, 0, 0, 0.25);
+}
+
+.buttons {
+  height: 66px;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.buttons button {
+  width: 100%;
 }
 </style>
