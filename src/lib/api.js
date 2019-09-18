@@ -7,8 +7,15 @@ const queueEvent = new EventEmitter();
 
 import db from './db.js';
 
-const ytdlPath = path.join(process.cwd(), 'dev', 'res', 'youtube-dl');
-const ffmpegPath = path.join(process.cwd(), 'dev', 'res', 'ffmpeg');
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+const ytdlPath = isDevelopment
+  ? path.join(process.cwd(), 'dev', 'resources', 'youtube-dl')
+  : path.join(process.cwd(), 'resources', 'youtube-dl');
+
+const ffmpegPath = isDevelopment
+  ? path.join(process.cwd(), 'dev', 'resources', 'ffmpeg')
+  : path.join(process.cwd(), 'resources', 'ffmpeg');
 
 const active = new Map();
 let queue = [];
