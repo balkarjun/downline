@@ -36,7 +36,8 @@
           <p v-else-if="isStarting">Starting Download</p>
 
           <p v-else-if="isDownloading">
-            {{ progress.downloaded }} of {{ progress.size }} &centerdot; {{ progress.speed }} | {{ progress.remaining }}
+            {{ progress.downloaded }} of {{ progress.size }} &centerdot; {{ progress.speed }}
+            <span class="end">{{ progress.eta }}</span>
           </p>
 
           <p v-else-if="isPaused || isQueued">
@@ -313,6 +314,14 @@ export default {
   font-size: 13px;
   color: gray;
   margin-bottom: 2px;
+}
+
+.info p {
+  display: flex;
+}
+
+.end {
+  margin-left: auto;
 }
 
 .back {

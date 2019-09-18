@@ -182,7 +182,7 @@ function getProgress(data) {
       downloaded: ((percent / 100) * size).toFixed(2),
       size: size + unit,
       speed: speed,
-      remaining: getETA(eta)
+      eta: getETA(eta)
     };
     return progress;
   } else if (data.includes('[ffmpeg]')) {
