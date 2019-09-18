@@ -1,6 +1,6 @@
 {
-  "name": "downline-new",
-  "version": "0.1.0",
+  "name": "downline",
+  "version": "2.0.0-dev",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
