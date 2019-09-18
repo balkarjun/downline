@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      isOpen: true,
+      isOpen: false,
       isAudioChosen: false,
       isSubsChosen: false,
       quality: [
@@ -105,6 +105,7 @@ hr {
   border: none;
   height: 1px;
   background-color: lightgray;
+  margin: 4px 0 6px 0;
 }
 
 .options {
@@ -122,8 +123,7 @@ hr {
 }
 
 .dialog {
-  width: 170px;
-  height: 197px;
+  width: 165px;
   position: absolute;
   top: 0;
   background-color: white;
@@ -144,7 +144,7 @@ hr {
 }
 
 .option button {
-  width: 64px;
+  width: 60px;
   height: 28px;
   display: flex;
   border-radius: 4px;
@@ -161,7 +161,6 @@ hr {
 }
 
 .buttons {
-  height: 62px;
   padding: 0 8px;
   display: flex;
   flex-direction: column;
@@ -171,5 +170,13 @@ hr {
 .buttons button {
   width: 100%;
   height: 28px;
+}
+
+.buttons button:first-of-type {
+  margin-bottom: 6px;
+}
+
+.buttons button:last-of-type {
+  margin-bottom: 2px;
 }
 </style>
