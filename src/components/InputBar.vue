@@ -1,15 +1,15 @@
 <template>
   <div>
-    <textarea 
-      ref="textarea" 
-      @keydown.ctrl.86="isPasted = true" 
-      @input="updateValue($event)" 
+    <textarea
+      ref="textarea"
+      @keydown.ctrl.86="isPasted = true"
+      @input="updateValue($event)"
       @contextmenu.prevent="openContextMenu($event)"
       placeholder="Enter one link per line"
     ></textarea>
-    
+
     <button @click="addLinks">
-      <img src="../assets/icons/add.svg">
+      <img src="../assets/icons/add.svg" />
     </button>
 
     <OnClickOutside :do="closeContextMenu">
@@ -33,7 +33,7 @@ export default {
     return {
       isPasted: false,
       showContextMenu: false
-    }
+    };
   },
   methods: {
     paste() {
@@ -56,8 +56,10 @@ export default {
       this.isPasted = false;
     },
     addLinks() {
-      const value = this.$refs.textarea.value.split('\n')
-      .map(x => x.trim()).filter(x => x.length > 0);
+      const value = this.$refs.textarea.value
+        .split('\n')
+        .map(x => x.trim())
+        .filter(x => x.length > 0);
 
       if (value.length > 0) this.$emit('output', value);
       this.$refs.textarea.value = '';
@@ -77,7 +79,7 @@ export default {
   padding-bottom: 4px;
   background-color: white;
   box-sizing: border-box;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .context-menu p {
@@ -109,9 +111,11 @@ textarea {
   white-space: nowrap;
   resize: none;
 }
+
 textarea:focus {
   border: 1px solid lightblue;
 }
+
 textarea::-webkit-scrollbar {
   width: 3px;
 }

@@ -2,7 +2,7 @@
   <div id="titlebar" :class="{highlight: value !== 'main'}">
     <OnClickOutside v-if="value === 'main'" :do="closeDialog">
       <div class="left">
-        <img @click="openDialog" src="../assets/icons/more_horiz.svg">
+        <img @click="openDialog" src="../assets/icons/more_horiz.svg" />
 
         <div class="dialog" v-if="isOpen">
           <p @click="setPage('settings')">Settings</p>
@@ -12,15 +12,15 @@
     </OnClickOutside>
 
     <div class="left" v-else>
-      <img @click="setPage('main')" src="../assets/icons/back.svg">
+      <img @click="setPage('main')" src="../assets/icons/back.svg" />
       <p>{{ value === 'settings' ? 'Settings' : 'About' }}</p>
     </div>
 
     <span class="spacer" :class="{draggable: !isOpen}"></span>
 
     <div class="right">
-      <img @click="minimize" src="../assets/icons/minimize.svg">
-      <img @click="close" src="../assets/icons/close.svg">
+      <img @click="minimize" src="../assets/icons/minimize.svg" />
+      <img @click="close" src="../assets/icons/close.svg" />
     </div>
   </div>
 </template>
@@ -33,13 +33,13 @@ const { remote } = window.require('electron');
 export default {
   name: 'title-bar',
   components: {
-    OnClickOutside,
+    OnClickOutside
   },
   props: ['value'],
   data() {
     return {
       isOpen: false
-    }
+    };
   },
   methods: {
     setPage(newPage) {
@@ -84,7 +84,8 @@ export default {
   -webkit-app-region: drag;
 }
 
-.left, .right {
+.left,
+.right {
   display: flex;
 }
 
@@ -112,7 +113,7 @@ export default {
   border-radius: 4px;
   background-color: white;
   padding: 4px 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .dialog p {

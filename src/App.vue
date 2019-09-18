@@ -9,20 +9,14 @@
       </div>
 
       <div @scroll="handleScroll" id="downloadable-list">
-        <Downloadable 
-          v-for="item in downloadables" :key="item.url"
-          :data="item"
-          @remove="remove"
-        />
+        <Downloadable v-for="item in downloadables" :key="item.url" :data="item" @remove="remove" />
       </div>
     </section>
 
     <Settings v-show="page === 'settings'" />
 
-    <section v-show="page === 'about'">
-      About Page
-    </section>
-    
+    <section v-show="page === 'about'">About Page</section>
+
     <Snackbar v-show="nLoading > 0">
       <p class="slot">Loading Links</p>
     </Snackbar>
@@ -37,8 +31,7 @@ import Downloadable from './components/Downloadable.vue';
 import Snackbar from './components/Snackbar.vue';
 import Settings from './views/Settings.vue';
 
-const { remote } = window.require('electron');
-const api = remote.require('./api');
+import api from './api.js';
 
 export default {
   name: 'app',
@@ -123,18 +116,10 @@ export default {
               code: 'bestvideo[height<=1080]+bestaudio/best[height<=1080]'
             }
           ],
-          subtitles: [
-            'pl', 'zh-TW', 'fr',     'ar',
-            'ja', 'az',    'mn',     'hy',
-            'ru', 'ta',    'es-419', 'ko',
-            'no', 'hu',    'de',     'en',
-            'pt', 'hi',    'ro',     'tr',
-            'nl', 'id',    'it',     'ka',
-            'vi'
-          ]
+          subtitles: ['pl', 'zh-TW', 'fr', 'ar']
         }
       ]
-    }
+    };
   },
   methods: {
     addDownloadables(links) {

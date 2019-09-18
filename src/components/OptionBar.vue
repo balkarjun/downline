@@ -1,10 +1,10 @@
 <template>
   <div class="bar">
     <button v-if="count > 0" @click="handleClick">Download All</button>
-    
+
     <div class="options" v-if="count > 0">
       <button @click="open">
-        <img src="../assets/icons/options.svg">
+        <img src="../assets/icons/options.svg" />
       </button>
 
       <OnClickOutside :do="close">
@@ -16,16 +16,16 @@
           <div class="option">
             Audio Only
             <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
-              <img src="../assets/icons/music_note.svg">
+              <img src="../assets/icons/music_note.svg" />
             </button>
           </div>
           <div class="option">
             Subtitles
             <button @click="toggleSubsChosen" :class="{active: isSubsChosen}">
-              <img src="../assets/icons/subtitles.svg">
+              <img src="../assets/icons/subtitles.svg" />
             </button>
           </div>
-          <hr>
+          <hr />
           <div class="buttons">
             <button>Clear All</button>
             <button>Clear Completed</button>
@@ -36,9 +36,7 @@
 
     <p v-show="count > 0">
       {{ count }}
-      <span class="light">
-        Item{{ count > 1 ? 's' : '' }}
-      </span>
+      <span class="light">Item{{ count > 1 ? 's' : '' }}</span>
     </p>
   </div>
 </template>
@@ -65,7 +63,7 @@ export default {
         { quality: 70, suffix: 'kbps' }
       ],
       qualityIndex: 0
-    }
+    };
   },
   methods: {
     toggleSubsChosen() {
@@ -84,7 +82,7 @@ export default {
       EventBus.$emit('downloadMany');
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -127,7 +125,7 @@ hr {
   position: absolute;
   top: 0;
   background-color: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   border-radius: 4px;
   padding: 4px 0;

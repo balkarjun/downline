@@ -22,9 +22,9 @@
 
       <div class="item filename-format">
         <label>Format</label>
-        <button 
-          v-for="(item, index) in filenameFormats" 
-          :key="index" 
+        <button
+          v-for="(item, index) in filenameFormats"
+          :key="index"
           :class="{active: index === filenameIndex}"
           @click="setActiveFilenameFormat(index)"
         >{{ item.name }}</button>
@@ -32,12 +32,12 @@
 
       <div class="item">
         <label>Restrict filenames to ASCII</label>
-        <Checkbox v-model="ascii"/>
+        <Checkbox v-model="ascii" />
       </div>
 
       <div class="item">
         <label>Autonumber playlist items</label>
-        <Checkbox v-model="autonumber"/>
+        <Checkbox v-model="autonumber" />
       </div>
     </section>
 
@@ -48,7 +48,7 @@
         <label>Audio Format</label>
         <CustomDialog :options="audioFormats" v-model="audioIndex" />
       </div>
-      
+
       <div class="item">
         <label>Video Format</label>
         <CustomDialog :options="videoFormats" v-model="videoIndex" />
@@ -61,66 +61,71 @@
 import Checkbox from '../components/Checkbox.vue';
 import CustomDialog from '../components/CustomDialog.vue';
 
+import db from '../lib/db.js';
+
 const { remote } = window.require('electron');
-const store = remote.require('./lib/store');
 
 export default {
   name: 'settings',
   components: {
-   Checkbox,
-   CustomDialog
+    Checkbox,
+    CustomDialog
   },
   data() {
     return {
-      downloadLocation: store.get('downloadLocation'),
-      simultaneous: store.get('simultaneous'),
-      filenameFormats: store.get('filenameFormats'),
-      filenameIndex: store.get('filenameIndex'),
-      audioFormats: store.get('audioFormats'),
-      audioIndex: store.get('audioIndex'),
-      videoFormats: store.get('videoFormats'),
-      videoIndex: store.get('videoIndex'),
-      ascii: store.get('ascii'),
-      autonumber: store.get('autonumber'),
-    }
+      downloadLocation: db.get('downloadLocation'),
+      simultaneous: db.get('simultaneous'),
+      filenameFormats: db.get('filenameFormats'),
+      filenameIndex: db.get('filenameIndex'),
+      audioFormats: db.get('audioFormats'),
+      audioIndex: db.get('audioIndex'),
+      videoFormats: db.get('videoFormats'),
+      videoIndex: db.get('videoIndex'),
+      ascii: db.get('ascii'),
+      autonumber: db.get('autonumber')
+    };
   },
   watch: {
     audioIndex: val => {
-      store.set('audioIndex', val);
+      db.set('audioIndex', val);
     },
     videoIndex: val => {
-      store.set('videoIndex', val);
+      db.set('videoIndex', val);
     },
     ascii: val => {
-      store.set('ascii', val);
+      db.set('ascii', val);
     },
     autonumber: val => {
-      store.set('autonumber', val);
+      db.set('autonumber', val);
     }
   },
   methods: {
     browse() {
-      remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-        properties: ['openDirectory']
-      }, paths => {
-        this.downloadLocation = paths[0];
-        store.set('downloadLocation', this.downloadLocation);
-      });
+      remote.dialog.showOpenDialog(
+        remote.getCurrentWindow(),
+        {
+          properties: ['openDirectory']
+        },
+        paths => {
+          this.downloadLocation = paths[0];
+          db.set('downloadLocation', this.downloadLocation);
+        }
+      );
     },
     setActiveFilenameFormat(index) {
       this.filenameIndex = index;
 
-      store.set('filenameIndex', this.filenameIndex);
+      db.set('filenameIndex', this.filenameIndex);
     },
     updateSimultaneous(count) {
       const newValue = this.simultaneous + count;
       if (newValue < 1 || newValue > 5) return;
       this.simultaneous = newValue;
 
-      store.set('simultaneous', this.simultaneous);
+      db.set('simultaneous', this.simultaneous);
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -7,7 +7,7 @@ export default {
       if (e.target !== this.$el && !this.$el.contains(e.target)) {
         this.do();
       }
-    }
+    };
     document.addEventListener('mousedown', listener);
     this.$once('hook:beforeDestroy', () => {
       document.removeEventListener('mousedown', listener);
@@ -16,5 +16,5 @@ export default {
   render() {
     return this.$slots.default[0];
   }
-}
+};
 </script>

@@ -1,6 +1,6 @@
 <template>
   <button @click="toggle" :class="{checked: value}">
-    <img v-if="value" src="../assets/icons/check.svg">
+    <img v-if="value" src="../assets/icons/check.svg" />
   </button>
 </template>
 
@@ -13,7 +13,7 @@ export default {
       this.$emit('input', !this.value);
     }
   }
-}
+};
 </script>
 
 <style scoped>

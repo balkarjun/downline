@@ -2,10 +2,11 @@
   <OnClickOutside :do="close">
     <div>
       <div ref="reference"></div>
-      
+
       <button @click="open">
         <span v-if="isObject">
-          {{ active.quality }}<span class="light">{{ active.suffix }}</span>
+          {{ active.quality }}
+          <span class="light">{{ active.suffix }}</span>
         </span>
         <span v-else>{{ active }}</span>
       </button>
@@ -18,7 +19,8 @@
           @click="select(index)"
         >
           <span v-if="isObject">
-            {{ option.quality }}<span v-if="index === value" class="light">{{ option.suffix }}</span>
+            {{ option.quality }}
+            <span v-if="index === value" class="light">{{ option.suffix }}</span>
           </span>
           <span v-else>{{ option }}</span>
         </p>
@@ -34,8 +36,8 @@ import Popper from 'popper.js';
 export default {
   name: 'custom-dialog',
   props: {
-    options: Array, 
-    value: Number, 
+    options: Array,
+    value: Number,
     isObject: {
       type: Boolean,
       default: false
@@ -47,7 +49,7 @@ export default {
   data() {
     return {
       isOpen: false
-    }
+    };
   },
   computed: {
     active() {
@@ -80,7 +82,7 @@ export default {
       });
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -103,7 +105,7 @@ button {
   width: 110px;
   max-height: 148px;
   overflow: scroll;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 }
 

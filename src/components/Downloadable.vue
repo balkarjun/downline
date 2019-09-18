@@ -1,14 +1,19 @@
 <template>
   <div id="box">
     <section id="left">
-      <img class="thumbnail" :src="data.thumbnail">
+      <img class="thumbnail" :src="data.thumbnail" />
 
       <p class="duration" :class="{hide: !isStopped}">{{ data.duration }}</p>
 
       <div class="overlay" :class="{fixed: !isStopped}">
-        <img v-if="isCompleted" src="../assets/icons/done.svg">
-        <img v-else-if="isStopped || isPaused" @click="download" src="../assets/icons/download.svg" class="pointer">
-        <img v-else @click="pause" src="../assets/icons/pause.svg" class="pointer">
+        <img v-if="isCompleted" src="../assets/icons/done.svg" />
+        <img
+          v-else-if="isStopped || isPaused"
+          @click="download"
+          src="../assets/icons/download.svg"
+          class="pointer"
+        />
+        <img v-else @click="pause" src="../assets/icons/pause.svg" class="pointer" />
       </div>
     </section>
 
@@ -19,13 +24,11 @@
         <CustomDialog :options="filteredFormats" :isObject="true" v-model="activeIndex" />
 
         <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
-          <img src="../assets/icons/music_note.svg">
+          <img src="../assets/icons/music_note.svg" />
         </button>
       </div>
 
-      <div v-else-if="isCompleted">
-        Show in Folder
-      </div>
+      <div v-else-if="isCompleted">Show in Folder</div>
 
       <div v-else class="progress">
         <div class="info">
@@ -34,17 +37,17 @@
         </div>
 
         <div class="bar">
-          <div 
+          <div
             :class="{indeterminate: isStarting || isProcessing}"
             :style="[progress ? { width: progress.percent + '%' } : '']"
           ></div>
         </div>
       </div>
     </section>
-    
+
     <section id="right">
-      <img @click="reload" v-if="isPaused || isCompleted" src="../assets/icons/reload.svg">
-      <img @click="remove" src="../assets/icons/delete.svg">
+      <img @click="reload" v-if="isPaused || isCompleted" src="../assets/icons/reload.svg" />
+      <img @click="remove" src="../assets/icons/delete.svg" />
     </section>
   </div>
 </template>
@@ -53,8 +56,7 @@
 import CustomDialog from './CustomDialog.vue';
 import EventBus from '../lib/bus.js';
 
-const { remote } = window.require('electron');
-const api = remote.require('./api.js');
+import api from '../api.js';
 
 const State = {
   STOPPED: 0,
@@ -64,7 +66,7 @@ const State = {
   PAUSED: 4,
   QUEUED: 5,
   COMPLETED: 6
-}
+};
 
 export default {
   name: 'downloadable',
@@ -88,7 +90,7 @@ export default {
       activeIndex: 0,
       state: State.STOPPED,
       progress: null
-    }
+    };
   },
   methods: {
     downloadManyHandler() {
@@ -108,13 +110,13 @@ export default {
         isAudio: this.isAudioChosen,
         playlist: this.data.playlist
       };
-   
+
       const process = api.download(args);
       if (process === null) {
         this.state = State.QUEUED;
         return;
       }
-      
+
       this.state = State.STARTING;
       process.on('data', data => {
         if (data === 'processing') {
@@ -170,29 +172,29 @@ export default {
       return this.state === State.COMPLETED;
     },
     filteredFormats() {
-      return this.data.formats.filter(x => x.isAudioOnly === this.isAudioChosen);
+      return this.data.formats.filter(
+        x => x.isAudioOnly === this.isAudioChosen
+      );
     },
     progressInfo() {
       if (this.isProcessing) {
         return `${this.progress.size} \u00B7 Processing`;
       }
 
-      let info = this.progress 
+      let info = this.progress
         ? `${this.progress.downloaded} of ${this.progress.size} \u00B7 `
         : '';
-      
-      if (this.isStarting) info += this.progress ? 'Resuming' : 'Starting Download';
-      
+
+      if (this.isStarting)
+        info += this.progress ? 'Resuming' : 'Starting Download';
       else if (this.isDownloading) info += this.progress.speed;
-      
       else if (this.isPaused) info += 'Paused';
-      
       else if (this.isQueued) info += 'Queued';
 
       return info;
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -238,7 +240,7 @@ export default {
   opacity: 0;
 }
 
-#box:hover .duration{
+#box:hover .duration {
   opacity: 0;
 }
 

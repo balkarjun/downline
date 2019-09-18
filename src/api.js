@@ -5,16 +5,21 @@ const path = require('path');
 const EventEmitter = require('events');
 const queueEvent = new EventEmitter();
 
-const store = require('./lib/store');
+import db from './lib/db.js';
 
-const ytdlPath = path.join(process.cwd(), 'dev', 'res','youtube-dl');
+const ytdlPath = path.join(process.cwd(), 'dev', 'res', 'youtube-dl');
 const ffmpegPath = path.join(process.cwd(), 'dev', 'res', 'ffmpeg');
 
 const active = new Map();
 let queue = [];
 
 function fetchInfo(links) {
-  const args = ['--all-subs', '--dump-json', '--no-playlist', '--ignore-errors'];
+  const args = [
+    '--all-subs',
+    '--dump-json',
+    '--no-playlist',
+    '--ignore-errors'
+  ];
   const child = spawn(ytdlPath, [...args, ...links]);
 
   const tStream = new Transform({
@@ -30,7 +35,18 @@ function fetchInfo(links) {
 
 function createDownloadable(data) {
   const metadata = JSON.parse(data);
-  const { webpage_url, title, thumbnail, duration, formats, requested_subtitles, playlist, playlist_title, playlist_index, n_entries } = metadata;
+  const {
+    webpage_url,
+    title,
+    thumbnail,
+    duration,
+    formats,
+    requested_subtitles,
+    playlist,
+    playlist_title,
+    playlist_index,
+    n_entries
+  } = metadata;
 
   const downloadable = {
     url: webpage_url,
@@ -51,12 +67,14 @@ function createDownloadable(data) {
 
 function getFormats(data) {
   if (!Array.isArray(data)) {
-    return [{
-      isAudioOnly: false,
-      quality: data,
-      suffix: '',
-      code: data
-    }];
+    return [
+      {
+        isAudioOnly: false,
+        quality: data,
+        suffix: '',
+        code: data
+      }
+    ];
   }
 
   let formats = [];
@@ -67,15 +85,19 @@ function getFormats(data) {
     const isAudioOnly = height == undefined && width == undefined;
     const isVideoOnly = vcodec !== 'none' && acodec === 'none';
 
-    const quality = isAudioOnly ? abr : (height || format_id);
-    const suffix = isAudioOnly ? 'kbps' : (isVideoOnly
+    const quality = isAudioOnly ? abr : height || format_id;
+    const suffix = isAudioOnly
+      ? 'kbps'
+      : isVideoOnly
       ? 'p'
-      : (Number.isInteger(quality) ? 'p' : '')
-    );
-    const code = isAudioOnly ? `bestaudio[abr<=${abr}]` : (isVideoOnly
+      : Number.isInteger(quality)
+      ? 'p'
+      : '';
+    const code = isAudioOnly
+      ? `bestaudio[abr<=${abr}]`
+      : isVideoOnly
       ? `bestvideo[height<=${height}]+bestaudio/best[height<=${height}]`
-      : format_id
-    );
+      : format_id;
 
     const key = (isAudioOnly ? 'a' : 'v') + quality;
     if (quality && !seen.has(key)) {
@@ -107,12 +129,15 @@ function getDuration(duration) {
 }
 
 function download({ url, formatCode, isAudio, playlist }) {
-  if (active.size >= store.get('simultaneous')) {
+  if (active.size >= db.get('simultaneous')) {
     queue.push(url);
     return null;
   }
-  
-  const child = spawn(ytdlPath, generateArgs({ url, formatCode, isAudio, playlist }));
+
+  const child = spawn(
+    ytdlPath,
+    generateArgs({ url, formatCode, isAudio, playlist })
+  );
 
   active.set(url, child.pid);
 
@@ -133,10 +158,17 @@ function download({ url, formatCode, isAudio, playlist }) {
 }
 
 function generateArgs({ url, formatCode, isAudio, playlist }) {
-  let args = ['--ffmpeg-location', ffmpegPath, '-f', formatCode, '-o', getOutputFormat(playlist)];
+  let args = [
+    '--ffmpeg-location',
+    ffmpegPath,
+    '-f',
+    formatCode,
+    '-o',
+    getOutputFormat(playlist)
+  ];
   args.push(...getAVOptions(isAudio));
 
-  if (store.get('ascii')) {
+  if (db.get('ascii')) {
     args.push('--restrict-filenames');
   }
 
@@ -146,29 +178,29 @@ function generateArgs({ url, formatCode, isAudio, playlist }) {
 }
 
 function getAVOptions(isAudio) {
-  const index = store.get(isAudio ? 'audioIndex' : 'videoIndex');
-  const format = store.get(isAudio ? 'audioFormats' : 'videoFormats')[index];
-  
+  const index = db.get(isAudio ? 'audioIndex' : 'videoIndex');
+  const format = db.get(isAudio ? 'audioFormats' : 'videoFormats')[index];
+
   const options = isAudio
     ? ['--extract-audio', '--audio-format', format]
     : ['--recode-video', format];
-  
+
   return format === 'default' ? [] : options;
 }
 
 function getOutputFormat(playlist) {
-  const index = store.get('filenameIndex');
-  let format = store.get('filenameFormats')[index].key;
-  
+  const index = db.get('filenameIndex');
+  let format = db.get('filenameFormats')[index].key;
+
   if (playlist.exists) {
-    if (store.get('autonumber')) {
-      const separator = store.get('ascii') ? '_' : ' - ';
+    if (db.get('autonumber')) {
+      const separator = db.get('ascii') ? '_' : ' - ';
       format = playlist.index + separator + format;
     }
     format = path.join(playlist.title, format);
   }
 
-  return path.join(store.get('downloadLocation'), format);
+  return path.join(db.get('downloadLocation'), format);
 }
 
 function getProgress(data) {
@@ -200,9 +232,11 @@ function getETA(eta) {
   min = Number(min);
   sec = Number(sec);
 
-  return (hr !== 0) ? `${min >= 30 ? hr + 1 : hr}h left`
-    : (min !== 0) ? `${sec >= 30 ? min + 1 : min}min left`
-      : `${sec + 1}s left`;
+  return hr !== 0
+    ? `${min >= 30 ? hr + 1 : hr}h left`
+    : min !== 0
+    ? `${sec >= 30 ? min + 1 : min}min left`
+    : `${sec + 1}s left`;
 }
 
 function pause(url) {
@@ -214,4 +248,4 @@ function pause(url) {
   if (pid) process.kill(pid);
 }
 
-module.exports = { fetchInfo, download, pause, queueEvent };
+export default { fetchInfo, download, pause, queueEvent };

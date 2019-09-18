@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'snackbar'
-}
+};
 </script>
 
 <style scoped>
