@@ -24,7 +24,7 @@
     </section>
     
     <Snackbar v-show="nLoading > 0">
-      <p class="slot">Loading {{ nLoading }} Link{{ nLoading > 1 ? 's' : '' }}</p>
+      <p class="slot">Loading Links</p>
     </Snackbar>
   </main>
 </template>
@@ -138,21 +138,17 @@ export default {
   },
   methods: {
     addDownloadables(links) {
-      let count = links.length;
-      this.nLoading += count;
+      this.nLoading++;
 
       const info = api.fetchInfo(links);
       info.on('data', data => {
-        this.nLoading--;
-        count--;
-
         const index = this.downloadables.findIndex(x => x.url === data.url);
         if (index === -1) {
           this.downloadables.push(data);
         }
       });
 
-      info.on('end', () => this.nLoading -= count);
+      info.on('end', () => this.nLoading--);
     },
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
