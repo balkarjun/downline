@@ -19,6 +19,12 @@
               <img src="../assets/icons/music_note.svg">
             </button>
           </div>
+          <div class="option">
+            Subtitles
+            <button @click="toggleSubsChosen" :class="{active: isSubsChosen}">
+              <img src="../assets/icons/subtitles.svg">
+            </button>
+          </div>
           <hr>
           <div class="buttons">
             <button>Clear All</button>
@@ -53,6 +59,7 @@ export default {
     return {
       isOpen: true,
       isAudioChosen: false,
+      isSubsChosen: false,
       quality: [
         { quality: 50, suffix: 'kbps' },
         { quality: 70, suffix: 'kbps' }
@@ -61,6 +68,9 @@ export default {
     }
   },
   methods: {
+    toggleSubsChosen() {
+      this.isSubsChosen = !this.isSubsChosen;
+    },
     toggleAudioChosen() {
       this.isAudioChosen = !this.isAudioChosen;
     },
@@ -113,7 +123,7 @@ hr {
 
 .dialog {
   width: 170px;
-  height: 190px;
+  height: 197px;
   position: absolute;
   top: 0;
   background-color: white;
@@ -151,7 +161,7 @@ hr {
 }
 
 .buttons {
-  height: 66px;
+  height: 62px;
   padding: 0 8px;
   display: flex;
   flex-direction: column;
@@ -160,5 +170,6 @@ hr {
 
 .buttons button {
   width: 100%;
+  height: 28px;
 }
 </style>
