@@ -1,22 +1,33 @@
 {
-  "name": "downline",
+  "name": "downline-new",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "electron": "electron ./src/background.js",
-    "electron:serve": "run-p serve electron"
+    "lint": "vue-cli-service lint",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
+  "main": "background.js",
   "dependencies": {
     "popper.js": "^1.15.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.9.0",
-    "electron": "^5.0.6",
-    "electron-builder": "^20.44.4",
-    "npm-run-all": "^4.1.5",
+    "@vue/cli-plugin-eslint": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "@vue/eslint-config-prettier": "^5.0.0",
+    "babel-eslint": "^10.0.1",
+    "electron": "^5.0.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "prettier": "^1.18.2",
+    "vue-cli-plugin-electron-builder": "^1.4.0",
     "vue-template-compiler": "^2.6.10"
   }
 }
