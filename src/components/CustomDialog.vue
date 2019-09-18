@@ -4,7 +4,7 @@
       <div ref="reference"></div>
 
       <button @click="open">
-        <span v-if="isObject">
+        <span class="flex" v-if="isObject">
           {{ active.quality }}
           <span class="light">{{ active.suffix }}</span>
         </span>
@@ -18,7 +18,7 @@
           :class="{active: index === value}"
           @click="select(index)"
         >
-          <span v-if="isObject">
+          <span class="flex" v-if="isObject">
             {{ option.quality }}
             <span v-if="index === value" class="light">{{ option.suffix }}</span>
           </span>
@@ -95,6 +95,10 @@ button {
   background-color: white;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.flex {
+  display: flex;
 }
 
 .dialog {
