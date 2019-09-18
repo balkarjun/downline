@@ -13,6 +13,12 @@
             Quality
             <CustomDialog :options="quality" :isObject="true" v-model="qualityIndex" />
           </div>
+          <div class="option">
+            Audio Only
+            <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
+              <img src="../assets/icons/music_note.svg">
+            </button>
+          </div>
         </div>
       </OnClickOutside>
     </div>
@@ -40,7 +46,8 @@ export default {
   },
   data() {
     return {
-      isOpen: false,
+      isOpen: true,
+      isAudioChosen: false,
       quality: [
         { quality: 50, suffix: 'kbps' },
         { quality: 70, suffix: 'kbps' }
@@ -49,6 +56,9 @@ export default {
     }
   },
   methods: {
+    toggleAudioChosen() {
+      this.isAudioChosen = !this.isAudioChosen;
+    },
     close() {
       this.isOpen = false;
     },
@@ -110,5 +120,22 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.option button {
+  width: 64px;
+  height: 28px;
+  display: flex;
+  border-radius: 4px;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.option button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.option button.active {
+  background-color: rgba(0, 0, 0, 0.25);
 }
 </style>
