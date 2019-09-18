@@ -56,7 +56,7 @@
 import CustomDialog from './CustomDialog.vue';
 import EventBus from '../lib/bus.js';
 
-import api from '../api.js';
+import api from '../lib/api.js';
 
 const State = {
   STOPPED: 0,

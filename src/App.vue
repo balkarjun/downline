@@ -31,7 +31,7 @@ import Downloadable from './components/Downloadable.vue';
 import Snackbar from './components/Snackbar.vue';
 import Settings from './views/Settings.vue';
 
-import api from './api.js';
+import api from './lib/api.js';
 
 export default {
   name: 'app',

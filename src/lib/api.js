@@ -5,7 +5,7 @@ const path = require('path');
 const EventEmitter = require('events');
 const queueEvent = new EventEmitter();
 
-import db from './lib/db.js';
+import db from './db.js';
 
 const ytdlPath = path.join(process.cwd(), 'dev', 'res', 'youtube-dl');
 const ffmpegPath = path.join(process.cwd(), 'dev', 'res', 'ffmpeg');
