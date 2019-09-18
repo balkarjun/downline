@@ -9,7 +9,12 @@
       </div>
 
       <div @scroll="handleScroll" id="downloadable-list">
-        <Downloadable v-for="item in downloadables" :key="item.url" :data="item" @remove="remove" />
+        <Downloadable
+          v-for="item in downloadables"
+          :key="item.url"
+          :data="item"
+          @remove="remove"
+        />
       </div>
     </section>
 

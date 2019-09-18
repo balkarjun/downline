@@ -1,5 +1,5 @@
 <template>
-  <div id="titlebar" :class="{highlight: value !== 'main'}">
+  <div id="titlebar" :class="{ highlight: value !== 'main' }">
     <OnClickOutside v-if="value === 'main'" :do="closeDialog">
       <div class="left">
         <img @click="openDialog" src="../assets/icons/more_horiz.svg" />
@@ -16,7 +16,7 @@
       <p>{{ value === 'settings' ? 'Settings' : 'About' }}</p>
     </div>
 
-    <span class="spacer" :class="{draggable: !isOpen}"></span>
+    <span class="spacer" :class="{ draggable: !isOpen }"></span>
 
     <div class="right">
       <img @click="minimize" src="../assets/icons/minimize.svg" />

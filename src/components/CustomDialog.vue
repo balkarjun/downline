@@ -15,12 +15,14 @@
         <p
           v-for="(option, index) in options"
           :key="index"
-          :class="{active: index === value}"
+          :class="{ active: index === value }"
           @click="select(index)"
         >
           <span class="flex" v-if="isObject">
             {{ option.quality }}
-            <span v-if="index === value" class="light">{{ option.suffix }}</span>
+            <span v-if="index === value" class="light">{{
+              option.suffix
+            }}</span>
           </span>
           <span v-else>{{ option }}</span>
         </p>

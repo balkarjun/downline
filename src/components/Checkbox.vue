@@ -1,5 +1,5 @@
 <template>
-  <button @click="toggle" :class="{checked: value}">
+  <button @click="toggle" :class="{ checked: value }">
     <img v-if="value" src="../assets/icons/check.svg" />
   </button>
 </template>

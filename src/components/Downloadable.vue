@@ -3,9 +3,9 @@
     <section id="left">
       <img class="thumbnail" :src="data.thumbnail" />
 
-      <p class="duration" :class="{hide: !isStopped}">{{ data.duration }}</p>
+      <p class="duration" :class="{ hide: !isStopped }">{{ data.duration }}</p>
 
-      <div class="overlay" :class="{fixed: !isStopped}">
+      <div class="overlay" :class="{ fixed: !isStopped }">
         <img v-if="isCompleted" src="../assets/icons/done.svg" />
         <img
           v-else-if="isStopped || isPaused"
@@ -13,7 +13,12 @@
           src="../assets/icons/download.svg"
           class="pointer"
         />
-        <img v-else @click="pause" src="../assets/icons/pause.svg" class="pointer" />
+        <img
+          v-else
+          @click="pause"
+          src="../assets/icons/pause.svg"
+          class="pointer"
+        />
       </div>
     </section>
 
@@ -21,9 +26,13 @@
       <p class="title">{{ data.title }}</p>
 
       <div v-if="isStopped" class="options">
-        <CustomDialog :options="filteredFormats" :isObject="true" v-model="activeIndex" />
+        <CustomDialog
+          :options="filteredFormats"
+          :isObject="true"
+          v-model="activeIndex"
+        />
 
-        <button @click="toggleAudioChosen" :class="{active: isAudioChosen}">
+        <button @click="toggleAudioChosen" :class="{ active: isAudioChosen }">
           <img src="../assets/icons/music_note.svg" />
         </button>
       </div>
@@ -38,7 +47,7 @@
 
         <div class="bar">
           <div
-            :class="{indeterminate: isStarting || isProcessing}"
+            :class="{ indeterminate: isStarting || isProcessing }"
             :style="[progress ? { width: progress.percent + '%' } : '']"
           ></div>
         </div>
@@ -46,7 +55,11 @@
     </section>
 
     <section id="right">
-      <img @click="reload" v-if="isPaused || isCompleted" src="../assets/icons/reload.svg" />
+      <img
+        @click="reload"
+        v-if="isPaused || isCompleted"
+        src="../assets/icons/reload.svg"
+      />
       <img @click="remove" src="../assets/icons/delete.svg" />
     </section>
   </div>
