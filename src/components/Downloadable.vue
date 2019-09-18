@@ -29,32 +29,12 @@
 
       <div v-else class="progress">
         <div class="info">
-          <p v-if="isStarting && progress">
-            {{ progress.downloaded }} of {{ progress.size }} &centerdot; Resuming
-          </p>
-
-          <p v-else-if="isStarting">Starting Download</p>
-
-          <p v-else-if="isDownloading">
-            {{ progress.downloaded }} of {{ progress.size }} &centerdot; {{ progress.speed }}
-            <span class="end">{{ progress.eta }}</span>
-          </p>
-
-          <p v-else-if="isPaused || isQueued">
-            <span v-if="progress">
-              {{ progress.downloaded }} of {{ progress.size }} &centerdot;
-            </span>
-            {{ isPaused ? 'Paused' : 'Queued' }}
-          </p>
-
-          <p v-else-if="isProcessing">
-            {{ progress.size }} &centerdot; Processing
-          </p>
+          <p>{{ progressInfo }}</p>
+          <p v-if="isDownloading">{{ progress.eta }}</p>
         </div>
 
-        <div class="back">
+        <div class="bar">
           <div 
-            class="front" 
             :class="{indeterminate: isStarting || isProcessing}"
             :style="[progress ? { width: progress.percent + '%' } : '']"
           ></div>
@@ -191,6 +171,25 @@ export default {
     },
     filteredFormats() {
       return this.data.formats.filter(x => x.isAudioOnly === this.isAudioChosen);
+    },
+    progressInfo() {
+      if (this.isProcessing) {
+        return `${this.progress.size} \u00B7 Processing`;
+      }
+
+      let info = this.progress 
+        ? `${this.progress.downloaded} of ${this.progress.size} \u00B7 `
+        : '';
+      
+      if (this.isStarting) info += this.progress ? 'Resuming' : 'Starting Download';
+      
+      else if (this.isDownloading) info += this.progress.speed;
+      
+      else if (this.isPaused) info += 'Paused';
+      
+      else if (this.isQueued) info += 'Queued';
+
+      return info;
     }
   }
 }
@@ -314,17 +313,11 @@ export default {
   font-size: 13px;
   color: gray;
   margin-bottom: 2px;
-}
-
-.info p {
   display: flex;
+  justify-content: space-between;
 }
 
-.end {
-  margin-left: auto;
-}
-
-.back {
+.bar {
   height: 6px;
   width: 400px;
   background-color: lightgray;
@@ -332,7 +325,7 @@ export default {
   overflow: hidden;
 }
 
-.front {
+.bar div {
   height: 6px;
   width: 0px;
   background-color: gray;
@@ -343,10 +336,11 @@ export default {
   will-change: left, right;
 }
 
-.front.indeterminate {
+.bar div.indeterminate {
   width: 20% !important;
   animation: indeterminate 1.5s infinite;
 }
+
 @keyframes indeterminate {
   0% {
     transform: translate(-50%, 0%);
