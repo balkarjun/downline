@@ -22,7 +22,7 @@
 
     <section v-show="page === 'about'">About Page</section>
 
-    <Snackbar v-show="nLoading > 0">
+    <Snackbar v-show="isLoading">
       <p class="slot">Loading Links</p>
     </Snackbar>
   </main>
@@ -36,8 +36,7 @@ import Downloadable from './components/Downloadable.vue';
 import Snackbar from './components/Snackbar.vue';
 import Settings from './views/Settings.vue';
 
-import api from './lib/api.js';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'app',
@@ -52,21 +51,13 @@ export default {
   data() {
     return {
       scrolled: false,
-      page: 'main',
-      nLoading: 0
+      page: 'main'
     };
   },
-  computed: mapGetters(['downloadables']),
+  computed: mapGetters(['downloadables', 'isLoading']),
   methods: {
-    ...mapMutations(['addDownloadable', 'removeDownloadable']),
-    addDownloadables(links) {
-      this.nLoading++;
-
-      const info = api.fetchInfo(links);
-      info.on('data', this.addDownloadable);
-
-      info.on('end', () => this.nLoading--);
-    },
+    ...mapMutations(['removeDownloadable']),
+    ...mapActions(['addDownloadables']),
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
     }

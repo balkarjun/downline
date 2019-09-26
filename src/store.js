@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import api from './lib/api.js';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -39,26 +41,40 @@ export default new Vuex.Store({
         ],
         subtitles: ['pl', 'zh-TW', 'fr', 'ar']
       }
-    ]
+    ],
+    nLoading: 0
   },
   getters: {
-    downloadables: state => state.downloadables
+    downloadables: state => state.downloadables,
+    isLoading: state => state.nLoading > 0
   },
   mutations: {
-    addDownloadable: (state, data) => {
+    addDownloadable(state, data) {
       const index = state.downloadables.findIndex(x => x.url === data.url);
 
       if (index === -1) {
         state.downloadables.push(data);
       }
     },
-    removeDownloadable: (state, url) => {
+    removeDownloadable(state, url) {
       const index = state.downloadables.findIndex(x => x.url === url);
 
       if (index !== -1) {
         state.downloadables.splice(index, 1);
       }
+    },
+    updateLoading(state, newValue) {
+      state.nLoading += newValue;
     }
   },
-  actions: {}
+  actions: {
+    addDownloadables({ commit }, links) {
+      commit('updateLoading', 1);
+
+      const info = api.fetchInfo(links);
+      info.on('data', data => commit('addDownloadable', data));
+
+      info.on('end', () => commit('updateLoading', -1));
+    }
+  }
 });
