@@ -11,21 +11,32 @@
         <div class="dialog" v-show="isOpen">
           <div class="option">
             Quality
-            <CustomDialog :options="quality" :isObject="true" v-model="qualityIndex" />
+            <CustomDialog
+              :options="quality"
+              :isObject="true"
+              v-model="qualityIndex"
+            />
           </div>
+
           <div class="option">
             Audio Only
-            <button @click="toggleAudioChosen" :class="{ active: isAudioChosen }">
+            <button
+              @click="toggleAudioChosen"
+              :class="{ active: isAudioChosen }"
+            >
               <img src="../assets/icons/music_note.svg" />
             </button>
           </div>
+
           <div class="option">
             Subtitles
             <button @click="toggleSubsChosen" :class="{ active: isSubsChosen }">
               <img src="../assets/icons/subtitles.svg" />
             </button>
           </div>
+
           <hr />
+
           <div class="buttons">
             <button>Clear All</button>
             <button>Clear Completed</button>
