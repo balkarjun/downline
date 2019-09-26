@@ -46,7 +46,8 @@ export default new Vuex.Store({
   },
   getters: {
     downloadables: state => state.downloadables,
-    isLoading: state => state.nLoading > 0
+    isLoading: state => state.nLoading > 0,
+    count: state => state.downloadables.length
   },
   mutations: {
     addDownloadable(state, data) {

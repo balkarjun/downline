@@ -1,8 +1,8 @@
 <template>
-  <div class="bar">
-    <button v-if="count > 0" @click="handleClick">Download All</button>
+  <div v-show="count > 0" class="bar">
+    <button @click="handleClick">Download All</button>
 
-    <div class="options" v-if="count > 0">
+    <div class="options">
       <button @click="open">
         <img src="../assets/icons/options.svg" />
       </button>
@@ -11,18 +11,11 @@
         <div class="dialog" v-show="isOpen">
           <div class="option">
             Quality
-            <CustomDialog
-              :options="quality"
-              :isObject="true"
-              v-model="qualityIndex"
-            />
+            <CustomDialog :options="quality" :isObject="true" v-model="qualityIndex" />
           </div>
           <div class="option">
             Audio Only
-            <button
-              @click="toggleAudioChosen"
-              :class="{ active: isAudioChosen }"
-            >
+            <button @click="toggleAudioChosen" :class="{ active: isAudioChosen }">
               <img src="../assets/icons/music_note.svg" />
             </button>
           </div>
@@ -41,7 +34,7 @@
       </OnClickOutside>
     </div>
 
-    <p v-show="count > 0">
+    <p>
       {{ count }}
       <span class="light">Item{{ count > 1 ? 's' : '' }}</span>
     </p>
@@ -53,9 +46,10 @@ import EventBus from '../lib/bus.js';
 import OnClickOutside from './OnClickOutside.vue';
 import CustomDialog from './CustomDialog.vue';
 
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'option-bar',
-  props: ['count'],
   components: {
     OnClickOutside,
     CustomDialog
@@ -72,6 +66,7 @@ export default {
       qualityIndex: 0
     };
   },
+  computed: mapGetters(['count']),
   methods: {
     toggleSubsChosen() {
       this.isSubsChosen = !this.isSubsChosen;

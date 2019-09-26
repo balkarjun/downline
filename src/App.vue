@@ -5,7 +5,7 @@
     <section class="page-main" v-show="page === 'main'">
       <div :class="{ shadow: scrolled }">
         <InputBar @output="addDownloadables" />
-        <OptionBar :count="downloadables.length" />
+        <OptionBar />
       </div>
 
       <div @scroll="handleScroll" id="downloadable-list">
