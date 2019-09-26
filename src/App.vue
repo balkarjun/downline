@@ -9,12 +9,7 @@
       </div>
 
       <div @scroll="handleScroll" id="downloadable-list">
-        <Downloadable
-          v-for="item in downloadables"
-          :key="item.url"
-          :data="item"
-          @remove="remove"
-        />
+        <Downloadable v-for="item in downloadables" :key="item.url" :data="item" @remove="remove" />
       </div>
     </section>
 
@@ -37,6 +32,7 @@ import Snackbar from './components/Snackbar.vue';
 import Settings from './views/Settings.vue';
 
 import api from './lib/api.js';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'app',
@@ -52,91 +48,17 @@ export default {
     return {
       scrolled: false,
       page: 'main',
-      nLoading: 0,
-      downloadables: [
-        {
-          url: 'https://www.youtube.com/watch?v=ouAccsTzlGU',
-          title: 'Is Meat Bad for You? Is Meat Unhealthy?',
-          thumbnail: 'https://i.ytimg.com/vi/ouAccsTzlGU/maxresdefault.jpg',
-          duration: '10:05',
-          formats: [
-            {
-              isAudioOnly: true,
-              quality: 50,
-              suffix: 'kbps',
-              code: 'bestaudio[abr<=50]'
-            },
-            {
-              isAudioOnly: true,
-              quality: 70,
-              suffix: 'kbps',
-              code: 'bestaudio[abr<=70]'
-            },
-            {
-              isAudioOnly: true,
-              quality: 128,
-              suffix: 'kbps',
-              code: 'bestaudio[abr<=128]'
-            },
-            {
-              isAudioOnly: true,
-              quality: 160,
-              suffix: 'kbps',
-              code: 'bestaudio[abr<=160]'
-            },
-            {
-              isAudioOnly: false,
-              quality: 144,
-              suffix: 'p',
-              code: 'bestvideo[height<=144]+bestaudio/best[height<=144]'
-            },
-            {
-              isAudioOnly: false,
-              quality: 240,
-              suffix: 'p',
-              code: 'bestvideo[height<=240]+bestaudio/best[height<=240]'
-            },
-            {
-              isAudioOnly: false,
-              quality: 360,
-              suffix: 'p',
-              code: 'bestvideo[height<=360]+bestaudio/best[height<=360]'
-            },
-            {
-              isAudioOnly: false,
-              quality: 480,
-              suffix: 'p',
-              code: 'bestvideo[height<=480]+bestaudio/best[height<=480]'
-            },
-            {
-              isAudioOnly: false,
-              quality: 720,
-              suffix: 'p',
-              code: 'bestvideo[height<=720]+bestaudio/best[height<=720]'
-            },
-            {
-              isAudioOnly: false,
-              quality: 1080,
-              suffix: 'p',
-              code: 'bestvideo[height<=1080]+bestaudio/best[height<=1080]'
-            }
-          ],
-          subtitles: ['pl', 'zh-TW', 'fr', 'ar']
-        }
-      ]
+      nLoading: 0
     };
   },
+  computed: mapGetters(['downloadables']),
   methods: {
+    ...mapMutations(['addDownloadable']),
     addDownloadables(links) {
       this.nLoading++;
 
       const info = api.fetchInfo(links);
-      info.on('data', data => {
-        const index = this.downloadables.findIndex(x => x.url === data.url);
-        if (index === -1) {
-          this.downloadables.push(data);
-        }
-      });
+      info.on('data', this.addDownloadable);
 
       info.on('end', () => this.nLoading--);
     },
