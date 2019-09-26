@@ -1,6 +1,6 @@
 <template>
-  <div id="titlebar" :class="{ highlight: value !== 'main' }">
-    <OnClickOutside v-if="value === 'main'" :do="closeDialog">
+  <div id="titlebar" :class="{ highlight: value !== 'home' }">
+    <OnClickOutside v-if="value === 'home'" :do="closeDialog">
       <div class="left">
         <img @click="openDialog" src="../assets/icons/more_horiz.svg" />
 
@@ -12,7 +12,7 @@
     </OnClickOutside>
 
     <div class="left" v-else>
-      <img @click="setPage('main')" src="../assets/icons/back.svg" />
+      <img @click="setPage('home')" src="../assets/icons/back.svg" />
       <p>{{ value === 'settings' ? 'Settings' : 'About' }}</p>
     </div>
 

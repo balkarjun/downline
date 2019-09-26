@@ -2,7 +2,7 @@
   <main>
     <TitleBar v-model="page" />
 
-    <section class="page-main" v-show="page === 'main'">
+    <section class="page-home" v-show="page === 'home'">
       <div :class="{ shadow: scrolled }">
         <InputBar @output="addDownloadables" />
         <OptionBar />
@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       scrolled: false,
-      page: 'main'
+      page: 'home'
     };
   },
   computed: mapGetters(['downloadables', 'isLoading']),
@@ -108,7 +108,7 @@ main {
   height: 100vh;
 }
 
-.page-main {
+.page-home {
   display: flex;
   flex-direction: column;
   height: 100%;
