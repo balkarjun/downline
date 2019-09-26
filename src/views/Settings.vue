@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div class="container">
     <section>
       <label>General</label>
 
@@ -54,7 +54,7 @@
         <CustomDialog :options="videoFormats" v-model="videoIndex" />
       </div>
     </section>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -129,7 +129,7 @@ export default {
 </script>
 
 <style scoped>
-main {
+.container {
   padding-top: 16px;
   padding-left: 24px;
   height: 100vh;
