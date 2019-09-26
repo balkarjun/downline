@@ -51,6 +51,13 @@ export default new Vuex.Store({
       if (index === -1) {
         state.downloadables.push(data);
       }
+    },
+    removeDownloadable: (state, url) => {
+      const index = state.downloadables.findIndex(x => x.url === url);
+
+      if (index !== -1) {
+        state.downloadables.splice(index, 1);
+      }
     }
   },
   actions: {}

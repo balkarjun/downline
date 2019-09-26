@@ -9,7 +9,12 @@
       </div>
 
       <div @scroll="handleScroll" id="downloadable-list">
-        <Downloadable v-for="item in downloadables" :key="item.url" :data="item" @remove="remove" />
+        <Downloadable
+          v-for="item in downloadables"
+          :key="item.url"
+          :data="item"
+          @remove="removeDownloadable"
+        />
       </div>
     </section>
 
@@ -53,7 +58,7 @@ export default {
   },
   computed: mapGetters(['downloadables']),
   methods: {
-    ...mapMutations(['addDownloadable']),
+    ...mapMutations(['addDownloadable', 'removeDownloadable']),
     addDownloadables(links) {
       this.nLoading++;
 
@@ -64,12 +69,6 @@ export default {
     },
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
-    },
-    remove(url) {
-      const index = this.downloadables.findIndex(x => x.url === url);
-      if (index !== -1) {
-        this.downloadables.splice(index, 1);
-      }
     }
   }
 };
