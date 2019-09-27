@@ -15,7 +15,7 @@
         />
         <img
           v-else
-          @click="pause"
+          @click="pause(data.url)"
           src="../assets/icons/pause.svg"
           class="pointer"
         />
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     ...mapMutations(['updateFormatIndex', 'updateState', 'updateProgress']),
-    ...mapActions(['download']),
+    ...mapActions(['download', 'pause']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
         this.download(this.data.url);
@@ -108,13 +108,6 @@ export default {
       if (this.data.url === url && this.isQueued) {
         this.download(this.data.url);
       }
-    },
-    pause() {
-      this.updateState({
-        url: this.data.url,
-        value: State.PAUSED
-      });
-      api.pause(this.data.url);
     },
     remove() {
       this.$emit('remove', this.data.url);
