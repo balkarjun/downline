@@ -254,7 +254,7 @@ function getETA(eta) {
 function pause(url) {
   // If queued, remove from queue
   const index = queue.indexOf(url);
-  if (index) queue.splice(index, 1);
+  if (index !== -1) queue.splice(index, 1);
   // If active, kill process
   const pid = active.get(url);
   if (pid) process.kill(pid);
