@@ -74,18 +74,9 @@ import CustomDialog from './CustomDialog.vue';
 import EventBus from '../lib/bus.js';
 
 import api from '../lib/api.js';
+import State from '../lib/state.js';
 
 import { mapMutations } from 'vuex';
-
-const State = {
-  STOPPED: 0,
-  STARTING: 1,
-  DOWNLOADING: 2,
-  PROCESSING: 3,
-  PAUSED: 4,
-  QUEUED: 5,
-  COMPLETED: 6
-};
 
 export default {
   name: 'downloadable',
@@ -105,12 +96,11 @@ export default {
   },
   data() {
     return {
-      state: State.STOPPED,
       progress: null
     };
   },
   methods: {
-    ...mapMutations(['updateFormatIndex']),
+    ...mapMutations(['updateFormatIndex', 'updateState']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
         this.download();
@@ -130,35 +120,56 @@ export default {
 
       const process = api.download(args);
       if (process === null) {
-        this.state = State.QUEUED;
+        this.updateState({
+          url: this.data.url,
+          value: State.QUEUED
+        });
         return;
       }
 
-      this.state = State.STARTING;
+      this.updateState({
+        url: this.data.url,
+        value: State.STARTING
+      });
       process.on('data', data => {
         if (data === 'processing') {
-          this.state = State.PROCESSING;
+          this.updateState({
+            url: this.data.url,
+            value: State.PROCESSING
+          });
         } else if (data !== '') {
           this.progress = data;
-          this.state = State.DOWNLOADING;
+          this.updateState({
+            url: this.data.url,
+            value: State.DOWNLOADING
+          });
         }
       });
 
       process.on('end', () => {
         if (!this.isPaused) {
-          this.state = State.COMPLETED;
+          this.updateState({
+            url: this.data.url,
+            value: State.COMPLETED
+          });
         }
       });
     },
     pause() {
-      this.state = State.PAUSED;
+      this.updateState({
+        url: this.data.url,
+        value: State.PAUSED
+      });
       api.pause(this.data.url);
     },
     remove() {
       this.$emit('remove', this.data.url);
     },
     reload() {
-      this.state = State.STOPPED;
+      this.updateState({
+        url: this.data.url,
+        value: State.STOPPED
+      });
       this.progress = null;
     },
     toggleAudioChosen() {
@@ -182,25 +193,25 @@ export default {
   },
   computed: {
     isStopped() {
-      return this.state === State.STOPPED;
+      return this.data.state === State.STOPPED;
     },
     isStarting() {
-      return this.state === State.STARTING;
+      return this.data.state === State.STARTING;
     },
     isDownloading() {
-      return this.state === State.DOWNLOADING;
+      return this.data.state === State.DOWNLOADING;
     },
     isProcessing() {
-      return this.state === State.PROCESSING;
+      return this.data.state === State.PROCESSING;
     },
     isPaused() {
-      return this.state === State.PAUSED;
+      return this.data.state === State.PAUSED;
     },
     isQueued() {
-      return this.state === State.QUEUED;
+      return this.data.state === State.QUEUED;
     },
     isCompleted() {
-      return this.state === State.COMPLETED;
+      return this.data.state === State.COMPLETED;
     },
     activeFormat() {
       return this.data.formats[this.data.formatIndex];

@@ -6,6 +6,7 @@ const EventEmitter = require('events');
 const queueEvent = new EventEmitter();
 
 import db from './db.js';
+import State from './state.js';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -65,6 +66,7 @@ function createDownloadable(data) {
     duration: getDuration(duration),
     formats: newFormats,
     formatIndex: formatIndex,
+    state: State.STOPPED,
     subtitles: getSubtitles(requested_subtitles),
     playlist: {
       exists: !!playlist,

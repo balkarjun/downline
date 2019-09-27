@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import api from './lib/api.js';
+import State from './lib/state.js';
 
 Vue.use(Vuex);
 
@@ -40,6 +41,7 @@ export default new Vuex.Store({
           }
         ],
         formatIndex: 2,
+        state: State.STOPPED,
         subtitles: ['pl', 'zh-TW', 'fr', 'ar']
       }
     ],
@@ -73,6 +75,13 @@ export default new Vuex.Store({
 
       if (index !== -1) {
         state.downloadables[index].formatIndex = value;
+      }
+    },
+    updateState(state, { url, value }) {
+      const index = state.downloadables.findIndex(x => x.url === url);
+
+      if (index !== -1) {
+        state.downloadables[index].state = value;
       }
     }
   },
