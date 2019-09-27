@@ -67,6 +67,7 @@ function createDownloadable(data) {
     formats: newFormats,
     formatIndex: formatIndex,
     state: State.STOPPED,
+    progress: null,
     subtitles: getSubtitles(requested_subtitles),
     playlist: {
       exists: !!playlist,

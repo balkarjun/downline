@@ -46,13 +46,15 @@
       <div v-else class="progress">
         <div class="info">
           <p>{{ progressInfo }}</p>
-          <p v-if="isDownloading">{{ progress.eta }}</p>
+          <p v-if="isDownloading">{{ data.progress.eta }}</p>
         </div>
 
         <div class="bar">
           <div
             :class="{ indeterminate: isStarting || isProcessing }"
-            :style="[progress ? { width: progress.percent + '%' } : '']"
+            :style="[
+              data.progress ? { width: data.progress.percent + '%' } : ''
+            ]"
           ></div>
         </div>
       </div>
@@ -94,13 +96,8 @@ export default {
 
     EventBus.$off('downloadMany', this.downloadManyHandler);
   },
-  data() {
-    return {
-      progress: null
-    };
-  },
   methods: {
-    ...mapMutations(['updateFormatIndex', 'updateState']),
+    ...mapMutations(['updateFormatIndex', 'updateState', 'updateProgress']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
         this.download();
@@ -138,7 +135,11 @@ export default {
             value: State.PROCESSING
           });
         } else if (data !== '') {
-          this.progress = data;
+          this.updateProgress({
+            url: this.data.url,
+            value: data
+          });
+
           this.updateState({
             url: this.data.url,
             value: State.DOWNLOADING
@@ -170,7 +171,11 @@ export default {
         url: this.data.url,
         value: State.STOPPED
       });
-      this.progress = null;
+
+      this.updateProgress({
+        url: this.data.url,
+        value: null
+      });
     },
     toggleAudioChosen() {
       const newFormatIndex = this.data.formats.findIndex(
@@ -223,16 +228,16 @@ export default {
     },
     progressInfo() {
       if (this.isProcessing) {
-        return `${this.progress.size} \u00B7 Processing`;
+        return `${this.data.progress.size} \u00B7 Processing`;
       }
 
-      let info = this.progress
-        ? `${this.progress.downloaded} of ${this.progress.size} \u00B7 `
+      let info = this.data.progress
+        ? `${this.data.progress.downloaded} of ${this.data.progress.size} \u00B7 `
         : '';
 
       if (this.isStarting)
-        info += this.progress ? 'Resuming' : 'Starting Download';
-      else if (this.isDownloading) info += this.progress.speed;
+        info += this.data.progress ? 'Resuming' : 'Starting Download';
+      else if (this.isDownloading) info += this.data.progress.speed;
       else if (this.isPaused) info += 'Paused';
       else if (this.isQueued) info += 'Queued';
 

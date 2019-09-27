@@ -42,6 +42,7 @@ export default new Vuex.Store({
         ],
         formatIndex: 2,
         state: State.STOPPED,
+        progress: null,
         subtitles: ['pl', 'zh-TW', 'fr', 'ar']
       }
     ],
@@ -82,6 +83,13 @@ export default new Vuex.Store({
 
       if (index !== -1) {
         state.downloadables[index].state = value;
+      }
+    },
+    updateProgress(state, { url, value }) {
+      const index = state.downloadables.findIndex(x => x.url === url);
+
+      if (index !== -1) {
+        state.downloadables[index].progress = value;
       }
     }
   },
