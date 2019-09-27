@@ -62,7 +62,7 @@
 
     <section id="right">
       <img
-        @click="reload"
+        @click="reload(data.url)"
         v-if="isPaused || isCompleted"
         src="../assets/icons/reload.svg"
       />
@@ -97,8 +97,8 @@ export default {
     EventBus.$off('downloadMany', this.downloadManyHandler);
   },
   methods: {
-    ...mapMutations(['updateFormatIndex', 'updateState', 'updateProgress']),
-    ...mapActions(['download', 'pause']),
+    ...mapMutations(['updateFormatIndex']),
+    ...mapActions(['download', 'pause', 'reload']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
         this.download(this.data.url);
@@ -111,17 +111,6 @@ export default {
     },
     remove() {
       this.$emit('remove', this.data.url);
-    },
-    reload() {
-      this.updateState({
-        url: this.data.url,
-        value: State.STOPPED
-      });
-
-      this.updateProgress({
-        url: this.data.url,
-        value: null
-      });
     },
     toggleAudioChosen() {
       const newFormatIndex = this.data.formats.findIndex(

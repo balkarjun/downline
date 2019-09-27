@@ -141,6 +141,10 @@ export default new Vuex.Store({
     pause({ commit }, url) {
       commit('updateState', { url, value: State.PAUSED });
       api.pause(url);
+    },
+    reload({ commit }, url) {
+      commit('updateState', { url, value: State.STOPPED });
+      commit('updateProgress', { url, value: null });
     }
   }
 });
