@@ -43,7 +43,13 @@ const store = new Vuex.Store({
         formatIndex: 2,
         state: State.STOPPED,
         progress: null,
-        subtitles: ['pl', 'zh-TW', 'fr', 'ar']
+        subtitles: ['pl', 'zh-TW', 'fr', 'ar'],
+        playlist: {
+          exists: !false,
+          title: null,
+          index: null,
+          count: null
+        }
       }
     ],
     nLoading: 0
@@ -145,6 +151,13 @@ const store = new Vuex.Store({
     reload({ commit }, url) {
       commit('updateState', { url, value: State.STOPPED });
       commit('updateProgress', { url, value: null });
+    },
+    downloadMany({ state, dispatch }) {
+      state.downloadables.forEach(item => {
+        if (item.state === State.STOPPED || item.state === State.PAUSED) {
+          dispatch('download', item.url);
+        }
+      });
     }
   }
 });

@@ -76,7 +76,6 @@
 
 <script>
 import CustomDialog from './CustomDialog.vue';
-import EventBus from '../lib/bus.js';
 
 import State from '../lib/state.js';
 
@@ -88,20 +87,9 @@ export default {
     CustomDialog
   },
   props: ['data'],
-  mounted() {
-    EventBus.$on('downloadMany', this.downloadManyHandler);
-  },
-  beforeDestroy() {
-    EventBus.$off('downloadMany', this.downloadManyHandler);
-  },
   methods: {
     ...mapMutations(['updateFormatIndex', 'removeDownloadable']),
     ...mapActions(['download', 'pause', 'reload']),
-    downloadManyHandler() {
-      if (this.isStopped || this.isPaused) {
-        this.download(this.data.url);
-      }
-    },
     toggleAudioChosen() {
       const newFormatIndex = this.data.formats.findIndex(
         x => x.isAudioOnly === !this.activeFormat.isAudioOnly

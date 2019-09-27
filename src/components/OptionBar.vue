@@ -1,6 +1,6 @@
 <template>
   <div v-show="count > 0" class="bar">
-    <button @click="handleClick">Download All</button>
+    <button @click="downloadMany">Download All</button>
 
     <div class="options">
       <button @click="open">
@@ -54,11 +54,10 @@
 </template>
 
 <script>
-import EventBus from '../lib/bus.js';
 import OnClickOutside from './OnClickOutside.vue';
 import CustomDialog from './CustomDialog.vue';
 
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'option-bar',
@@ -90,6 +89,7 @@ export default {
   },
   computed: mapGetters(['count']),
   methods: {
+    ...mapActions(['downloadMany']),
     handleDialog() {
       // TODO
     },
@@ -104,9 +104,6 @@ export default {
     },
     open() {
       this.isOpen = true;
-    },
-    handleClick() {
-      EventBus.$emit('downloadMany');
     }
   }
 };
