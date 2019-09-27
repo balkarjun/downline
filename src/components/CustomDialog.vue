@@ -11,20 +11,30 @@
         <span v-else>{{ active }}</span>
       </button>
 
-      <div ref="dialog" v-if="isOpen" class="dialog">
+      <div ref="dialog" v-if="isOpen && isObject" class="dialog">
+        <p
+          v-for="option in options"
+          :key="option.code"
+          :class="{ active: option.code === value }"
+          @click="select(option.code)"
+        >
+          <span class="flex">
+            {{ option.quality }}
+            <span v-if="option.code === value" class="light">
+              {{ option.suffix }}
+            </span>
+          </span>
+        </p>
+      </div>
+
+      <div ref="dialog" v-else-if="isOpen" class="dialog">
         <p
           v-for="(option, index) in options"
           :key="index"
           :class="{ active: index === value }"
           @click="select(index)"
         >
-          <span class="flex" v-if="isObject">
-            {{ option.quality }}
-            <span v-if="index === value" class="light">{{
-              option.suffix
-            }}</span>
-          </span>
-          <span v-else>{{ option }}</span>
+          <span>{{ option }}</span>
         </p>
       </div>
     </div>
@@ -39,7 +49,7 @@ export default {
   name: 'custom-dialog',
   props: {
     options: Array,
-    value: Number,
+    value: [Number, String],
     isObject: {
       type: Boolean,
       default: false
@@ -55,6 +65,9 @@ export default {
   },
   computed: {
     active() {
+      if (this.isObject) {
+        return this.options.find(x => x.code === this.value);
+      }
       return this.options[this.value];
     }
   },
@@ -63,15 +76,19 @@ export default {
       this.isOpen = true;
       this.$nextTick(() => {
         this.setupPopper();
-        const activeElement = this.$refs.dialog.children[this.value];
+
+        const index = this.isObject
+          ? this.options.findIndex(x => x.code === this.value)
+          : this.value;
+        const activeElement = this.$refs.dialog.children[index];
         activeElement.scrollIntoView({ block: 'center' });
       });
     },
     close() {
       this.isOpen = false;
     },
-    select(index) {
-      this.$emit('input', index);
+    select(val) {
+      this.$emit('input', val);
       this.close();
     },
     setupPopper() {
