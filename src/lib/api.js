@@ -139,16 +139,14 @@ function getDuration(duration) {
   else return `0:${pad(seconds)}`;
 }
 
-function download({ url, formatCode, isAudio, playlist }) {
+function download({ url, format, playlist }) {
   if (active.size >= db.get('simultaneous')) {
     queue.push(url);
     return null;
   }
 
-  const child = spawn(
-    ytdlPath,
-    generateArgs({ url, formatCode, isAudio, playlist })
-  );
+  const args = generateArgs({ url, format, playlist });
+  const child = spawn(ytdlPath, args);
 
   active.set(url, child.pid);
 
@@ -168,16 +166,16 @@ function download({ url, formatCode, isAudio, playlist }) {
   return child.stdout.pipe(tStream);
 }
 
-function generateArgs({ url, formatCode, isAudio, playlist }) {
+function generateArgs({ url, format, playlist }) {
   let args = [
     '--ffmpeg-location',
     ffmpegPath,
     '-f',
-    formatCode,
+    format.code,
     '-o',
     getOutputFormat(playlist)
   ];
-  args.push(...getAVOptions(isAudio));
+  args.push(...getAVOptions(format.isAudioOnly));
 
   if (db.get('ascii')) {
     args.push('--restrict-filenames');

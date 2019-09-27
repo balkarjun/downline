@@ -124,8 +124,7 @@ export default {
     download() {
       const args = {
         url: this.data.url,
-        formatCode: this.filteredFormats[this.activeIndex].code,
-        isAudio: this.isAudioChosen,
+        format: this.data.formats[this.data.formatIndex],
         playlist: this.data.playlist
       };
 
