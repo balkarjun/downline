@@ -39,6 +39,7 @@ export default new Vuex.Store({
             code: 'bestvideo[height<=720]+bestaudio/best[height<=720]'
           }
         ],
+        formatIndex: 2,
         subtitles: ['pl', 'zh-TW', 'fr', 'ar']
       }
     ],
@@ -66,6 +67,13 @@ export default new Vuex.Store({
     },
     updateLoading(state, newValue) {
       state.nLoading += newValue;
+    },
+    updateFormatIndex(state, { url, value }) {
+      const index = state.downloadables.findIndex(x => x.url === url);
+
+      if (index !== -1) {
+        state.downloadables[index].formatIndex = value;
+      }
     }
   },
   actions: {

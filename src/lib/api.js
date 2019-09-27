@@ -55,12 +55,16 @@ function createDownloadable(data) {
     n_entries
   } = metadata;
 
+  const newFormats = getFormats(formats || metadata.format_id);
+  const formatIndex = newFormats.findIndex(x => x.isAudioOnly === false);
+
   const downloadable = {
     url: webpage_url,
     title: title,
     thumbnail: thumbnail,
     duration: getDuration(duration),
-    formats: getFormats(formats || metadata.format_id),
+    formats: newFormats,
+    formatIndex: formatIndex,
     subtitles: getSubtitles(requested_subtitles),
     playlist: {
       exists: !!playlist,

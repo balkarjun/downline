@@ -14,7 +14,8 @@
             <CustomDialog
               :options="quality"
               :isObject="true"
-              v-model="qualityIndex"
+              :value="quality[qualityIndex].code"
+              @input="handleDialog"
             />
           </div>
 
@@ -71,14 +72,27 @@ export default {
       isAudioChosen: false,
       isSubsChosen: false,
       quality: [
-        { quality: 50, suffix: 'kbps' },
-        { quality: 70, suffix: 'kbps' }
+        {
+          isAudioOnly: true,
+          quality: 50,
+          suffix: 'kbps',
+          code: 'bestaudio[abr<=50]'
+        },
+        {
+          isAudioOnly: false,
+          quality: 480,
+          suffix: 'kbps',
+          code: 'bestvideo[height<=480]+bestaudio/best[height<=480]'
+        }
       ],
       qualityIndex: 0
     };
   },
   computed: mapGetters(['count']),
   methods: {
+    handleDialog() {
+      // TODO
+    },
     toggleSubsChosen() {
       this.isSubsChosen = !this.isSubsChosen;
     },

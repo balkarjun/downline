@@ -29,10 +29,14 @@
         <CustomDialog
           :options="filteredFormats"
           :isObject="true"
-          v-model="activeIndex"
+          :value="activeFormat.code"
+          @input="onFormatUpdate"
         />
 
-        <button @click="toggleAudioChosen" :class="{ active: isAudioChosen }">
+        <button
+          @click="toggleAudioChosen"
+          :class="{ active: activeFormat.isAudioOnly }"
+        >
           <img src="../assets/icons/music_note.svg" />
         </button>
       </div>
@@ -71,6 +75,8 @@ import EventBus from '../lib/bus.js';
 
 import api from '../lib/api.js';
 
+import { mapMutations } from 'vuex';
+
 const State = {
   STOPPED: 0,
   STARTING: 1,
@@ -99,13 +105,12 @@ export default {
   },
   data() {
     return {
-      isAudioChosen: false,
-      activeIndex: 0,
       state: State.STOPPED,
       progress: null
     };
   },
   methods: {
+    ...mapMutations(['updateFormatIndex']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
         this.download();
@@ -158,8 +163,22 @@ export default {
       this.progress = null;
     },
     toggleAudioChosen() {
-      this.isAudioChosen = !this.isAudioChosen;
-      this.activeIndex = 0;
+      const newFormatIndex = this.data.formats.findIndex(
+        x => x.isAudioOnly === !this.activeFormat.isAudioOnly
+      );
+
+      this.updateFormatIndex({
+        url: this.data.url,
+        value: newFormatIndex
+      });
+    },
+    onFormatUpdate(val) {
+      const newFormatIndex = this.data.formats.findIndex(x => x.code === val);
+
+      this.updateFormatIndex({
+        url: this.data.url,
+        value: newFormatIndex
+      });
     }
   },
   computed: {
@@ -184,9 +203,12 @@ export default {
     isCompleted() {
       return this.state === State.COMPLETED;
     },
+    activeFormat() {
+      return this.data.formats[this.data.formatIndex];
+    },
     filteredFormats() {
       return this.data.formats.filter(
-        x => x.isAudioOnly === this.isAudioChosen
+        x => x.isAudioOnly === this.activeFormat.isAudioOnly
       );
     },
     progressInfo() {
