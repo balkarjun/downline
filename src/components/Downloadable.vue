@@ -66,7 +66,10 @@
         v-if="isPaused || isCompleted"
         src="../assets/icons/reload.svg"
       />
-      <img @click="remove" src="../assets/icons/delete.svg" />
+      <img
+        @click="removeDownloadable(data.url)"
+        src="../assets/icons/delete.svg"
+      />
     </section>
   </div>
 </template>
@@ -92,15 +95,12 @@ export default {
     EventBus.$off('downloadMany', this.downloadManyHandler);
   },
   methods: {
-    ...mapMutations(['updateFormatIndex']),
+    ...mapMutations(['updateFormatIndex', 'removeDownloadable']),
     ...mapActions(['download', 'pause', 'reload']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
         this.download(this.data.url);
       }
-    },
-    remove() {
-      this.$emit('remove', this.data.url);
     },
     toggleAudioChosen() {
       const newFormatIndex = this.data.formats.findIndex(

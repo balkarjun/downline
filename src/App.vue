@@ -13,7 +13,6 @@
           v-for="item in downloadables"
           :key="item.url"
           :data="item"
-          @remove="removeDownloadable"
         />
       </div>
     </section>
@@ -36,7 +35,7 @@ import Downloadable from './components/Downloadable.vue';
 import Snackbar from './components/Snackbar.vue';
 import Settings from './views/Settings.vue';
 
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'app',
@@ -56,7 +55,6 @@ export default {
   },
   computed: mapGetters(['downloadables', 'isLoading']),
   methods: {
-    ...mapMutations(['removeDownloadable']),
     ...mapActions(['addDownloadables']),
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
