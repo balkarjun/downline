@@ -75,7 +75,6 @@
 import CustomDialog from './CustomDialog.vue';
 import EventBus from '../lib/bus.js';
 
-import api from '../lib/api.js';
 import State from '../lib/state.js';
 
 import { mapMutations, mapActions } from 'vuex';
@@ -87,13 +86,9 @@ export default {
   },
   props: ['data'],
   mounted() {
-    api.queueEvent.on('dequeue', this.queueHandler);
-
     EventBus.$on('downloadMany', this.downloadManyHandler);
   },
   beforeDestroy() {
-    api.queueEvent.removeListener('dequeue', this.queueHandler);
-
     EventBus.$off('downloadMany', this.downloadManyHandler);
   },
   methods: {
@@ -101,11 +96,6 @@ export default {
     ...mapActions(['download', 'pause', 'reload']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
-        this.download(this.data.url);
-      }
-    },
-    queueHandler(url) {
-      if (this.data.url === url && this.isQueued) {
         this.download(this.data.url);
       }
     },

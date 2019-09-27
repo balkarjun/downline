@@ -6,7 +6,7 @@ import State from './lib/state.js';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     downloadables: [
       {
@@ -148,3 +148,11 @@ export default new Vuex.Store({
     }
   }
 });
+
+api.queueEvent.on('dequeue', url => {
+  if (url) {
+    store.dispatch('download', url);
+  }
+});
+
+export default store;
