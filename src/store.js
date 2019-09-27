@@ -101,6 +101,42 @@ export default new Vuex.Store({
       info.on('data', data => commit('addDownloadable', data));
 
       info.on('end', () => commit('updateLoading', -1));
+    },
+    download({ state, commit }, url) {
+      const index = state.downloadables.findIndex(x => x.url === url);
+
+      const args = {
+        url,
+        format:
+          state.downloadables[index].formats[
+            state.downloadables[index].formatIndex
+          ],
+        playlist: state.downloadables[index].playlist
+      };
+
+      const process = api.download(args);
+
+      if (process === null) {
+        commit('updateState', { url, value: State.QUEUED });
+        return;
+      }
+
+      commit('updateState', { url, value: State.STARTING });
+
+      process.on('data', data => {
+        if (data === 'processing') {
+          commit('updateState', { url, value: State.PROCESSING });
+        } else if (data !== '') {
+          commit('updateProgress', { url, value: data });
+          commit('updateState', { url, value: State.DOWNLOADING });
+        }
+      });
+
+      process.on('end', () => {
+        if (state.downloadables[index].state !== State.PAUSED) {
+          commit('updateState', { url, value: State.COMPLETED });
+        }
+      });
     }
   }
 });

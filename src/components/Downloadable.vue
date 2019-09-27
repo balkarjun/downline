@@ -9,7 +9,7 @@
         <img v-if="isCompleted" src="../assets/icons/done.svg" />
         <img
           v-else-if="isStopped || isPaused"
-          @click="download"
+          @click="download(data.url)"
           src="../assets/icons/download.svg"
           class="pointer"
         />
@@ -78,7 +78,7 @@ import EventBus from '../lib/bus.js';
 import api from '../lib/api.js';
 import State from '../lib/state.js';
 
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'downloadable',
@@ -98,63 +98,16 @@ export default {
   },
   methods: {
     ...mapMutations(['updateFormatIndex', 'updateState', 'updateProgress']),
+    ...mapActions(['download']),
     downloadManyHandler() {
       if (this.isStopped || this.isPaused) {
-        this.download();
+        this.download(this.data.url);
       }
     },
     queueHandler(url) {
       if (this.data.url === url && this.isQueued) {
-        this.download();
+        this.download(this.data.url);
       }
-    },
-    download() {
-      const args = {
-        url: this.data.url,
-        format: this.data.formats[this.data.formatIndex],
-        playlist: this.data.playlist
-      };
-
-      const process = api.download(args);
-      if (process === null) {
-        this.updateState({
-          url: this.data.url,
-          value: State.QUEUED
-        });
-        return;
-      }
-
-      this.updateState({
-        url: this.data.url,
-        value: State.STARTING
-      });
-      process.on('data', data => {
-        if (data === 'processing') {
-          this.updateState({
-            url: this.data.url,
-            value: State.PROCESSING
-          });
-        } else if (data !== '') {
-          this.updateProgress({
-            url: this.data.url,
-            value: data
-          });
-
-          this.updateState({
-            url: this.data.url,
-            value: State.DOWNLOADING
-          });
-        }
-      });
-
-      process.on('end', () => {
-        if (!this.isPaused) {
-          this.updateState({
-            url: this.data.url,
-            value: State.COMPLETED
-          });
-        }
-      });
     },
     pause() {
       this.updateState({
