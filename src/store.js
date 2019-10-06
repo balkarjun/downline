@@ -66,14 +66,14 @@ const store = new Vuex.Store({
   },
   mutations: {
     addDownloadable(state, data) {
-      const index = state.downloadables.findIndex(x => x.url === data.url);
+      const index = getIndex(data.url);
 
       if (index === -1) {
         state.downloadables.push(data);
       }
     },
     removeDownloadable(state, url) {
-      const index = state.downloadables.findIndex(x => x.url === url);
+      const index = getIndex(url);
 
       if (index !== -1) {
         state.downloadables.splice(index, 1);
@@ -83,21 +83,21 @@ const store = new Vuex.Store({
       state.nLoading += newValue;
     },
     updateFormatIndex(state, { url, value }) {
-      const index = state.downloadables.findIndex(x => x.url === url);
+      const index = getIndex(url);
 
       if (index !== -1) {
         state.downloadables[index].formatIndex = value;
       }
     },
     updateState(state, { url, value }) {
-      const index = state.downloadables.findIndex(x => x.url === url);
+      const index = getIndex(url);
 
       if (index !== -1) {
         state.downloadables[index].state = value;
       }
     },
     updateProgress(state, { url, value }) {
-      const index = state.downloadables.findIndex(x => x.url === url);
+      const index = getIndex(url);
 
       if (index !== -1) {
         state.downloadables[index].progress = value;
@@ -114,7 +114,7 @@ const store = new Vuex.Store({
       info.on('end', () => commit('updateLoading', -1));
     },
     download({ state, commit }, url) {
-      const index = state.downloadables.findIndex(x => x.url === url);
+      const index = getIndex(url);
 
       const args = {
         url,
@@ -197,6 +197,10 @@ const store = new Vuex.Store({
     }
   }
 });
+
+function getIndex(url) {
+  return store.state.downloadables.findIndex(x => x.url === url);
+}
 
 api.queueEvent.on('dequeue', url => {
   if (url) {
