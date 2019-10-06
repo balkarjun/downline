@@ -174,6 +174,26 @@ const store = new Vuex.Store({
           dispatch('pause', item.url);
         }
       });
+    },
+    clearAll({ state, commit }) {
+      const answer = confirm(
+        `Do you want to delete all ${state.downloadables.length} item(s)?`
+      );
+
+      if (answer) {
+        const urls = state.downloadables.map(x => x.url);
+        urls.forEach(url => commit('removeDownloadable', url));
+      }
+    },
+    clearCompleted({ state, commit }) {
+      const answer = confirm(`Do you want to delete all completed item(s)?`);
+
+      if (answer) {
+        const urls = state.downloadables
+          .filter(x => x.state === State.COMPLETED)
+          .map(x => x.url);
+        urls.forEach(url => commit('removeDownloadable', url));
+      }
     }
   }
 });

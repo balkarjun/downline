@@ -40,8 +40,8 @@
           <hr />
 
           <div class="buttons">
-            <button>Clear All</button>
-            <button>Clear Completed</button>
+            <button @click="clearAll">Clear All</button>
+            <button @click="clearCompleted">Clear Completed</button>
           </div>
         </div>
       </OnClickOutside>
@@ -90,7 +90,7 @@ export default {
   },
   computed: mapGetters(['count', 'canDownloadMany']),
   methods: {
-    ...mapActions(['downloadMany', 'pauseMany']),
+    ...mapActions(['downloadMany', 'pauseMany', 'clearAll', 'clearCompleted']),
     handleDialog() {
       // TODO
     },
