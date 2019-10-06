@@ -60,7 +60,7 @@ const store = new Vuex.Store({
     count: state => state.downloadables.length,
     canDownloadMany: state => {
       return state.downloadables.some(
-        x => x.state === State.STOPPED || x.state === State.PAUSED
+        x => State.isStopped(x.state) || State.isPaused(x.state)
       );
     }
   },
@@ -144,7 +144,7 @@ const store = new Vuex.Store({
       });
 
       process.on('end', () => {
-        if (state.downloadables[index].state !== State.PAUSED) {
+        if (!State.isPaused(state.downloadables[index].state)) {
           commit('updateState', { url, value: State.COMPLETED });
         }
       });
@@ -159,7 +159,7 @@ const store = new Vuex.Store({
     },
     downloadMany({ state, dispatch }) {
       state.downloadables.forEach(item => {
-        if (item.state === State.STOPPED || item.state === State.PAUSED) {
+        if (State.isStopped(item.state) || State.isPaused(item.state)) {
           dispatch('download', item.url);
         }
       });
@@ -167,9 +167,9 @@ const store = new Vuex.Store({
     pauseMany({ state, dispatch }) {
       state.downloadables.forEach(item => {
         if (
-          item.state !== State.STOPPED &&
-          item.state !== State.PAUSED &&
-          item.state !== State.COMPLETED
+          !State.isStopped(item.state) &&
+          !State.isPaused(item.state) &&
+          !State.isCompleted(item.state)
         ) {
           dispatch('pause', item.url);
         }
@@ -190,7 +190,7 @@ const store = new Vuex.Store({
 
       if (answer) {
         const urls = state.downloadables
-          .filter(x => x.state === State.COMPLETED)
+          .filter(x => State.isCompleted(x.state))
           .map(x => x.url);
         urls.forEach(url => commit('removeDownloadable', url));
       }

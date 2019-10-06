@@ -111,25 +111,25 @@ export default {
   },
   computed: {
     isStopped() {
-      return this.data.state === State.STOPPED;
+      return State.isStopped(this.data.state);
     },
     isStarting() {
-      return this.data.state === State.STARTING;
+      return State.isStarting(this.data.state);
     },
     isDownloading() {
-      return this.data.state === State.DOWNLOADING;
+      return State.isDownloading(this.data.state);
     },
     isProcessing() {
-      return this.data.state === State.PROCESSING;
+      return State.isProcessing(this.data.state);
     },
     isPaused() {
-      return this.data.state === State.PAUSED;
+      return State.isPaused(this.data.state);
     },
     isQueued() {
-      return this.data.state === State.QUEUED;
+      return State.isQueued(this.data.state);
     },
     isCompleted() {
-      return this.data.state === State.COMPLETED;
+      return State.isCompleted(this.data.state);
     },
     activeFormat() {
       return this.data.formats[this.data.formatIndex];
