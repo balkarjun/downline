@@ -22,7 +22,13 @@
       </div>
     </section>
 
-    <section id="middle">
+    <OnClickOutside :do="closeContextMenu">
+      <div v-show="showContextMenu" ref="contextMenu" class="context-menu">
+        <p @click="copyLink">Copy Link</p>
+      </div>
+    </OnClickOutside>
+
+    <section id="middle" @contextmenu.prevent="openContextMenu($event)">
       <p class="title">{{ data.title }}</p>
 
       <div v-if="isStopped" class="options">
@@ -75,16 +81,24 @@
 </template>
 
 <script>
+import OnClickOutside from '../components/OnClickOutside.vue';
 import CustomDialog from './CustomDialog.vue';
 
 import State from '../lib/state.js';
+const { clipboard } = window.require('electron');
 
 import { mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'downloadable',
   components: {
+    OnClickOutside,
     CustomDialog
+  },
+  data() {
+    return {
+      showContextMenu: false
+    };
   },
   props: ['data'],
   methods: {
@@ -107,6 +121,19 @@ export default {
         url: this.data.url,
         value: newFormatIndex
       });
+    },
+    copyLink() {
+      clipboard.writeText(this.data.url);
+      this.closeContextMenu();
+    },
+    openContextMenu() {
+      this.showContextMenu = true;
+      const element = this.$refs.contextMenu;
+      element.style.left = `${event.pageX}px`;
+      element.style.top = `${event.pageY}px`;
+    },
+    closeContextMenu() {
+      this.showContextMenu = false;
     }
   },
   computed: {
@@ -229,6 +256,29 @@ export default {
 
 .pointer {
   cursor: pointer;
+}
+
+.context-menu {
+  width: 110px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.context-menu p {
+  padding-left: 16px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+.context-menu p:hover {
+  background-color: whitesmoke;
 }
 
 #middle {
