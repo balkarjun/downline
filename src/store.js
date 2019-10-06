@@ -57,7 +57,12 @@ const store = new Vuex.Store({
   getters: {
     downloadables: state => state.downloadables,
     isLoading: state => state.nLoading > 0,
-    count: state => state.downloadables.length
+    count: state => state.downloadables.length,
+    canDownloadMany: state => {
+      return state.downloadables.some(
+        x => x.state === State.STOPPED || x.state === State.PAUSED
+      );
+    }
   },
   mutations: {
     addDownloadable(state, data) {
@@ -156,6 +161,17 @@ const store = new Vuex.Store({
       state.downloadables.forEach(item => {
         if (item.state === State.STOPPED || item.state === State.PAUSED) {
           dispatch('download', item.url);
+        }
+      });
+    },
+    pauseMany({ state, dispatch }) {
+      state.downloadables.forEach(item => {
+        if (
+          item.state !== State.STOPPED &&
+          item.state !== State.PAUSED &&
+          item.state !== State.COMPLETED
+        ) {
+          dispatch('pause', item.url);
         }
       });
     }

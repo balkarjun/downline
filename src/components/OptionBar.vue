@@ -1,6 +1,7 @@
 <template>
   <div v-show="count > 0" class="bar">
-    <button @click="downloadMany">Download All</button>
+    <button v-if="canDownloadMany" @click="downloadMany">Download All</button>
+    <button v-else @click="pauseMany">Pause All</button>
 
     <div class="options">
       <button @click="open">
@@ -87,9 +88,9 @@ export default {
       qualityIndex: 0
     };
   },
-  computed: mapGetters(['count']),
+  computed: mapGetters(['count', 'canDownloadMany']),
   methods: {
-    ...mapActions(['downloadMany']),
+    ...mapActions(['downloadMany', 'pauseMany']),
     handleDialog() {
       // TODO
     },
