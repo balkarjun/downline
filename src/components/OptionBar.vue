@@ -23,8 +23,8 @@
           <div class="option">
             Audio Only
             <button
-              @click="toggleAudioChosen"
-              :class="{ active: isAudioChosen }"
+              @click="toggleAllAudioChosen(!isAllAudioChosen)"
+              :class="{ active: isAllAudioChosen }"
             >
               <img src="../assets/icons/music_note.svg" />
             </button>
@@ -88,17 +88,20 @@ export default {
       qualityIndex: 0
     };
   },
-  computed: mapGetters(['count', 'canDownloadMany']),
+  computed: mapGetters(['count', 'canDownloadMany', 'isAllAudioChosen']),
   methods: {
-    ...mapActions(['downloadMany', 'pauseMany', 'clearAll', 'clearCompleted']),
-    handleDialog() {
-      // TODO
+    ...mapActions([
+      'downloadMany',
+      'pauseMany',
+      'clearAll',
+      'clearCompleted',
+      'toggleAllAudioChosen'
+    ]),
+    handleDialog(value) {
+      console.log(value);
     },
     toggleSubsChosen() {
       this.isSubsChosen = !this.isSubsChosen;
-    },
-    toggleAudioChosen() {
-      this.isAudioChosen = !this.isAudioChosen;
     },
     close() {
       this.isOpen = false;

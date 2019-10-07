@@ -62,6 +62,11 @@ const store = new Vuex.Store({
       return state.downloadables.some(
         x => State.isStopped(x.state) || State.isPaused(x.state)
       );
+    },
+    isAllAudioChosen: state => {
+      return !state.downloadables
+        .map(item => item.formats[item.formatIndex].isAudioOnly)
+        .some(item => item === false);
     }
   },
   mutations: {
@@ -194,6 +199,23 @@ const store = new Vuex.Store({
           .map(x => x.url);
         urls.forEach(url => commit('removeDownloadable', url));
       }
+    },
+    toggleAllAudioChosen({ state, commit }, newValue) {
+      let updates = [];
+      state.downloadables.forEach(item => {
+        if (item.formats[item.formatIndex].isAudioOnly === newValue) {
+          return;
+        }
+
+        const newFormatIndex = item.formats.findIndex(
+          x => x.isAudioOnly === newValue
+        );
+        updates.push({ url: item.url, value: newFormatIndex });
+      });
+
+      updates.forEach(update => {
+        commit('updateFormatIndex', update);
+      });
     }
   }
 });
