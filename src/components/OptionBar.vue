@@ -154,6 +154,7 @@ hr {
   box-sizing: border-box;
   border-radius: 4px;
   padding: 4px 0;
+  z-index: 1;
 }
 
 .option {
