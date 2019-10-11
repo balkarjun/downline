@@ -36,11 +36,16 @@
           :options="filteredFormats"
           :isObject="true"
           :value="activeFormat.code"
-          @input="onFormatUpdate"
+          @input="onFormatChange"
         />
 
         <button
-          @click="toggleAudioChosen"
+          @click="
+            toggleAudioChosen({
+              url: data.url,
+              newValue: !activeFormat.isAudioOnly
+            })
+          "
           :class="{ active: activeFormat.isAudioOnly }"
         >
           <img src="../assets/icons/music_note.svg" />
@@ -84,7 +89,7 @@ import CustomDialog from './CustomDialog.vue';
 import State from '../lib/state.js';
 const { clipboard } = window.require('electron');
 
-import { mapMutations, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'downloadable',
@@ -99,25 +104,16 @@ export default {
   },
   props: ['data'],
   methods: {
-    ...mapMutations(['updateFormatIndex']),
-    ...mapActions(['download', 'pause', 'reload', 'remove']),
-    toggleAudioChosen() {
-      const newFormatIndex = this.data.formats.findIndex(
-        x => x.isAudioOnly === !this.activeFormat.isAudioOnly
-      );
-
-      this.updateFormatIndex({
-        url: this.data.url,
-        value: newFormatIndex
-      });
-    },
-    onFormatUpdate(val) {
-      const newFormatIndex = this.data.formats.findIndex(x => x.code === val);
-
-      this.updateFormatIndex({
-        url: this.data.url,
-        value: newFormatIndex
-      });
+    ...mapActions([
+      'download',
+      'pause',
+      'reload',
+      'remove',
+      'toggleAudioChosen',
+      'updateFormat'
+    ]),
+    onFormatChange(code) {
+      this.updateFormat({ code, url: this.data.url });
     },
     copyLink() {
       clipboard.writeText(this.data.url);

@@ -70,32 +70,23 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    mAdd(state, data) {
+    add(state, data) {
       state.downloadables.push(data);
+    },
+    remove(state, index) {
+      state.downloadables.splice(index, 1);
+    },
+    updateState(state, { index, value }) {
+      state.downloadables[index].state = value;
+    },
+    updateProgress(state, { index, value }) {
+      state.downloadables[index].progress = value;
+    },
+    updateFormatIndex(state, { index, value }) {
+      state.downloadables[index].formatIndex = value;
     },
     updateLoading(state, newValue) {
       state.nLoading += newValue;
-    },
-    updateFormatIndex(state, { url, value }) {
-      const index = getIndex(url);
-
-      if (index !== -1) {
-        state.downloadables[index].formatIndex = value;
-      }
-    },
-    updateState(state, { url, value }) {
-      const index = getIndex(url);
-
-      if (index !== -1) {
-        state.downloadables[index].state = value;
-      }
-    },
-    updateProgress(state, { url, value }) {
-      const index = getIndex(url);
-
-      if (index !== -1) {
-        state.downloadables[index].progress = value;
-      }
     }
   },
   actions: {
@@ -104,15 +95,14 @@ const store = new Vuex.Store({
 
       const info = api.fetchInfo(links);
       info.on('data', data => {
-        const index = getIndex(data.url);
-        if (index === -1) {
-          commit('mAdd', data);
+        if (getIndex(data.url) === -1) {
+          commit('add', data);
         }
       });
 
       info.on('end', () => commit('updateLoading', -1));
     },
-    remove({ state, dispatch }, url) {
+    remove({ state, dispatch, commit }, url) {
       const index = getIndex(url);
 
       if (index !== -1) {
@@ -125,7 +115,7 @@ const store = new Vuex.Store({
         ) {
           dispatch('pause', url);
         }
-        state.downloadables.splice(index, 1);
+        commit('remove', index);
       }
     },
     download({ state, commit }, url) {
@@ -137,35 +127,38 @@ const store = new Vuex.Store({
       const process = api.download(args);
 
       if (process === null) {
-        commit('updateState', { url, value: State.QUEUED });
+        commit('updateState', { index, value: State.QUEUED });
         return;
       }
 
-      commit('updateState', { url, value: State.STARTING });
+      commit('updateState', { index, value: State.STARTING });
 
       process.on('data', data => {
+        const index = getIndex(url);
         if (data === 'processing') {
-          commit('updateState', { url, value: State.PROCESSING });
+          commit('updateState', { index, value: State.PROCESSING });
         } else if (data !== '') {
-          commit('updateProgress', { url, value: data });
-          commit('updateState', { url, value: State.DOWNLOADING });
+          commit('updateState', { index, value: State.DOWNLOADING });
+          commit('updateProgress', { index, value: data });
         }
       });
 
       process.on('end', () => {
         index = getIndex(url);
         if (!State.isPaused(state.downloadables[index].state)) {
-          commit('updateState', { url, value: State.COMPLETED });
+          commit('updateState', { index, value: State.COMPLETED });
         }
       });
     },
     pause({ commit }, url) {
-      commit('updateState', { url, value: State.PAUSED });
+      const index = getIndex(url);
+      commit('updateState', { index, value: State.PAUSED });
       api.pause(url);
     },
     reload({ commit }, url) {
-      commit('updateState', { url, value: State.STOPPED });
-      commit('updateProgress', { url, value: null });
+      const index = getIndex(url);
+      commit('updateState', { index, value: State.STOPPED });
+      commit('updateProgress', { index, value: null });
     },
     downloadMany({ state, dispatch }) {
       state.downloadables.forEach(item => {
@@ -205,22 +198,29 @@ const store = new Vuex.Store({
         urls.forEach(url => dispatch('remove', url));
       }
     },
+    updateFormat({ state, commit }, payload) {
+      const index = getIndex(payload.url);
+      const value = state.downloadables[index].formats.findIndex(
+        x => x.code === payload.code
+      );
+      commit('updateFormatIndex', { index, value });
+    },
+    toggleAudioChosen({ state, commit }, payload) {
+      const index = getIndex(payload.url);
+      const value = state.downloadables[index].formats.findIndex(
+        x => x.isAudioOnly === payload.newValue
+      );
+      commit('updateFormatIndex', { index, value });
+    },
     toggleAllAudioChosen({ state, commit }, newValue) {
-      let updates = [];
-      state.downloadables.forEach(item => {
-        if (item.formats[item.formatIndex].isAudioOnly === newValue) {
-          return;
-        }
+      for (let index = 0; index < state.downloadables.length; index++) {
+        const { formats, formatIndex } = state.downloadables[index];
 
-        const newFormatIndex = item.formats.findIndex(
-          x => x.isAudioOnly === newValue
-        );
-        updates.push({ url: item.url, value: newFormatIndex });
-      });
+        if (formats[formatIndex].isAudioOnly === newValue) continue;
 
-      updates.forEach(update => {
-        commit('updateFormatIndex', update);
-      });
+        const value = formats.findIndex(x => x.isAudioOnly === newValue);
+        commit('updateFormatIndex', { index, value });
+      }
     }
   }
 });
