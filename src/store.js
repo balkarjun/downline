@@ -128,16 +128,10 @@ const store = new Vuex.Store({
       info.on('end', () => commit('updateLoading', -1));
     },
     download({ state, commit }, url) {
-      const index = getIndex(url);
+      let index = getIndex(url);
 
-      const args = {
-        url,
-        format:
-          state.downloadables[index].formats[
-            state.downloadables[index].formatIndex
-          ],
-        playlist: state.downloadables[index].playlist
-      };
+      const { formats, formatIndex, playlist } = state.downloadables[index];
+      const args = { url, playlist, format: formats[formatIndex] };
 
       const process = api.download(args);
 
@@ -158,9 +152,8 @@ const store = new Vuex.Store({
       });
 
       process.on('end', () => {
-        const itemIndex = getIndex(url);
-        const itemState = state.downloadables[itemIndex].state;
-        if (!State.isPaused(itemState)) {
+        index = getIndex(url);
+        if (!State.isPaused(state.downloadables[index].state)) {
           commit('updateState', { url, value: State.COMPLETED });
         }
       });
