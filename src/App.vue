@@ -4,7 +4,7 @@
 
     <section class="page-home" v-show="page === 'home'">
       <div :class="{ shadow: scrolled }">
-        <InputBar @output="addDownloadables" />
+        <InputBar @output="add" />
         <OptionBar />
       </div>
 
@@ -55,7 +55,7 @@ export default {
   },
   computed: mapGetters(['downloadables', 'isLoading']),
   methods: {
-    ...mapActions(['addDownloadables']),
+    ...mapActions(['add']),
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
     }

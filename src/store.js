@@ -70,12 +70,8 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    addDownloadable(state, data) {
-      const index = getIndex(data.url);
-
-      if (index === -1) {
-        state.downloadables.push(data);
-      }
+    mAdd(state, data) {
+      state.downloadables.push(data);
     },
     updateLoading(state, newValue) {
       state.nLoading += newValue;
@@ -103,6 +99,19 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    add({ commit }, links) {
+      commit('updateLoading', 1);
+
+      const info = api.fetchInfo(links);
+      info.on('data', data => {
+        const index = getIndex(data.url);
+        if (index === -1) {
+          commit('mAdd', data);
+        }
+      });
+
+      info.on('end', () => commit('updateLoading', -1));
+    },
     remove({ state, dispatch }, url) {
       const index = getIndex(url);
 
@@ -118,14 +127,6 @@ const store = new Vuex.Store({
         }
         state.downloadables.splice(index, 1);
       }
-    },
-    addDownloadables({ commit }, links) {
-      commit('updateLoading', 1);
-
-      const info = api.fetchInfo(links);
-      info.on('data', data => commit('addDownloadable', data));
-
-      info.on('end', () => commit('updateLoading', -1));
     },
     download({ state, commit }, url) {
       let index = getIndex(url);
