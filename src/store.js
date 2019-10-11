@@ -158,7 +158,9 @@ const store = new Vuex.Store({
       });
 
       process.on('end', () => {
-        if (!State.isPaused(state.downloadables[index].state)) {
+        const itemIndex = getIndex(url);
+        const itemState = state.downloadables[itemIndex].state;
+        if (!State.isPaused(itemState)) {
           commit('updateState', { url, value: State.COMPLETED });
         }
       });
