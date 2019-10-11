@@ -93,10 +93,23 @@ export default {
     ...mapActions([
       'downloadMany',
       'pauseMany',
-      'clearAll',
-      'clearCompleted',
+      'clearMany',
       'toggleAllAudioChosen'
     ]),
+    clearAll() {
+      this.close();
+      const answer = confirm(
+        `Do you want to delete all ${this.count} item(s)?`
+      );
+
+      if (answer) this.clearMany(true);
+    },
+    clearCompleted() {
+      this.close();
+      const answer = confirm(`Do you want to delete all completed item(s)?`);
+
+      if (answer) this.clearMany(false);
+    },
     handleDialog(value) {
       console.log(value);
     },

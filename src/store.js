@@ -178,25 +178,14 @@ const store = new Vuex.Store({
         }
       });
     },
-    clearAll({ state, dispatch }) {
-      const answer = confirm(
-        `Do you want to delete all ${state.downloadables.length} item(s)?`
-      );
-
-      if (answer) {
-        const urls = state.downloadables.map(x => x.url);
-        urls.forEach(url => dispatch('remove', url));
+    clearMany({ state, dispatch }, shouldClearAll) {
+      let urls = state.downloadables;
+      if (!shouldClearAll) {
+        urls = urls.filter(x => State.isCompleted(x.state));
       }
-    },
-    clearCompleted({ state, dispatch }) {
-      const answer = confirm(`Do you want to delete all completed item(s)?`);
 
-      if (answer) {
-        const urls = state.downloadables
-          .filter(x => State.isCompleted(x.state))
-          .map(x => x.url);
-        urls.forEach(url => dispatch('remove', url));
-      }
+      urls = urls.map(x => x.url);
+      urls.forEach(url => dispatch('remove', url));
     },
     updateFormat({ state, commit }, payload) {
       const index = getIndex(payload.url);
