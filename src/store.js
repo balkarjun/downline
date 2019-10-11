@@ -77,13 +77,6 @@ const store = new Vuex.Store({
         state.downloadables.push(data);
       }
     },
-    removeDownloadable(state, url) {
-      const index = getIndex(url);
-
-      if (index !== -1) {
-        state.downloadables.splice(index, 1);
-      }
-    },
     updateLoading(state, newValue) {
       state.nLoading += newValue;
     },
@@ -110,6 +103,22 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    remove({ state, dispatch }, url) {
+      const index = getIndex(url);
+
+      if (index !== -1) {
+        const itemState = state.downloadables[index].state;
+        if (
+          State.isStarting(itemState) ||
+          State.isDownloading(itemState) ||
+          State.isProcessing(itemState) ||
+          State.isQueued(itemState)
+        ) {
+          dispatch('pause', url);
+        }
+        state.downloadables.splice(index, 1);
+      }
+    },
     addDownloadables({ commit }, links) {
       commit('updateLoading', 1);
 
@@ -180,24 +189,24 @@ const store = new Vuex.Store({
         }
       });
     },
-    clearAll({ state, commit }) {
+    clearAll({ state, dispatch }) {
       const answer = confirm(
         `Do you want to delete all ${state.downloadables.length} item(s)?`
       );
 
       if (answer) {
         const urls = state.downloadables.map(x => x.url);
-        urls.forEach(url => commit('removeDownloadable', url));
+        urls.forEach(url => dispatch('remove', url));
       }
     },
-    clearCompleted({ state, commit }) {
+    clearCompleted({ state, dispatch }) {
       const answer = confirm(`Do you want to delete all completed item(s)?`);
 
       if (answer) {
         const urls = state.downloadables
           .filter(x => State.isCompleted(x.state))
           .map(x => x.url);
-        urls.forEach(url => commit('removeDownloadable', url));
+        urls.forEach(url => dispatch('remove', url));
       }
     },
     toggleAllAudioChosen({ state, commit }, newValue) {

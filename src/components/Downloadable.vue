@@ -72,10 +72,7 @@
         v-if="isPaused || isCompleted"
         src="../assets/icons/reload.svg"
       />
-      <img
-        @click="removeDownloadable(data.url)"
-        src="../assets/icons/delete.svg"
-      />
+      <img @click="remove(data.url)" src="../assets/icons/delete.svg" />
     </section>
   </div>
 </template>
@@ -102,8 +99,8 @@ export default {
   },
   props: ['data'],
   methods: {
-    ...mapMutations(['updateFormatIndex', 'removeDownloadable']),
-    ...mapActions(['download', 'pause', 'reload']),
+    ...mapMutations(['updateFormatIndex']),
+    ...mapActions(['download', 'pause', 'reload', 'remove']),
     toggleAudioChosen() {
       const newFormatIndex = this.data.formats.findIndex(
         x => x.isAudioOnly === !this.activeFormat.isAudioOnly
