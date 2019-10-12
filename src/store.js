@@ -52,7 +52,10 @@ const store = new Vuex.Store({
         }
       }
     ],
-    nLoading: 0
+    nLoading: 0,
+    isOpen: false,
+    message: '',
+    success: null
   },
   getters: {
     downloadables: state => state.downloadables,
@@ -67,9 +70,24 @@ const store = new Vuex.Store({
       return !state.downloadables
         .map(item => item.formats[item.formatIndex].isAudioOnly)
         .some(item => item === false);
-    }
+    },
+    isConfirmOpen: state => state.isOpen,
+    confirmMessage: state => state.message
   },
   mutations: {
+    openConfirm(state, { message, success }) {
+      state.isOpen = true;
+      state.message = message;
+      state.success = success;
+    },
+    closeConfirm(state, result) {
+      state.isOpen = false;
+      if (result) {
+        state.success();
+      }
+      state.message = '';
+      state.success = null;
+    },
     add(state, data) {
       state.downloadables.push(data);
     },

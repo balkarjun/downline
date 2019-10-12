@@ -58,7 +58,7 @@
 import OnClickOutside from './OnClickOutside.vue';
 import CustomDialog from './CustomDialog.vue';
 
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'option-bar',
@@ -90,25 +90,27 @@ export default {
   },
   computed: mapGetters(['count', 'canDownloadMany', 'isAllAudioChosen']),
   methods: {
+    ...mapMutations(['openConfirm']),
     ...mapActions([
       'downloadMany',
       'pauseMany',
       'clearMany',
-      'toggleAllAudioChosen'
+      'toggleAllAudioChosen',
+      'confirm'
     ]),
     clearAll() {
       this.close();
-      const answer = confirm(
-        `Do you want to delete all ${this.count} item(s)?`
-      );
 
-      if (answer) this.clearMany(true);
+      const message = `Do you want to delete all ${this.count} item(s)?`;
+      const success = () => this.clearMany(true);
+      this.openConfirm({ message, success });
     },
     clearCompleted() {
       this.close();
-      const answer = confirm(`Do you want to delete all completed item(s)?`);
 
-      if (answer) this.clearMany(false);
+      const message = 'Do you want to delete all completed item(s)?';
+      const success = () => this.clearMany(false);
+      this.openConfirm({ message, success });
     },
     handleDialog(value) {
       console.log(value);

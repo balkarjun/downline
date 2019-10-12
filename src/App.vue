@@ -24,6 +24,17 @@
     <Snackbar v-show="isLoading">
       <p class="slot">Loading Links</p>
     </Snackbar>
+
+    <div v-if="isConfirmOpen" class="confirm-dialog">
+      <OnClickOutside :do="() => this.closeConfirm(false)">
+        <div class="confirm-dialog-content">
+          <p>{{ confirmMessage }}</p>
+
+          <button @click="() => this.closeConfirm(true)">Yes</button>
+          <button @click="() => this.closeConfirm(false)">Cancel</button>
+        </div>
+      </OnClickOutside>
+    </div>
   </main>
 </template>
 
@@ -34,8 +45,9 @@ import OptionBar from './components/OptionBar.vue';
 import Downloadable from './components/Downloadable.vue';
 import Snackbar from './components/Snackbar.vue';
 import Settings from './views/Settings.vue';
+import OnClickOutside from './components/OnClickOutside.vue';
 
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'app',
@@ -45,7 +57,8 @@ export default {
     OptionBar,
     Downloadable,
     Snackbar,
-    Settings
+    Settings,
+    OnClickOutside
   },
   data() {
     return {
@@ -53,8 +66,14 @@ export default {
       page: 'home'
     };
   },
-  computed: mapGetters(['downloadables', 'isLoading']),
+  computed: mapGetters([
+    'downloadables',
+    'isLoading',
+    'isConfirmOpen',
+    'confirmMessage'
+  ]),
   methods: {
+    ...mapMutations(['closeConfirm']),
     ...mapActions(['add']),
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
@@ -128,5 +147,14 @@ main {
 
 .light {
   color: gray;
+}
+
+.confirm-dialog-content {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: teal;
 }
 </style>
