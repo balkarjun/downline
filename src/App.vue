@@ -28,10 +28,23 @@
     <div v-if="isConfirmOpen" class="confirm-dialog">
       <OnClickOutside :do="() => this.closeConfirm(false)">
         <div class="confirm-dialog-content">
-          <p>{{ confirmMessage }}</p>
+          <label>{{ confirmMessage.title }}</label>
+          <p>{{ confirmMessage.content }}</p>
 
-          <button @click="() => this.closeConfirm(true)">Yes</button>
-          <button @click="() => this.closeConfirm(false)">Cancel</button>
+          <div class="confirm-dialog-buttons">
+            <button
+              class="confirm-button"
+              @click="() => this.closeConfirm(true)"
+            >
+              Yes
+            </button>
+            <button
+              class="cancel-button"
+              @click="() => this.closeConfirm(false)"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </OnClickOutside>
     </div>
@@ -150,11 +163,55 @@ main {
 }
 
 .confirm-dialog-content {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 126px;
   position: absolute;
-  top: 0;
-  left: 0;
-  background-color: teal;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+  background-color: #212121;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-dialog-content label {
+  display: block;
+  padding-top: 16px;
+  padding-left: 22px;
+  color: white;
+}
+
+.confirm-dialog-content p {
+  padding-top: 4px;
+  padding-left: 22px;
+  color: #aaaaaa;
+}
+
+.confirm-dialog-buttons {
+  margin-top: auto;
+  height: 46px;
+  background-color: #2a2a2a;
+  display: flex;
+  border-radius: 0 0 4px 4px;
+  align-items: center;
+}
+
+.confirm-dialog-buttons .confirm-button {
+  padding: 0 16px;
+  height: 30px;
+  color: white;
+  background-color: transparent;
+  margin-left: auto;
+}
+
+.confirm-dialog-buttons .cancel-button {
+  background-color: #404040;
+  padding: 0 16px;
+  height: 30px;
+  border-radius: 4px;
+  color: white;
+  margin-right: 8px;
 }
 </style>

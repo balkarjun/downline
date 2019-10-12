@@ -101,14 +101,20 @@ export default {
     clearAll() {
       this.close();
 
-      const message = `Do you want to delete all ${this.count} item(s)?`;
+      const message = {
+        title: 'Clear All',
+        content: `Delete all ${this.count} item(s)?`
+      };
       const success = () => this.clearMany(true);
       this.openConfirm({ message, success });
     },
     clearCompleted() {
       this.close();
 
-      const message = 'Do you want to delete all completed item(s)?';
+      const message = {
+        title: 'Clear Completed',
+        content: 'Delete all completed item(s)?'
+      };
       const success = () => this.clearMany(false);
       this.openConfirm({ message, success });
     },
