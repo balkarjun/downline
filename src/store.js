@@ -89,7 +89,6 @@ const store = new Vuex.Store({
         });
       });
 
-      console.table(formats);
       return formats;
     },
     globalQualityIndex: state => state.globalQualityIndex,

@@ -8,8 +8,8 @@
         <img src="../assets/icons/options.svg" />
       </button>
 
-      <OnClickOutside :do="close">
-        <div class="dialog" v-show="isOpen">
+      <OnClickOutside v-if="isOpen" :do="close">
+        <div class="dialog">
           <div class="option">
             Quality
             <CustomDialog
