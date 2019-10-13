@@ -121,7 +121,27 @@ function getFormats(data) {
       seen.add(key);
     }
   });
-  formats.reverse();
+
+  const compare = (x, y) => {
+    const a = parseInt(x.quality);
+    const b = parseInt(y.quality);
+
+    if (!isNaN(a) && !isNaN(b)) {
+      // If both a and b are numbers, the larger one comes first
+      return b - a;
+    } else if (!isNaN(a)) {
+      // If a is number but b is not, b comes first
+      return 1;
+    } else if (!isNaN(b)) {
+      // If b is a number but a is not, a comes first
+      return -1;
+    }
+    // If neither a nor b are numbers, leave unchanged
+    return 0;
+  };
+
+  formats.sort(compare);
+
   return formats;
 }
 
