@@ -79,14 +79,16 @@ const store = new Vuex.Store({
       state.downloadables.forEach(item => {
         item.formats.forEach(format => {
           const key = format.quality + format.suffix;
-          if (!seen.has(key)) {
+          if (
+            !seen.has(key) &&
+            format.isAudioOnly === getters.isAllAudioChosen
+          ) {
             formats.push({ ...format });
             seen.add(key);
           }
         });
       });
 
-      formats = formats.filter(x => x.isAudioOnly === getters.isAllAudioChosen);
       console.table(formats);
       return formats;
     },
