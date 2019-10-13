@@ -69,9 +69,9 @@ const store = new Vuex.Store({
       );
     },
     isAllAudioChosen: state => {
-      return !state.downloadables
-        .map(item => item.formats[item.formatIndex].isAudioOnly)
-        .some(item => item === false);
+      return !state.downloadables.some(
+        x => !x.formats[x.formatIndex].isAudioOnly
+      );
     },
     globalQuality: (state, getters) => {
       let formats = [];
