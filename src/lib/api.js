@@ -7,6 +7,7 @@ const queueEvent = new EventEmitter();
 
 import db from './db.js';
 import State from './state.js';
+import store from '../store.js';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -74,7 +75,8 @@ function createDownloadable(data) {
       title: playlist_title,
       index: playlist_index,
       count: n_entries
-    }
+    },
+    filepath: null
   };
   return downloadable;
 }
@@ -176,7 +178,7 @@ function generateArgs({ url, format, playlist }) {
     '-f',
     format.code,
     '-o',
-    getOutputFormat(playlist)
+    getOutputFormat({ url, playlist })
   ];
   args.push(...getAVOptions(format.isAudioOnly));
 
@@ -200,7 +202,7 @@ function getAVOptions(isAudio) {
   return format === 'default' ? [] : options;
 }
 
-function getOutputFormat(playlist) {
+function getOutputFormat({ url, playlist }) {
   const index = db.get('filenameIndex');
   let format = db.get('filenameFormats')[index].key;
 
@@ -211,6 +213,12 @@ function getOutputFormat(playlist) {
     }
     format = path.join(playlist.title, format);
   }
+
+  const filepath = playlist.exists
+    ? path.join(db.get('downloadLocation'), playlist.title, '*')
+    : path.join(db.get('downloadLocation'), '*');
+
+  store.dispatch('updateFilepath', { url, filepath });
 
   return path.join(db.get('downloadLocation'), format);
 }

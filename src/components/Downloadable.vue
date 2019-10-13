@@ -52,7 +52,7 @@
         </button>
       </div>
 
-      <div v-else-if="isCompleted">Show in Folder</div>
+      <div v-else-if="isCompleted" @click="showInFolder">Show in Folder</div>
 
       <div v-else class="progress">
         <div class="info">
@@ -87,7 +87,7 @@ import OnClickOutside from '../components/OnClickOutside.vue';
 import CustomDialog from './CustomDialog.vue';
 
 import State from '../lib/state.js';
-const { clipboard } = window.require('electron');
+const { clipboard, shell } = window.require('electron');
 
 import { mapActions } from 'vuex';
 
@@ -127,6 +127,9 @@ export default {
     },
     closeContextMenu() {
       this.showContextMenu = false;
+    },
+    showInFolder() {
+      shell.showItemInFolder(this.data.filepath);
     }
   },
   computed: {

@@ -49,7 +49,8 @@ const store = new Vuex.Store({
           title: null,
           index: null,
           count: null
-        }
+        },
+        filepath: null
       }
     ],
     nLoading: 0,
@@ -102,6 +103,9 @@ const store = new Vuex.Store({
     },
     updateFormatIndex(state, { index, value }) {
       state.downloadables[index].formatIndex = value;
+    },
+    updateFilepath(state, { index, value }) {
+      state.downloadables[index].filepath = value;
     },
     updateLoading(state, newValue) {
       state.nLoading += newValue;
@@ -177,6 +181,10 @@ const store = new Vuex.Store({
       const index = getIndex(url);
       commit('updateState', { index, value: State.STOPPED });
       commit('updateProgress', { index, value: null });
+    },
+    updateFilepath({ commit }, { url, filepath }) {
+      const index = getIndex(url);
+      commit('updateFilepath', { index, value: filepath });
     },
     downloadMany({ state, dispatch }) {
       state.downloadables.forEach(item => {
