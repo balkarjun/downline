@@ -13,9 +13,9 @@
           <div class="option">
             Quality
             <CustomDialog
-              :options="quality"
+              :options="globalQuality"
               :isObject="true"
-              :value="quality[qualityIndex].code"
+              :value="globalQuality[globalQualityIndex].code"
               @input="handleDialog"
             />
           </div>
@@ -88,7 +88,13 @@ export default {
       qualityIndex: 0
     };
   },
-  computed: mapGetters(['count', 'canDownloadMany', 'isAllAudioChosen']),
+  computed: mapGetters([
+    'count',
+    'canDownloadMany',
+    'isAllAudioChosen',
+    'globalQuality',
+    'globalQualityIndex'
+  ]),
   methods: {
     ...mapMutations(['openConfirm']),
     ...mapActions([

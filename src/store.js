@@ -56,7 +56,8 @@ const store = new Vuex.Store({
     nLoading: 0,
     isOpen: false,
     message: '',
-    success: null
+    success: null,
+    globalQualityIndex: 0
   },
   getters: {
     downloadables: state => state.downloadables,
@@ -72,6 +73,24 @@ const store = new Vuex.Store({
         .map(item => item.formats[item.formatIndex].isAudioOnly)
         .some(item => item === false);
     },
+    globalQuality: (state, getters) => {
+      let formats = [];
+      let seen = new Set();
+      state.downloadables.forEach(item => {
+        item.formats.forEach(format => {
+          const key = format.quality + format.suffix;
+          if (!seen.has(key)) {
+            formats.push({ ...format });
+            seen.add(key);
+          }
+        });
+      });
+
+      formats = formats.filter(x => x.isAudioOnly === getters.isAllAudioChosen);
+      console.table(formats);
+      return formats;
+    },
+    globalQualityIndex: state => state.globalQualityIndex,
     isConfirmOpen: state => state.isOpen,
     confirmMessage: state => state.message
   },
