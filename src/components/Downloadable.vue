@@ -52,7 +52,13 @@
         </button>
       </div>
 
-      <div v-else-if="isCompleted" @click="showInFolder">Show in Folder</div>
+      <button
+        v-else-if="isCompleted"
+        @click="showInFolder"
+        class="show-in-folder"
+      >
+        Show in Folder
+      </button>
 
       <div v-else class="progress">
         <div class="info">
@@ -312,6 +318,13 @@ export default {
 
 .options button.active {
   background-color: rgba(0, 0, 0, 0.25);
+}
+
+.show-in-folder {
+  height: 28px;
+  border-radius: 4px;
+  padding: 0 12px;
+  width: max-content;
 }
 
 /* Progess */
