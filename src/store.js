@@ -149,9 +149,24 @@ const store = new Vuex.Store({
     },
     updateLoading(state, newValue) {
       state.nLoading += newValue;
+    },
+    updateGlobalQualityIndex(state, newValue) {
+      state.globalQualityIndex = newValue;
     }
   },
   actions: {
+    setManyQuality({ commit, state }, { quality, suffix }) {
+      const key = quality + suffix;
+
+      for (let index = 0; index < state.downloadables.length; index++) {
+        const value = state.downloadables[index].formats.findIndex(
+          format => format.quality + format.suffix === key
+        );
+        if (value !== -1) {
+          commit('updateFormatIndex', { index, value });
+        }
+      }
+    },
     add({ commit }, links) {
       commit('updateLoading', 1);
 

@@ -96,13 +96,14 @@ export default {
     'globalQualityIndex'
   ]),
   methods: {
-    ...mapMutations(['openConfirm']),
+    ...mapMutations(['openConfirm', 'updateGlobalQualityIndex']),
     ...mapActions([
       'downloadMany',
       'pauseMany',
       'clearMany',
       'toggleAllAudioChosen',
-      'confirm'
+      'confirm',
+      'setManyQuality'
     ]),
     clearAll() {
       this.close();
@@ -125,7 +126,10 @@ export default {
       this.openConfirm({ message, success });
     },
     handleDialog(value) {
-      console.log(value);
+      const index = this.globalQuality.findIndex(x => x.code === value);
+
+      this.updateGlobalQualityIndex(index);
+      this.setManyQuality(this.globalQuality[index]);
     },
     toggleSubsChosen() {
       this.isSubsChosen = !this.isSubsChosen;
