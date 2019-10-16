@@ -107,8 +107,10 @@ export default {
           properties: ['openDirectory']
         },
         paths => {
-          this.downloadLocation = paths[0];
-          db.set('downloadLocation', this.downloadLocation);
+          if (paths) {
+            this.downloadLocation = paths[0];
+            db.set('downloadLocation', this.downloadLocation);
+          }
         }
       );
     },
