@@ -1,6 +1,6 @@
 'use strict';
 
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, ipcMain } from 'electron';
 import {
   createProtocol,
   installVueDevtools
@@ -9,6 +9,7 @@ import {
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 let win;
+let isSaved = false;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -38,6 +39,13 @@ function createWindow() {
   }
 
   win.once('ready-to-show', win.show);
+
+  win.on('close', event => {
+    if (!isSaved) {
+      event.preventDefault();
+      win.webContents.send('save');
+    }
+  });
 
   win.on('closed', () => {
     win = null;
@@ -87,3 +95,8 @@ if (isDevelopment) {
     });
   }
 }
+
+ipcMain.on('quit', () => {
+  isSaved = true;
+  app.quit();
+});

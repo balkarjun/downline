@@ -16,11 +16,12 @@ const defaults = {
   videoFormats: ['default', 'mp4', 'webm', 'mkv'],
   videoIndex: 0,
   ascii: false,
-  autonumber: false
+  autonumber: false,
+  downloadables: []
 };
 
 const userDataPath = (electron.app || electron.remote.app).getPath('userData');
-const path = join(userDataPath, 'settings.json');
+const path = join(userDataPath, 'storev2.json');
 
 let data = defaults;
 if (fs.existsSync(path)) {
@@ -33,7 +34,6 @@ function get(key) {
 
 function set(key, val) {
   data[key] = val;
-  console.log(`[set] ${key}:${val}`);
 }
 
 function update() {

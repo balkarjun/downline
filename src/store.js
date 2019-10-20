@@ -1,58 +1,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+const { ipcRenderer } = window.require('electron');
+
 import api from './lib/api.js';
+import db from './lib/db.js';
 import State from './lib/state.js';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    downloadables: [
-      {
-        url: 'https://www.youtube.com/watch?v=ouAccsTzlGU',
-        title: 'Is Meat Bad for You? Is Meat Unhealthy?',
-        thumbnail: 'https://i.ytimg.com/vi/ouAccsTzlGU/maxresdefault.jpg',
-        duration: '10:05',
-        formats: [
-          {
-            isAudioOnly: true,
-            quality: 128,
-            suffix: 'kbps',
-            code: 'bestaudio[abr<=128]'
-          },
-          {
-            isAudioOnly: true,
-            quality: 160,
-            suffix: 'kbps',
-            code: 'bestaudio[abr<=160]'
-          },
-          {
-            isAudioOnly: false,
-            quality: 480,
-            suffix: 'p',
-            code: 'bestvideo[height<=480]+bestaudio/best[height<=480]'
-          },
-          {
-            isAudioOnly: false,
-            quality: 720,
-            suffix: 'p',
-            code: 'bestvideo[height<=720]+bestaudio/best[height<=720]'
-          }
-        ],
-        formatIndex: 2,
-        state: State.STOPPED,
-        progress: null,
-        subtitles: ['pl', 'zh-TW', 'fr', 'ar'],
-        playlist: {
-          exists: !false,
-          title: null,
-          index: null,
-          count: null
-        },
-        filepath: null
-      }
-    ],
+    downloadables: db.get('downloadables'),
     nLoading: 0,
     isOpen: false,
     message: '',
@@ -303,6 +262,12 @@ api.queueEvent.on('dequeue', url => {
   if (url) {
     store.dispatch('download', url);
   }
+});
+
+ipcRenderer.on('save', () => {
+  db.set('downloadables', store.state.downloadables);
+  db.update();
+  ipcRenderer.send('quit');
 });
 
 export default store;
