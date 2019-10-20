@@ -1,6 +1,6 @@
 # Downline 2.x
 
-## Download the **alpha** release for windows [here](https://github.com/jarbun/downline/releases).
+## Download the **alpha** release for windows [here](https://github.com/jarbun/downline/releases). Report bugs or suggest features [here](https://github.com/jarbun/downline/issues/15).
 
 ![screenshot](https://user-images.githubusercontent.com/23068820/67160435-40c33d80-f36e-11e9-8e44-296cbb20dc69.png)
 
