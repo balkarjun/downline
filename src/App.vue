@@ -19,7 +19,20 @@
 
     <Settings v-show="page === 'settings'" />
 
-    <section v-show="page === 'about'">About Page</section>
+    <section class="page-about" v-show="page === 'about'">
+      <p class="app-title">
+        Downline 2.0.0
+        <span class="branch-info">alpha.1</span>
+      </p>
+      <p>Free, open-source media downloader for youtube and many other sites</p>
+
+      <button
+        class="issues-button"
+        @click="openLink('https://github.com/jarbun/downline/issues')"
+      >
+        Report bugs or suggest features
+      </button>
+    </section>
 
     <Snackbar v-show="isLoading">
       <p class="slot">Loading Links</p>
@@ -60,6 +73,8 @@ import Snackbar from './components/Snackbar.vue';
 import Settings from './views/Settings.vue';
 import OnClickOutside from './components/OnClickOutside.vue';
 
+const { shell } = window.require('electron');
+
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
@@ -90,6 +105,9 @@ export default {
     ...mapActions(['add']),
     handleScroll(event) {
       this.scrolled = event.srcElement.scrollTop !== 0;
+    },
+    openLink(link) {
+      shell.openExternal(link);
     }
   }
 };
@@ -213,5 +231,27 @@ main {
   border-radius: 4px;
   color: white;
   margin-right: 8px;
+}
+
+.page-about {
+  text-align: center;
+}
+
+.app-title {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.branch-info {
+  background-color: lightgray;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+.issues-button {
+  margin-top: 20px;
+  padding: 4px 12px;
+  border-radius: 4px;
 }
 </style>
