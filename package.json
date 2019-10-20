@@ -1,6 +1,10 @@
 {
   "name": "downline",
-  "version": "2.0.0-dev",
+  "version": "2.0.0-alpha.1",
+  "description": "Free, open-source media downloader for youtube and many other sites",
+  "homepage": "https://github.com/jarbun/downline",
+  "author": "Arjun B <https://github.com/jarbun>",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
