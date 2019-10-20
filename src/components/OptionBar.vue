@@ -30,12 +30,12 @@
             </button>
           </div>
 
-          <div class="option">
+          <!-- <div class="option">
             Subtitles
             <button @click="toggleSubsChosen" :class="{ active: isSubsChosen }">
               <img src="../assets/icons/subtitles.svg" />
             </button>
-          </div>
+          </div> -->
 
           <hr />
 
