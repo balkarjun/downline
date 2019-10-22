@@ -131,7 +131,11 @@ const store = new Vuex.Store({
 
       const info = api.fetchInfo(links);
       info.on('data', data => {
-        if (getIndex(data.url) === -1) {
+        if (
+          data.formats != null &&
+          data.formats.length !== 0 &&
+          getIndex(data.url) === -1
+        ) {
           commit('add', data);
         }
       });
