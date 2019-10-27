@@ -98,7 +98,8 @@ function getFormats(data) {
 
   data.forEach(format => {
     const { acodec, vcodec, abr, width, height, format_id } = format;
-    const isAudioOnly = height == undefined && width == undefined;
+    const isAudioOnly =
+      height == undefined && width == undefined && abr != undefined;
     const isVideoOnly = vcodec !== 'none' && acodec === 'none';
 
     const quality = isAudioOnly ? abr : height || format_id;
@@ -141,7 +142,6 @@ function getFormats(data) {
   };
 
   formats.sort(compare);
-
   return formats;
 }
 
