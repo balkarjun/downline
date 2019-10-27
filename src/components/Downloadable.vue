@@ -271,6 +271,7 @@ export default {
   background-color: white;
   box-sizing: border-box;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 .context-menu p {
